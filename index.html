@@ -36,72 +36,21 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--gray-900);
-    min-height: 100vh;
-  }
+  body { font-family: var(--font); background: var(--bg); color: var(--gray-900); min-height: 100vh; }
 
-  /* =================== TOPBAR =================== */
-  .topbar {
-    background: var(--white);
-    border-bottom: 1px solid var(--gray-200);
-    padding: 0 24px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 1px 0 var(--gray-200);
-  }
+  .topbar { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 0 var(--gray-200); }
   .topbar-left { display: flex; align-items: center; gap: 12px; }
-  .topbar-logo {
-    width: 32px; height: 32px;
-    background: var(--green);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-  }
+  .topbar-logo { width: 32px; height: 32px; background: var(--green); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
   .topbar-name { font-size: 14px; font-weight: 600; color: var(--gray-900); letter-spacing: -0.01em; }
   .topbar-sub { font-size: 12px; color: var(--gray-500); }
   .topbar-right { display: flex; align-items: center; gap: 8px; }
-  .tag-module {
-    font-size: 11px; font-weight: 500; padding: 3px 10px;
-    border-radius: 20px; background: var(--green-light); color: var(--green-dark);
-    border: 1px solid #b2ddd0;
-  }
-  .btn-admin {
-    font-size: 12px; font-weight: 500; padding: 5px 12px;
-    border-radius: 6px; background: var(--gray-100);
-    border: 1px solid var(--gray-200); color: var(--gray-700);
-    cursor: pointer; font-family: var(--font);
-    transition: background 0.15s;
-  }
+  .tag-module { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: var(--green-light); color: var(--green-dark); border: 1px solid #b2ddd0; }
+  .btn-admin { font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 6px; background: var(--gray-100); border: 1px solid var(--gray-200); color: var(--gray-700); cursor: pointer; font-family: var(--font); transition: background 0.15s; }
   .btn-admin:hover { background: var(--gray-200); }
 
-  /* =================== PROGRESS STEPS =================== */
-  .steps-bar {
-    background: var(--white);
-    border-bottom: 1px solid var(--gray-200);
-    padding: 12px 24px;
-    display: flex;
-    align-items: center;
-    gap: 0;
-  }
+  .steps-bar { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 12px 24px; display: flex; align-items: center; gap: 0; }
   .step-item { display: flex; align-items: center; gap: 8px; flex: 1; }
-  .step-num {
-    width: 24px; height: 24px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 600;
-    border: 1.5px solid var(--gray-300);
-    color: var(--gray-500);
-    background: var(--white);
-    flex-shrink: 0;
-    transition: all 0.3s;
-  }
+  .step-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1.5px solid var(--gray-300); color: var(--gray-500); background: var(--white); flex-shrink: 0; transition: all 0.3s; }
   .step-txt { font-size: 12px; font-weight: 500; color: var(--gray-500); transition: color 0.3s; }
   .step-line { flex: 1; height: 1px; background: var(--gray-200); margin: 0 8px; transition: background 0.3s; }
   .step-item.done .step-num { background: var(--green); border-color: var(--green); color: white; }
@@ -110,76 +59,29 @@
   .step-item.active .step-txt { color: var(--blue); }
   .step-line.done { background: var(--green); }
 
-  /* =================== MAIN LAYOUT =================== */
   .main { max-width: 760px; margin: 0 auto; padding: 28px 20px 60px; }
-
-  /* =================== SCREENS =================== */
   .screen { display: none; }
   .screen.active { display: block; animation: fadeUp 0.3s ease; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* =================== CARDS =================== */
-  .card {
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--gray-200);
-    padding: 24px;
-    margin-bottom: 16px;
-    box-shadow: var(--shadow);
-  }
-  .card-title {
-    font-size: 16px; font-weight: 600; color: var(--gray-900);
-    margin-bottom: 4px; letter-spacing: -0.02em;
-  }
+  .card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow); }
+  .card-title { font-size: 16px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; letter-spacing: -0.02em; }
   .card-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 16px; }
 
-  /* =================== CHIPS =================== */
   .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-  .chip {
-    font-size: 11px; font-weight: 500; padding: 4px 10px;
-    border-radius: 20px; border: 1px solid var(--gray-200);
-    color: var(--gray-500); background: var(--gray-100);
-  }
+  .chip { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--gray-200); color: var(--gray-500); background: var(--gray-100); }
 
-  /* =================== NOTICE =================== */
-  .notice {
-    padding: 11px 14px; border-radius: var(--radius);
-    font-size: 13px; margin-bottom: 16px;
-    display: flex; align-items: flex-start; gap: 8px;
-  }
+  .notice { padding: 11px 14px; border-radius: var(--radius); font-size: 13px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 8px; }
   .notice.info { background: var(--blue-light); border: 1px solid #c0d4eb; color: var(--blue); }
   .notice.success { background: var(--green-light); border: 1px solid #aed8c8; color: var(--green-dark); }
   .notice.warning { background: var(--orange-light); border: 1px solid #f0d0a0; color: #7a4a00; }
   .notice.error { background: var(--red-light); border: 1px solid #f0b8b0; color: var(--red); }
   .notice-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
 
-  /* =================== VIDEO =================== */
-  .video-wrap {
-    width: 100%; aspect-ratio: 16/9;
-    background: linear-gradient(135deg, #0d3b5e 0%, #1a6b4a 100%);
-    border-radius: var(--radius);
-    overflow: hidden; position: relative;
-    margin-bottom: 14px; cursor: pointer;
-  }
-  .video-grid {
-    position: absolute; inset: 0;
-    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-  .video-center {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 12px;
-  }
-  .play-circle {
-    width: 64px; height: 64px; border-radius: 50%;
-    background: rgba(255,255,255,0.12);
-    border: 2px solid rgba(255,255,255,0.4);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: all 0.2s;
-    backdrop-filter: blur(4px);
-  }
+  .video-wrap { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #0d3b5e 0%, #1a6b4a 100%); border-radius: var(--radius); overflow: hidden; position: relative; margin-bottom: 14px; cursor: pointer; }
+  .video-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+  .video-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+  .play-circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(4px); }
   .play-circle:hover { background: rgba(255,255,255,0.22); transform: scale(1.05); }
   .play-tri { width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 20px solid white; margin-left: 4px; }
   .video-label { color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 500; }
@@ -191,107 +93,39 @@
   .vp-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-mid)); border-radius: 3px; transition: width 0.4s; }
   .vp-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--gray-500); margin-top: 5px; font-family: var(--font-mono); }
 
-  /* =================== BUTTONS =================== */
-  .btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 10px 20px; border-radius: var(--radius);
-    font-size: 14px; font-weight: 500; cursor: pointer;
-    font-family: var(--font); border: none; transition: all 0.18s;
-    text-decoration: none;
-  }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: var(--font); border: none; transition: all 0.18s; text-decoration: none; }
   .btn-green { background: var(--green); color: white; }
   .btn-green:hover { background: var(--green-dark); }
   .btn-green:disabled { opacity: 0.35; cursor: not-allowed; }
   .btn-blue { background: var(--blue); color: white; }
   .btn-blue:hover { background: #13365c; }
-  .btn-outline {
-    background: transparent; color: var(--gray-700);
-    border: 1px solid var(--gray-300);
-  }
+  .btn-outline { background: transparent; color: var(--gray-700); border: 1px solid var(--gray-300); }
   .btn-outline:hover { background: var(--gray-100); }
   .btn-row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; flex-wrap: wrap; }
 
-  /* =================== QCM =================== */
   .q-block { margin-bottom: 28px; }
   .q-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .q-badge {
-    font-size: 10px; font-weight: 600; padding: 2px 8px;
-    border-radius: 20px; background: var(--blue-light);
-    color: var(--blue); border: 1px solid #c0d4eb; flex-shrink: 0;
-    font-family: var(--font-mono);
-  }
+  .q-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; background: var(--blue-light); color: var(--blue); border: 1px solid #c0d4eb; flex-shrink: 0; font-family: var(--font-mono); }
   .q-text { font-size: 14px; font-weight: 500; color: var(--gray-900); line-height: 1.55; }
-  .option {
-    display: flex; align-items: center; gap: 10px;
-    padding: 11px 14px; border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
-    cursor: pointer; margin-bottom: 7px; font-size: 13px;
-    background: var(--white); transition: all 0.15s;
-    color: var(--gray-700); user-select: none;
-  }
+  .option { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: var(--radius); border: 1px solid var(--gray-200); cursor: pointer; margin-bottom: 7px; font-size: 13px; background: var(--white); transition: all 0.15s; color: var(--gray-700); user-select: none; }
   .option:hover { border-color: var(--gray-300); background: var(--gray-100); }
   .option.selected { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
   .option.correct { border-color: var(--green); background: var(--green-light); color: var(--green-dark); }
   .option.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); }
-  .opt-radio {
-    width: 16px; height: 16px; border-radius: 50%;
-    border: 1.5px solid var(--gray-300); flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-  }
+  .opt-radio { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--gray-300); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
   .option.selected .opt-radio { border-color: var(--blue); background: var(--blue); }
   .option.correct .opt-radio { border-color: var(--green); background: var(--green); }
   .option.wrong .opt-radio { border-color: var(--red); background: var(--red); }
   .opt-dot { width: 6px; height: 6px; border-radius: 50%; background: white; }
 
-  /* =================== RESULTS =================== */
   .stat-row { display: flex; gap: 10px; margin-bottom: 18px; }
-  .stat-box {
-    flex: 1; background: var(--gray-100); border-radius: var(--radius);
-    padding: 14px 16px; text-align: center;
-    border: 1px solid var(--gray-200);
-  }
+  .stat-box { flex: 1; background: var(--gray-100); border-radius: var(--radius); padding: 14px 16px; text-align: center; border: 1px solid var(--gray-200); }
   .stat-val { font-size: 26px; font-weight: 600; color: var(--gray-900); letter-spacing: -0.03em; font-family: var(--font-mono); }
   .stat-lbl { font-size: 11px; color: var(--gray-500); margin-top: 2px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
-  .score-bar-track { width: 100%; height: 8px; background: var(--gray-200); border-radius: 4px; overflow: hidden; margin: 10px 0 6px; }
-  .score-bar-fill { height: 100%; border-radius: 4px; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
-  .score-bar-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--gray-500); }
-  .score-bar-marker {
-    position: relative; height: 8px;
-    display: flex; align-items: center;
-  }
-  .threshold-line {
-    position: absolute; left: 90%; top: -10px; bottom: -10px;
-    width: 2px; background: var(--orange); border-radius: 1px;
-  }
-  .threshold-label {
-    position: absolute; left: 90%; top: -22px;
-    transform: translateX(-50%);
-    font-size: 10px; font-weight: 600; color: var(--orange);
-    white-space: nowrap; font-family: var(--font-mono);
-  }
 
-  /* =================== CERTIFICATE =================== */
-  .cert-outer {
-    border: 2px solid var(--green);
-    border-radius: var(--radius-lg);
-    padding: 36px 32px;
-    background: var(--white);
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    margin-bottom: 16px;
-  }
-  .cert-bg {
-    position: absolute; inset: 0;
-    background-image: radial-gradient(circle at 20% 20%, rgba(26,122,94,0.04) 0%, transparent 60%),
-                      radial-gradient(circle at 80% 80%, rgba(26,122,94,0.04) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .cert-corner-tl, .cert-corner-tr, .cert-corner-bl, .cert-corner-br {
-    position: absolute; width: 50px; height: 50px;
-    border: 2px solid #a8d8c8; border-radius: 4px;
-  }
+  .cert-outer { border: 2px solid var(--green); border-radius: var(--radius-lg); padding: 36px 32px; background: var(--white); position: relative; overflow: hidden; text-align: center; margin-bottom: 16px; }
+  .cert-bg { position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 20%, rgba(26,122,94,0.04) 0%, transparent 60%), radial-gradient(circle at 80% 80%, rgba(26,122,94,0.04) 0%, transparent 60%); pointer-events: none; }
+  .cert-corner-tl, .cert-corner-tr, .cert-corner-bl, .cert-corner-br { position: absolute; width: 50px; height: 50px; border: 2px solid #a8d8c8; border-radius: 4px; }
   .cert-corner-tl { top: 10px; left: 10px; border-right: none; border-bottom: none; }
   .cert-corner-tr { top: 10px; right: 10px; border-left: none; border-bottom: none; }
   .cert-corner-bl { bottom: 10px; left: 10px; border-right: none; border-top: none; }
@@ -304,17 +138,11 @@
   .cert-module-label { font-size: 13px; color: var(--gray-500); margin-bottom: 4px; }
   .cert-module-name { font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: 14px; }
   .cert-badges { display: flex; justify-content: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-  .cert-badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
-    background: var(--green-light); color: var(--green-dark);
-    border: 1px solid #a8d8c8;
-  }
+  .cert-badge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; background: var(--green-light); color: var(--green-dark); border: 1px solid #a8d8c8; }
   .cert-divider { width: 60px; height: 1px; background: var(--gray-200); margin: 14px auto; }
   .cert-date { font-size: 12px; color: var(--gray-500); margin-bottom: 4px; }
   .cert-id { font-size: 11px; color: var(--gray-400); font-family: var(--font-mono); }
 
-  /* =================== IDENTIFICATION =================== */
   .id-screen { max-width: 480px; margin: 60px auto; }
   .id-hero { text-align: center; margin-bottom: 32px; }
   .id-emblem { font-size: 48px; display: block; margin-bottom: 12px; }
@@ -322,39 +150,17 @@
   .id-sub { font-size: 14px; color: var(--gray-500); }
   .form-group { margin-bottom: 14px; }
   .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .form-input {
-    width: 100%; padding: 11px 14px;
-    border: 1px solid var(--gray-300); border-radius: var(--radius);
-    font-size: 14px; font-family: var(--font); color: var(--gray-900);
-    background: var(--white); outline: none;
-    transition: border-color 0.15s;
-  }
+  .form-input { width: 100%; padding: 11px 14px; border: 1px solid var(--gray-300); border-radius: var(--radius); font-size: 14px; font-family: var(--font); color: var(--gray-900); background: var(--white); outline: none; transition: border-color 0.15s; }
   .form-input:focus { border-color: var(--blue); }
 
-  /* =================== ADMIN =================== */
-  .admin-screen { display: none; }
-  .admin-screen.active { display: block; }
-  .admin-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 20px;
-  }
+  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
   .admin-title { font-size: 18px; font-weight: 600; color: var(--gray-900); letter-spacing: -0.02em; }
   .admin-kpis { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-  .kpi {
-    flex: 1; min-width: 120px;
-    background: var(--white); border-radius: var(--radius);
-    border: 1px solid var(--gray-200); padding: 14px 16px;
-    box-shadow: var(--shadow);
-  }
+  .kpi { flex: 1; min-width: 120px; background: var(--white); border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 14px 16px; box-shadow: var(--shadow); }
   .kpi-val { font-size: 28px; font-weight: 600; color: var(--gray-900); font-family: var(--font-mono); letter-spacing: -0.03em; }
   .kpi-lbl { font-size: 11px; color: var(--gray-500); margin-top: 3px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
   .results-table { width: 100%; border-collapse: collapse; }
-  .results-table th {
-    text-align: left; font-size: 11px; font-weight: 600; color: var(--gray-500);
-    text-transform: uppercase; letter-spacing: 0.05em;
-    padding: 8px 12px; border-bottom: 1px solid var(--gray-200);
-    background: var(--gray-100);
-  }
+  .results-table th { text-align: left; font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 12px; border-bottom: 1px solid var(--gray-200); background: var(--gray-100); }
   .results-table td { padding: 11px 12px; font-size: 13px; border-bottom: 1px solid var(--gray-100); }
   .results-table tr:last-child td { border-bottom: none; }
   .results-table tr:hover td { background: var(--gray-100); }
@@ -362,15 +168,9 @@
   .badge-fail { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--red-light); color: var(--red); border: 1px solid #f0b8b0; }
   .empty-table { text-align: center; padding: 40px; color: var(--gray-500); font-size: 14px; }
 
-  /* =================== MODAL OVERLAY =================== */
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; }
   .overlay.active { display: flex; }
-  .modal {
-    background: var(--white); border-radius: var(--radius-lg);
-    padding: 28px; max-width: 420px; width: 90%;
-    box-shadow: var(--shadow-lg);
-    animation: fadeUp 0.25s ease;
-  }
+  .modal { background: var(--white); border-radius: var(--radius-lg); padding: 28px; max-width: 420px; width: 90%; box-shadow: var(--shadow-lg); animation: fadeUp 0.25s ease; }
   .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
   .modal-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 20px; }
 
@@ -383,7 +183,6 @@
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar" id="topbar">
   <div class="topbar-left">
     <div class="topbar-logo">🛡</div>
@@ -398,7 +197,6 @@
   </div>
 </div>
 
-<!-- STEPS BAR -->
 <div class="steps-bar" id="stepsBar">
   <div class="step-item active" id="si1"><div class="step-num" id="sn1">1</div><span class="step-txt">Identification</span></div>
   <div class="step-line" id="sl1"></div>
@@ -411,10 +209,8 @@
   <div class="step-item" id="si5"><div class="step-num" id="sn5">5</div><span class="step-txt">Certificat</span></div>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="main" id="mainContent">
 
-  <!-- ====== SCREEN 0: IDENTIFICATION ====== -->
   <div class="screen active" id="screen0">
     <div class="id-screen">
       <div class="id-hero">
@@ -448,7 +244,6 @@
     </div>
   </div>
 
-  <!-- ====== SCREEN 1: VIDEO ====== -->
   <div class="screen" id="screen1">
     <div class="card">
       <div class="card-title">Module 1 — Introduction à la sécurité au travail</div>
@@ -458,8 +253,6 @@
         <span class="chip">⚠️ Obligatoire</span>
         <span class="chip">📋 Art. 12 règlement intérieur</span>
       </div>
-
-      <!-- PLACEHOLDER VIDÉO — remplacer src YouTube ici -->
       <div class="video-wrap" id="videoWrap" onclick="startVideo()">
         <div class="video-grid"></div>
         <div class="video-center" id="videoCenter">
@@ -469,18 +262,10 @@
         </div>
         <div class="video-playing" id="videoPlaying">▶ Lecture en cours…</div>
       </div>
-      <!-- Pour intégrer YouTube : décommentez et mettez votre ID vidéo -->
-      <!--
-      <div style="position:relative;aspect-ratio:16/9;margin-bottom:14px;border-radius:10px;overflow:hidden">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/VOTRE_ID_ICI?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
-      </div>
-      -->
-
       <div class="vp-wrap" id="vpWrap" style="display:none">
         <div class="vp-track"><div class="vp-fill" id="vpFill" style="width:0%"></div></div>
         <div class="vp-meta"><span id="vpPct">0% visionné</span><span id="vpTime">0:00 / 8:24</span></div>
       </div>
-
       <div class="notice info" id="videoNotice">
         <span class="notice-icon">ℹ</span>
         <span>Vous devez visionner 100% de la vidéo avant d'accéder au QCM. Ne fermez pas cette page pendant le visionnage.</span>
@@ -491,7 +276,6 @@
     </div>
   </div>
 
-  <!-- ====== SCREEN 2: QCM ====== -->
   <div class="screen" id="screen2">
     <div class="card">
       <div class="card-title">Évaluation des connaissances</div>
@@ -508,7 +292,6 @@
     </div>
   </div>
 
-  <!-- ====== SCREEN 3: RESULTS ====== -->
   <div class="screen" id="screen3">
     <div class="card">
       <div class="card-title">Résultats de l'évaluation</div>
@@ -535,7 +318,6 @@
     <div class="btn-row" id="resultBtnRow"></div>
   </div>
 
-  <!-- ====== SCREEN 4: CERTIFICATE ====== -->
   <div class="screen" id="screen4">
     <div class="cert-outer" id="certCard">
       <div class="cert-bg"></div>
@@ -569,9 +351,8 @@
     </div>
   </div>
 
-</div><!-- /main -->
+</div>
 
-<!-- ====== ADMIN PANEL ====== -->
 <div id="adminPanel" style="display:none;max-width:900px;margin:0 auto;padding:0 20px 60px;">
   <div class="admin-header">
     <div class="admin-title">📊 Tableau de bord administrateur</div>
@@ -581,7 +362,6 @@
       <button class="btn btn-outline" onclick="toggleAdmin()" style="font-size:12px;padding:6px 12px">✕ Fermer</button>
     </div>
   </div>
-
   <div class="admin-kpis" id="adminKpis">
     <div class="kpi"><div class="kpi-val" id="kpiTotal">0</div><div class="kpi-lbl">Tentatives</div></div>
     <div class="kpi"><div class="kpi-val" id="kpiPassed">0</div><div class="kpi-lbl">Réussies</div></div>
@@ -589,19 +369,12 @@
     <div class="kpi"><div class="kpi-val" id="kpiRate">—</div><div class="kpi-lbl">Taux de réussite</div></div>
     <div class="kpi"><div class="kpi-val" id="kpiAvg">—</div><div class="kpi-lbl">Score moyen</div></div>
   </div>
-
   <div class="card" style="padding:0;overflow:hidden">
     <table class="results-table" id="adminTable">
       <thead>
         <tr>
-          <th>Nom complet</th>
-          <th>Poste</th>
-          <th>Email</th>
-          <th>Score</th>
-          <th>Résultat</th>
-          <th>Tentative</th>
-          <th>Date & heure</th>
-          <th>N° Certificat</th>
+          <th>Nom complet</th><th>Poste</th><th>Email</th><th>Score</th>
+          <th>Résultat</th><th>Tentative</th><th>Date & heure</th><th>N° Certificat</th>
         </tr>
       </thead>
       <tbody id="adminTbody"></tbody>
@@ -609,7 +382,6 @@
   </div>
 </div>
 
-<!-- ====== PASSWORD MODAL ====== -->
 <div class="overlay" id="adminOverlay">
   <div class="modal">
     <div class="modal-title">🔐 Accès administrateur</div>
@@ -625,7 +397,6 @@
 </div>
 
 <script>
-// =================== DATA ===================
 const QUESTIONS = [
   { q: "En cas d'incendie, quelle est la première action à effectuer ?", opts: ["Utiliser l'extincteur immédiatement", "Alerter et évacuer les personnes", "Ouvrir les fenêtres pour aérer", "Chercher l'origine du feu"], correct: 1 },
   { q: "Que signifie le pictogramme 'crâne et tibias croisés' sur un produit chimique ?", opts: ["Produit inflammable", "Produit irritant", "Produit toxique ou mortel", "Produit corrosif"], correct: 2 },
@@ -682,7 +453,11 @@ function startTraining() {
   const p = document.getElementById('inputPrenom').value.trim();
   const n = document.getElementById('inputNom').value.trim();
   if(!p || !n){ alert('Veuillez entrer votre prénom et nom.'); return; }
-  state.learner = { prenom:p, nom:n, poste: document.getElementById('inputPoste').value.trim() || 'Non précisé', email: document.getElementById('inputEmail').value.trim() || 'Non renseigné' };
+  state.learner = {
+    prenom: p, nom: n,
+    poste: document.getElementById('inputPoste').value.trim() || 'Non précisé',
+    email: document.getElementById('inputEmail').value.trim() || 'Non renseigné'
+  };
   goTo(1);
 }
 
@@ -711,10 +486,7 @@ function videoDone() {
   document.getElementById('btnToQCM').disabled = false;
 }
 
-function goToQCM() {
-  renderQCM();
-  goTo(2);
-}
+function goToQCM() { renderQCM(); goTo(2); }
 
 // =================== QCM ===================
 function renderQCM() {
@@ -746,8 +518,6 @@ function submitQCM() {
   state.score = Math.round(correct/QUESTIONS.length*100);
   state.attempts++;
   const passed = state.score >= MIN_SCORE;
-
-  // Save result
   state.certId = passed ? 'HSE-'+new Date().getFullYear()+'-'+Math.random().toString(36).substr(2,8).toUpperCase() : '';
   saveResult(passed);
   showResults(correct, passed);
@@ -759,18 +529,14 @@ function showResults(correct, passed) {
   document.getElementById('statC').textContent = correct+'/'+QUESTIONS.length;
   document.getElementById('statT').textContent = state.attempts;
   document.getElementById('resultSubtitle').textContent = passed ? '🎉 Félicitations, vous avez réussi l\'évaluation !' : `Score insuffisant — il faut ${MIN_SCORE}% minimum. Vous pouvez recommencer.`;
-
   setTimeout(()=>{
     document.getElementById('sbFill').style.width = state.score+'%';
     document.getElementById('sbFill').style.background = passed ? 'var(--green)' : 'var(--red)';
   }, 200);
-
   const rn = document.getElementById('resultNotice');
   rn.innerHTML = passed
     ? `<div class="notice success"><span class="notice-icon">✓</span><span>Vous avez obtenu <strong>${state.score}%</strong> — évaluation validée. Votre certificat est généré.</span></div>`
     : `<div class="notice error"><span class="notice-icon">✗</span><span>Vous avez obtenu <strong>${state.score}%</strong> — score insuffisant (${MIN_SCORE}% requis). Revoyez la vidéo et recommencez.</span></div>`;
-
-  // Correction
   document.getElementById('correctionBody').innerHTML = QUESTIONS.map((q,i)=>{
     const userOk = state.answers[i]===q.correct;
     return `<div class="q-block">
@@ -783,12 +549,10 @@ function showResults(correct, passed) {
       }).join('')}
     </div>`;
   }).join('');
-
   const btnRow = document.getElementById('resultBtnRow');
   btnRow.innerHTML = passed
     ? `<button class="btn btn-green" onclick="showCert()">Obtenir mon certificat →</button>`
     : `<button class="btn btn-outline" onclick="goTo(1)">Revoir la vidéo</button><button class="btn btn-green" onclick="retryQCM()">Recommencer le QCM</button>`;
-
   goTo(3);
 }
 
@@ -796,8 +560,7 @@ function retryQCM() { renderQCM(); goTo(2); }
 
 // =================== CERTIFICATE ===================
 function showCert() {
-  const fullName = state.learner.prenom + ' ' + state.learner.nom;
-  document.getElementById('certName').textContent = fullName;
+  document.getElementById('certName').textContent = state.learner.prenom + ' ' + state.learner.nom;
   document.getElementById('certPoste').textContent = state.learner.poste;
   document.getElementById('certScore').textContent = state.score + '%';
   const now = new Date();
@@ -817,7 +580,7 @@ function saveResult(passed) {
     poste: state.learner.poste,
     email: state.learner.email,
     score: state.score,
-    passed,
+    passed: passed,
     attempt: state.attempts,
     date: new Date().toLocaleString('fr-FR'),
     certId: state.certId
@@ -825,49 +588,44 @@ function saveResult(passed) {
   results.push(entry);
   try { localStorage.setItem('hse_results', JSON.stringify(results)); } catch(e){}
 
-  // Envoi vers Google Sheets
-const formData = new FormData();
-Object.keys(entry).forEach(k => formData.append(k, entry[k]));
-fetch(SHEETS_URL, {
-  method: 'POST',
-  body: formData
-}).catch(err => console.warn('Sheets non joignable:', err));}
-  
+  // Envoi vers Google Sheets via FormData
+  const formData = new FormData();
+  Object.keys(entry).forEach(k => formData.append(k, entry[k]));
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    body: formData
+  }).catch(err => console.warn('Sheets non joignable:', err));
+}
+
 // =================== ADMIN ===================
 let adminUnlocked = false;
 
 function toggleAdmin() {
-  if(adminUnlocked){ showAdmin(); return; }
-  document.getElementById('adminOverlay').classList.add('active');
-  document.getElementById('adminPwd').value = '';
-  setTimeout(()=>document.getElementById('adminPwd').focus(), 100);
+  if(!adminUnlocked){
+    document.getElementById('adminOverlay').classList.add('active');
+    document.getElementById('adminPwd').value='';
+    setTimeout(()=>document.getElementById('adminPwd').focus(),100);
+    return;
+  }
+  const mc = document.getElementById('mainContent');
+  const ap = document.getElementById('adminPanel');
+  if(ap.style.display==='block'){ ap.style.display='none'; mc.style.display='block'; }
+  else { mc.style.display='none'; ap.style.display='block'; renderAdmin(); }
 }
 
 function checkAdmin() {
   if(document.getElementById('adminPwd').value === ADMIN_PWD){
     adminUnlocked = true;
     document.getElementById('adminOverlay').classList.remove('active');
-    showAdmin();
+    const mc = document.getElementById('mainContent');
+    const ap = document.getElementById('adminPanel');
+    mc.style.display='none';
+    ap.style.display='block';
+    renderAdmin();
   } else {
     document.getElementById('adminPwd').style.borderColor='var(--red)';
     setTimeout(()=>document.getElementById('adminPwd').style.borderColor='',800);
   }
-}
-
-function showAdmin() {
-  const mc = document.getElementById('mainContent');
-  const ap = document.getElementById('adminPanel');
-  mc.style.display = 'none';
-  ap.style.display = 'block';
-  renderAdmin();
-}
-
-function toggleAdmin() {
-  if(!adminUnlocked){ document.getElementById('adminOverlay').classList.add('active'); document.getElementById('adminPwd').value=''; setTimeout(()=>document.getElementById('adminPwd').focus(),100); return; }
-  const mc = document.getElementById('mainContent');
-  const ap = document.getElementById('adminPanel');
-  if(ap.style.display==='block'){ ap.style.display='none'; mc.style.display='block'; }
-  else { mc.style.display='none'; ap.style.display='block'; renderAdmin(); }
 }
 
 function renderAdmin() {
@@ -881,7 +639,6 @@ function renderAdmin() {
   document.getElementById('kpiFailed').textContent = failed;
   document.getElementById('kpiRate').textContent = rate;
   document.getElementById('kpiAvg').textContent = avg;
-
   const tbody = document.getElementById('adminTbody');
   if(total===0){ tbody.innerHTML='<tr><td colspan="8" class="empty-table">Aucun résultat pour le moment.</td></tr>'; return; }
   tbody.innerHTML = results.slice().reverse().map(r=>`
@@ -908,7 +665,11 @@ function exportCSV() {
 }
 
 function clearResults() {
-  if(confirm('Effacer tous les résultats ? Cette action est irréversible.')){ results=[]; localStorage.removeItem('hse_results'); renderAdmin(); }
+  if(confirm('Effacer tous les résultats ? Cette action est irréversible.')){
+    results=[];
+    localStorage.removeItem('hse_results');
+    renderAdmin();
+  }
 }
 </script>
 </body>
