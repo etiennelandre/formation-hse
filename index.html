@@ -826,14 +826,13 @@ function saveResult(passed) {
   try { localStorage.setItem('hse_results', JSON.stringify(results)); } catch(e){}
 
   // Envoi vers Google Sheets
-  fetch(SHEETS_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(entry)
-  }).catch(err => console.warn('Sheets non joignable:', err));
-}
-
+const formData = new FormData();
+Object.keys(entry).forEach(k => formData.append(k, entry[k]));
+fetch(SHEETS_URL, {
+  method: 'POST',
+  body: formData
+}).catch(err => console.warn('Sheets non joignable:', err));
+  
 // =================== ADMIN ===================
 let adminUnlocked = false;
 
