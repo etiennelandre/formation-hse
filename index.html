@@ -824,6 +824,14 @@ function saveResult(passed) {
   };
   results.push(entry);
   try { localStorage.setItem('hse_results', JSON.stringify(results)); } catch(e){}
+
+  // Envoi vers Google Sheets
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(entry)
+  }).catch(err => console.warn('Sheets non joignable:', err));
 }
 
 // =================== ADMIN ===================
