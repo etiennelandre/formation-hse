@@ -831,7 +831,7 @@ Object.keys(entry).forEach(k => formData.append(k, entry[k]));
 fetch(SHEETS_URL, {
   method: 'POST',
   body: formData
-}).catch(err => console.warn('Sheets non joignable:', err));
+}).catch(err => console.warn('Sheets non joignable:', err));}
   
 // =================== ADMIN ===================
 let adminUnlocked = false;
