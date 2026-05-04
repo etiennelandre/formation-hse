@@ -8,7 +8,7 @@
 <style>
   :root {
     --green: #1a7a5e; --green-light: #e8f5f0; --green-mid: #2da882; --green-dark: #0d5240;
-    --red: #c0392b; --red-light: #fdf0ee; --orange: #e67e22; --orange-light: #fdf3e6;
+    --red: #c0392b; --red-light: #fdf0ee; --orange: #e67e22;
     --blue: #1a4a7a; --blue-light: #eef3f9; --gray-100: #f6f7f8; --gray-200: #edeef0;
     --gray-300: #d8dadd; --gray-500: #8a8f99; --gray-700: #3d4149; --gray-900: #1a1c20;
     --bg: #f4f5f3; --white: #ffffff; --radius: 10px; --radius-lg: 16px;
@@ -19,20 +19,20 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body { font-family: var(--font); background: var(--bg); color: var(--gray-900); min-height: 100vh; }
-  .topbar { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 0 var(--gray-200); }
+  .topbar { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
   .topbar-left { display: flex; align-items: center; gap: 12px; }
   .topbar-logo { width: 32px; height: 32px; background: var(--green); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-  .topbar-name { font-size: 14px; font-weight: 600; color: var(--gray-900); letter-spacing: -0.01em; }
+  .topbar-name { font-size: 14px; font-weight: 600; color: var(--gray-900); }
   .topbar-sub { font-size: 12px; color: var(--gray-500); }
   .topbar-right { display: flex; align-items: center; gap: 8px; }
   .tag-module { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: var(--green-light); color: var(--green-dark); border: 1px solid #b2ddd0; }
-  .btn-admin { font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 6px; background: var(--gray-100); border: 1px solid var(--gray-200); color: var(--gray-700); cursor: pointer; font-family: var(--font); transition: background 0.15s; }
+  .btn-admin { font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 6px; background: var(--gray-100); border: 1px solid var(--gray-200); color: var(--gray-700); cursor: pointer; font-family: var(--font); }
   .btn-admin:hover { background: var(--gray-200); }
-  .steps-bar { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 12px 24px; display: flex; align-items: center; gap: 0; }
+  .steps-bar { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 12px 24px; display: flex; align-items: center; }
   .step-item { display: flex; align-items: center; gap: 8px; flex: 1; }
   .step-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1.5px solid var(--gray-300); color: var(--gray-500); background: var(--white); flex-shrink: 0; transition: all 0.3s; }
-  .step-txt { font-size: 12px; font-weight: 500; color: var(--gray-500); transition: color 0.3s; }
-  .step-line { flex: 1; height: 1px; background: var(--gray-200); margin: 0 8px; transition: background 0.3s; }
+  .step-txt { font-size: 12px; font-weight: 500; color: var(--gray-500); }
+  .step-line { flex: 1; height: 1px; background: var(--gray-200); margin: 0 8px; }
   .step-item.done .step-num { background: var(--green); border-color: var(--green); color: white; }
   .step-item.done .step-txt { color: var(--green); }
   .step-item.active .step-num { background: var(--blue); border-color: var(--blue); color: white; }
@@ -43,7 +43,7 @@
   .screen.active { display: block; animation: fadeUp 0.3s ease; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   .card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow); }
-  .card-title { font-size: 16px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; letter-spacing: -0.02em; }
+  .card-title { font-size: 16px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
   .card-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 16px; }
   .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
   .chip { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--gray-200); color: var(--gray-500); background: var(--gray-100); }
@@ -55,7 +55,7 @@
   .video-wrap { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #0d3b5e 0%, #1a6b4a 100%); border-radius: var(--radius); overflow: hidden; position: relative; margin-bottom: 14px; cursor: pointer; }
   .video-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; }
   .video-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
-  .play-circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(4px); }
+  .play-circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
   .play-circle:hover { background: rgba(255,255,255,0.22); transform: scale(1.05); }
   .play-tri { width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 20px solid white; margin-left: 4px; }
   .video-label { color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 500; }
@@ -65,7 +65,7 @@
   .vp-track { width: 100%; height: 5px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
   .vp-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-mid)); border-radius: 3px; transition: width 0.4s; }
   .vp-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--gray-500); margin-top: 5px; font-family: var(--font-mono); }
-  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: var(--font); border: none; transition: all 0.18s; text-decoration: none; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: var(--font); border: none; transition: all 0.18s; }
   .btn-green { background: var(--green); color: white; }
   .btn-green:hover { background: var(--green-dark); }
   .btn-green:disabled { opacity: 0.35; cursor: not-allowed; }
@@ -83,17 +83,15 @@
   .option.selected { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
   .option.correct { border-color: var(--green); background: var(--green-light); color: var(--green-dark); }
   .option.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); }
-  .opt-radio { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--gray-300); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .opt-radio { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--gray-300); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
   .option.selected .opt-radio { border-color: var(--blue); background: var(--blue); }
   .option.correct .opt-radio { border-color: var(--green); background: var(--green); }
   .option.wrong .opt-radio { border-color: var(--red); background: var(--red); }
   .opt-dot { width: 6px; height: 6px; border-radius: 50%; background: white; }
   .stat-row { display: flex; gap: 10px; margin-bottom: 18px; }
   .stat-box { flex: 1; background: var(--gray-100); border-radius: var(--radius); padding: 14px 16px; text-align: center; border: 1px solid var(--gray-200); }
-  .stat-val { font-size: 26px; font-weight: 600; color: var(--gray-900); letter-spacing: -0.03em; font-family: var(--font-mono); }
+  .stat-val { font-size: 26px; font-weight: 600; color: var(--gray-900); font-family: var(--font-mono); }
   .stat-lbl { font-size: 11px; color: var(--gray-500); margin-top: 2px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
-  .score-bar-track { width: 100%; height: 8px; background: var(--gray-200); border-radius: 4px; overflow: hidden; margin: 10px 0 6px; }
-  .score-bar-fill { height: 100%; border-radius: 4px; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
   .cert-outer { border: 2px solid var(--green); border-radius: var(--radius-lg); padding: 36px 32px; background: var(--white); position: relative; overflow: hidden; text-align: center; margin-bottom: 16px; }
   .cert-bg { position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 20%, rgba(26,122,94,0.04) 0%, transparent 60%), radial-gradient(circle at 80% 80%, rgba(26,122,94,0.04) 0%, transparent 60%); pointer-events: none; }
   .cert-corner-tl, .cert-corner-tr, .cert-corner-bl, .cert-corner-br { position: absolute; width: 50px; height: 50px; border: 2px solid #a8d8c8; border-radius: 4px; }
@@ -123,15 +121,14 @@
   .form-input { width: 100%; padding: 11px 14px; border: 1px solid var(--gray-300); border-radius: var(--radius); font-size: 14px; font-family: var(--font); color: var(--gray-900); background: var(--white); outline: none; transition: border-color 0.15s; }
   .form-input:focus { border-color: var(--blue); }
   .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-  .admin-title { font-size: 18px; font-weight: 600; color: var(--gray-900); letter-spacing: -0.02em; }
+  .admin-title { font-size: 18px; font-weight: 600; color: var(--gray-900); }
   .admin-kpis { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
   .kpi { flex: 1; min-width: 120px; background: var(--white); border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 14px 16px; box-shadow: var(--shadow); }
-  .kpi-val { font-size: 28px; font-weight: 600; color: var(--gray-900); font-family: var(--font-mono); letter-spacing: -0.03em; }
+  .kpi-val { font-size: 28px; font-weight: 600; color: var(--gray-900); font-family: var(--font-mono); }
   .kpi-lbl { font-size: 11px; color: var(--gray-500); margin-top: 3px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
   .results-table { width: 100%; border-collapse: collapse; }
   .results-table th { text-align: left; font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 12px; border-bottom: 1px solid var(--gray-200); background: var(--gray-100); }
   .results-table td { padding: 11px 12px; font-size: 13px; border-bottom: 1px solid var(--gray-100); }
-  .results-table tr:last-child td { border-bottom: none; }
   .results-table tr:hover td { background: var(--gray-100); }
   .badge-pass { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--green-light); color: var(--green-dark); border: 1px solid #aed8c8; }
   .badge-fail { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--red-light); color: var(--red); border: 1px solid #f0b8b0; }
@@ -143,7 +140,6 @@
   .modal-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 20px; }
   @media print {
     .topbar, .steps-bar, .btn-row, .btn-admin { display: none !important; }
-    .cert-outer { border: 2px solid var(--green) !important; }
     body { background: white; }
   }
 </style>
@@ -193,9 +189,7 @@
         <div class="form-group"><label class="form-label">Poste / Service</label><input type="text" class="form-input" id="inputPoste" placeholder="ex : Technicien de maintenance"></div>
         <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="inputEmail" placeholder="marie.dupont@entreprise.fr"></div>
       </div>
-      <div style="text-align:right">
-        <button class="btn btn-green" onclick="startTraining()">Commencer la formation →</button>
-      </div>
+      <div style="text-align:right"><button class="btn btn-green" onclick="startTraining()">Commencer la formation →</button></div>
     </div>
   </div>
 
@@ -223,7 +217,7 @@
       </div>
       <div class="notice info" id="videoNotice">
         <span class="notice-icon">ℹ</span>
-        <span>Vous devez visionner 100% de la vidéo avant d'accéder au QCM. Ne fermez pas cette page pendant le visionnage.</span>
+        <span>Vous devez visionner 100% de la vidéo avant d'accéder au QCM.</span>
       </div>
     </div>
     <div class="btn-row">
@@ -234,7 +228,7 @@
   <div class="screen" id="screen2">
     <div class="card">
       <div class="card-title">Évaluation des connaissances</div>
-      <div class="card-sub">10 questions — Score minimum requis : 90% (9 bonnes réponses sur 10)</div>
+      <div class="card-sub">10 questions — Score minimum requis : 90%</div>
       <div class="notice info"><span class="notice-icon">ℹ</span><span>Une seule réponse correcte par question. Toutes les réponses doivent être remplies.</span></div>
       <div id="qcmBody"></div>
     </div>
@@ -250,13 +244,13 @@
       <div class="card-sub" id="resultSubtitle">-</div>
       <div class="stat-row">
         <div class="stat-box"><div class="stat-val" id="statS">-</div><div class="stat-lbl">Score</div></div>
-        <div class="stat-box"><div class="stat-val" id="statC">-</div><div class="stat-lbl">Réponses correctes</div></div>
-        <div class="stat-box"><div class="stat-val">90%</div><div class="stat-lbl">Score requis</div></div>
+        <div class="stat-box"><div class="stat-val" id="statC">-</div><div class="stat-lbl">Correctes</div></div>
+        <div class="stat-box"><div class="stat-val">90%</div><div class="stat-lbl">Requis</div></div>
         <div class="stat-box"><div class="stat-val" id="statT">-</div><div class="stat-lbl">Tentative n°</div></div>
       </div>
-      <div style="position:relative; margin: 4px 0 16px;">
-        <div class="score-bar-track"><div class="score-bar-fill" id="sbFill" style="width:0%"></div></div>
-        <div style="position:relative;height:0;overflow:visible">
+      <div style="position:relative;margin:4px 0 16px;">
+        <div style="width:100%;height:8px;background:var(--gray-200);border-radius:4px;overflow:hidden;"><div id="sbFill" style="height:100%;border-radius:4px;transition:width 1.2s;width:0%"></div></div>
+        <div style="position:relative;height:0;overflow:visible;">
           <div style="position:absolute;left:90%;top:-16px;width:2px;height:24px;background:var(--orange);border-radius:1px;"></div>
           <div style="position:absolute;left:90%;top:-28px;transform:translateX(-50%);font-size:10px;font-weight:600;color:var(--orange);white-space:nowrap;font-family:var(--font-mono);">Min 90%</div>
         </div>
@@ -296,7 +290,7 @@
     </div>
     <div class="notice success" style="margin-top:14px;text-align:center">
       <span class="notice-icon">✓</span>
-      <span>Votre résultat a été enregistré dans le tableau de bord administrateur.</span>
+      <span>Résultat enregistré dans la base de données.</span>
     </div>
   </div>
 
@@ -307,7 +301,6 @@
     <div class="admin-title">📊 Tableau de bord administrateur</div>
     <div style="display:flex;gap:8px">
       <button class="btn btn-outline" onclick="exportCSV()" style="font-size:12px;padding:6px 12px">⬇ Exporter CSV</button>
-      <button class="btn btn-outline" onclick="clearResults()" style="font-size:12px;padding:6px 12px;color:var(--red)">🗑 Effacer tout</button>
       <button class="btn btn-outline" onclick="toggleAdmin()" style="font-size:12px;padding:6px 12px">✕ Fermer</button>
     </div>
   </div>
@@ -315,13 +308,13 @@
     <div class="kpi"><div class="kpi-val" id="kpiTotal">0</div><div class="kpi-lbl">Tentatives</div></div>
     <div class="kpi"><div class="kpi-val" id="kpiPassed">0</div><div class="kpi-lbl">Réussies</div></div>
     <div class="kpi"><div class="kpi-val" id="kpiFailed">0</div><div class="kpi-lbl">Échecs</div></div>
-    <div class="kpi"><div class="kpi-val" id="kpiRate">—</div><div class="kpi-lbl">Taux de réussite</div></div>
+    <div class="kpi"><div class="kpi-val" id="kpiRate">—</div><div class="kpi-lbl">Taux réussite</div></div>
     <div class="kpi"><div class="kpi-val" id="kpiAvg">—</div><div class="kpi-lbl">Score moyen</div></div>
   </div>
   <div class="card" style="padding:0;overflow:hidden">
     <table class="results-table">
-      <thead><tr><th>Nom complet</th><th>Poste</th><th>Email</th><th>Score</th><th>Résultat</th><th>Tentative</th><th>Date & heure</th><th>N° Certificat</th></tr></thead>
-      <tbody id="adminTbody"></tbody>
+      <thead><tr><th>Nom</th><th>Poste</th><th>Email</th><th>Score</th><th>Résultat</th><th>Tentative</th><th>Date</th><th>Certificat</th></tr></thead>
+      <tbody id="adminTbody"><tr><td colspan="8" class="empty-table">Chargement...</td></tr></tbody>
     </table>
   </div>
 </div>
@@ -341,46 +334,72 @@
 </div>
 
 <script>
-const QUESTIONS = [
-  { q: "En cas d'incendie, quelle est la première action à effectuer ?", opts: ["Utiliser l'extincteur immédiatement", "Alerter et évacuer les personnes", "Ouvrir les fenêtres pour aérer", "Chercher l'origine du feu"], correct: 1 },
-  { q: "Que signifie le pictogramme 'crâne et tibias croisés' sur un produit chimique ?", opts: ["Produit inflammable", "Produit irritant", "Produit toxique ou mortel", "Produit corrosif"], correct: 2 },
-  { q: "À quelle fréquence les exercices d'évacuation incendie doivent-ils être réalisés (Code du travail) ?", opts: ["Tous les 5 ans", "Tous les 2 ans", "Au moins une fois par an", "Tous les 3 mois"], correct: 2 },
-  { q: "Qui est responsable de la santé et sécurité des travailleurs dans l'entreprise ?", opts: ["Le CSE uniquement", "Le responsable HSE uniquement", "L'employeur", "Les salariés eux-mêmes"], correct: 2 },
-  { q: "Que contient obligatoirement une trousse de premiers secours au travail ?", opts: ["Des médicaments et antibiotiques", "Des pansements, compresses et antiseptique", "Un défibrillateur portable", "Des masques chirurgicaux uniquement"], correct: 1 },
-  { q: "Face à un accident du travail, quelle est la priorité absolue ?", opts: ["Rédiger le registre d'accident", "Sécuriser la zone et appeler les secours", "Déplacer la victime vers un endroit confortable", "Informer la direction par email"], correct: 1 },
-  { q: "Quel numéro d'urgence appeler en cas d'accident grave en France ?", opts: ["15 — SAMU uniquement", "17 — Police uniquement", "18 — Pompiers uniquement", "15, 18 ou 112 selon la situation"], correct: 3 },
-  { q: "Que signifie EPI dans le contexte HSE ?", opts: ["Équipement de Protection Incendie", "Équipement de Première Intervention", "Équipement de Protection Individuelle", "Évaluation des Procédures Internes"], correct: 2 },
-  { q: "Le Document Unique d'Évaluation des Risques (DUER) doit être mis à jour :", opts: ["Uniquement lors d'un accident", "Au moins une fois par an et lors de tout changement", "Tous les 5 ans", "Seulement à la demande de l'inspection du travail"], correct: 1 },
-  { q: "Quelle attitude adopter face à un collègue qui ne respecte pas les consignes de sécurité ?", opts: ["Ignorer, ce n'est pas votre responsabilité", "Le signaler à votre manager ou au responsable HSE", "Attendre qu'un accident se produise", "En parler uniquement à ses collègues"], correct: 1 }
-];
+// ============ SUPABASE CONFIG ============
+const SUPABASE_URL = 'https://hgkgllsnduswlayjxtib.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhna2dsbHNuZHVzd2xheWp4dGliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4Mjk4OTAsImV4cCI6MjA5MzQwNTg5MH0.ZOfrmF8joxIeVLzyQUOFtqaRsAhyihK0Dr4-SyD7A34';
 
+async function supabaseInsert(data) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/resultats`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify(data)
+  });
+  return res.ok;
+}
+
+async function supabaseSelect() {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/resultats?select=*&order=created_at.desc`, {
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`
+    }
+  });
+  return res.ok ? await res.json() : [];
+}
+
+// ============ CONFIG ============
 const ADMIN_PWD = 'hse2024';
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyOhZOZD1oVQ3kPqFWeL0yqmD84qV6ZbxqbiMqrtWWby9qwiHt2mgemnZe3ZtgsAvW9/exec';
 const MIN_SCORE = 90;
 
-let state = { learner: { prenom:'', nom:'', poste:'', email:'' }, videoWatched: false, answers: new Array(10).fill(null), attempts: 0, score: 0, certId: '' };
-let videoProgress = 0, videoInterval = null;
-let results = JSON.parse(localStorage.getItem('hse_results') || '[]');
-let adminUnlocked = false;
+const QUESTIONS = [
+  { q: "En cas d'incendie, quelle est la première action à effectuer ?", opts: ["Utiliser l'extincteur immédiatement","Alerter et évacuer les personnes","Ouvrir les fenêtres pour aérer","Chercher l'origine du feu"], correct: 1 },
+  { q: "Que signifie le pictogramme 'crâne et tibias croisés' sur un produit chimique ?", opts: ["Produit inflammable","Produit irritant","Produit toxique ou mortel","Produit corrosif"], correct: 2 },
+  { q: "À quelle fréquence les exercices d'évacuation incendie doivent-ils être réalisés (Code du travail) ?", opts: ["Tous les 5 ans","Tous les 2 ans","Au moins une fois par an","Tous les 3 mois"], correct: 2 },
+  { q: "Qui est responsable de la santé et sécurité des travailleurs dans l'entreprise ?", opts: ["Le CSE uniquement","Le responsable HSE uniquement","L'employeur","Les salariés eux-mêmes"], correct: 2 },
+  { q: "Que contient obligatoirement une trousse de premiers secours au travail ?", opts: ["Des médicaments et antibiotiques","Des pansements, compresses et antiseptique","Un défibrillateur portable","Des masques chirurgicaux uniquement"], correct: 1 },
+  { q: "Face à un accident du travail, quelle est la priorité absolue ?", opts: ["Rédiger le registre d'accident","Sécuriser la zone et appeler les secours","Déplacer la victime vers un endroit confortable","Informer la direction par email"], correct: 1 },
+  { q: "Quel numéro d'urgence appeler en cas d'accident grave en France ?", opts: ["15 — SAMU uniquement","17 — Police uniquement","18 — Pompiers uniquement","15, 18 ou 112 selon la situation"], correct: 3 },
+  { q: "Que signifie EPI dans le contexte HSE ?", opts: ["Équipement de Protection Incendie","Équipement de Première Intervention","Équipement de Protection Individuelle","Évaluation des Procédures Internes"], correct: 2 },
+  { q: "Le Document Unique d'Évaluation des Risques (DUER) doit être mis à jour :", opts: ["Uniquement lors d'un accident","Au moins une fois par an et lors de tout changement","Tous les 5 ans","Seulement à la demande de l'inspection du travail"], correct: 1 },
+  { q: "Quelle attitude adopter face à un collègue qui ne respecte pas les consignes de sécurité ?", opts: ["Ignorer, ce n'est pas votre responsabilité","Le signaler à votre manager ou au responsable HSE","Attendre qu'un accident se produise","En parler uniquement à ses collègues"], correct: 1 }
+];
 
-function setStep(n) {
+let state = { learner:{prenom:'',nom:'',poste:'',email:''}, videoWatched:false, answers:new Array(10).fill(null), attempts:0, score:0, certId:'' };
+let videoProgress=0, videoInterval=null, adminUnlocked=false;
+
+function setStep(n){
   for(let i=1;i<=5;i++){
-    const si=document.getElementById('si'+i), sn=document.getElementById('sn'+i);
-    si.className='step-item'; sn.textContent=i;
+    const si=document.getElementById('si'+i),sn=document.getElementById('sn'+i);
+    si.className='step-item';sn.textContent=i;
     if(i<n){si.classList.add('done');sn.textContent='✓';}
-    if(i===n) si.classList.add('active');
-    if(i<5) document.getElementById('sl'+i).className='step-line'+(i<n?' done':'');
+    if(i===n)si.classList.add('active');
+    if(i<5)document.getElementById('sl'+i).className='step-line'+(i<n?' done':'');
   }
 }
 
-function goTo(n) {
-  for(let i=0;i<=4;i++) document.getElementById('screen'+i).classList.remove('active');
+function goTo(n){
+  for(let i=0;i<=4;i++)document.getElementById('screen'+i).classList.remove('active');
   document.getElementById('screen'+n).classList.add('active');
   setStep(n+1);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function startTraining() {
+function startTraining(){
   const p=document.getElementById('inputPrenom').value.trim();
   const n=document.getElementById('inputNom').value.trim();
   if(!p||!n){alert('Veuillez entrer votre prénom et nom.');return;}
@@ -388,8 +407,8 @@ function startTraining() {
   goTo(1);
 }
 
-function startVideo() {
-  if(videoInterval) return;
+function startVideo(){
+  if(videoInterval)return;
   document.getElementById('videoCenter').style.display='none';
   document.getElementById('videoPlaying').style.display='block';
   document.getElementById('vpWrap').style.display='block';
@@ -403,18 +422,18 @@ function startVideo() {
   },80);
 }
 
-function videoDone() {
+function videoDone(){
   state.videoWatched=true;
   document.getElementById('videoPlaying').style.display='none';
   const n=document.getElementById('videoNotice');
   n.className='notice success';
-  n.innerHTML='<span class="notice-icon">✓</span><span>Vidéo visionnée intégralement. Vous pouvez maintenant accéder à l\'évaluation.</span>';
+  n.innerHTML='<span class="notice-icon">✓</span><span>Vidéo visionnée intégralement. Vous pouvez accéder à l\'évaluation.</span>';
   document.getElementById('btnToQCM').disabled=false;
 }
 
 function goToQCM(){renderQCM();goTo(2);}
 
-function renderQCM() {
+function renderQCM(){
   state.answers=new Array(QUESTIONS.length).fill(null);
   document.getElementById('qcmBody').innerHTML=QUESTIONS.map((q,i)=>`
     <div class="q-block">
@@ -423,15 +442,15 @@ function renderQCM() {
     </div>`).join('');
 }
 
-function pickOpt(qi,oi) {
+function pickOpt(qi,oi){
   QUESTIONS[qi].opts.forEach((_,j)=>{document.getElementById(`o${qi}_${j}`).classList.remove('selected');document.getElementById(`dot${qi}_${j}`).style.display='none';});
   state.answers[qi]=oi;
   document.getElementById(`o${qi}_${oi}`).classList.add('selected');
   document.getElementById(`dot${qi}_${oi}`).style.display='block';
 }
 
-function submitQCM() {
-  if(state.answers.includes(null)){alert('Veuillez répondre à toutes les questions ('+state.answers.filter(a=>a===null).length+' réponses manquantes).');return;}
+function submitQCM(){
+  if(state.answers.includes(null)){alert('Veuillez répondre à toutes les questions ('+state.answers.filter(a=>a===null).length+' manquantes).');return;}
   let correct=0;
   QUESTIONS.forEach((q,i)=>{if(state.answers[i]===q.correct)correct++;});
   state.score=Math.round(correct/QUESTIONS.length*100);
@@ -442,19 +461,19 @@ function submitQCM() {
   showResults(correct,passed);
 }
 
-function showResults(correct,passed) {
+function showResults(correct,passed){
   document.getElementById('statS').textContent=state.score+'%';
   document.getElementById('statS').style.color=passed?'var(--green)':'var(--red)';
   document.getElementById('statC').textContent=correct+'/'+QUESTIONS.length;
   document.getElementById('statT').textContent=state.attempts;
-  document.getElementById('resultSubtitle').textContent=passed?'🎉 Félicitations, vous avez réussi l\'évaluation !':'Score insuffisant — il faut '+MIN_SCORE+'% minimum.';
+  document.getElementById('resultSubtitle').textContent=passed?'🎉 Félicitations, vous avez réussi !':'Score insuffisant — '+MIN_SCORE+'% requis.';
   setTimeout(()=>{document.getElementById('sbFill').style.width=state.score+'%';document.getElementById('sbFill').style.background=passed?'var(--green)':'var(--red)';},200);
   document.getElementById('resultNotice').innerHTML=passed
-    ?`<div class="notice success"><span class="notice-icon">✓</span><span>Vous avez obtenu <strong>${state.score}%</strong> — évaluation validée.</span></div>`
-    :`<div class="notice error"><span class="notice-icon">✗</span><span>Vous avez obtenu <strong>${state.score}%</strong> — score insuffisant (${MIN_SCORE}% requis).</span></div>`;
+    ?`<div class="notice success"><span class="notice-icon">✓</span><span>Score : <strong>${state.score}%</strong> — évaluation validée.</span></div>`
+    :`<div class="notice error"><span class="notice-icon">✗</span><span>Score : <strong>${state.score}%</strong> — insuffisant (${MIN_SCORE}% requis).</span></div>`;
   document.getElementById('correctionBody').innerHTML=QUESTIONS.map((q,i)=>{
     const ok=state.answers[i]===q.correct;
-    return `<div class="q-block"><div class="q-header"><span class="q-badge" style="background:${ok?'var(--green-light)':'var(--red-light)'};color:${ok?'var(--green-dark)':'var(--red)'};border-color:${ok?'#aed8c8':'#f0b8b0'}">Q${i+1} ${ok?'✓':'✗'}</span><div class="q-text">${q.q}</div></div>
+    return`<div class="q-block"><div class="q-header"><span class="q-badge" style="background:${ok?'var(--green-light)':'var(--red-light)'};color:${ok?'var(--green-dark)':'var(--red)'};border-color:${ok?'#aed8c8':'#f0b8b0'}">Q${i+1} ${ok?'✓':'✗'}</span><div class="q-text">${q.q}</div></div>
     ${q.opts.map((o,j)=>{let c='option';if(j===q.correct)c+=' correct';else if(j===state.answers[i]&&!ok)c+=' wrong';return`<div class="${c}" style="cursor:default"><div class="opt-radio"><div class="opt-dot" style="display:${j===q.correct||j===state.answers[i]?'block':'none'}"></div></div>${o}</div>`;}).join('')}</div>`;
   }).join('');
   document.getElementById('resultBtnRow').innerHTML=passed
@@ -465,7 +484,7 @@ function showResults(correct,passed) {
 
 function retryQCM(){renderQCM();goTo(2);}
 
-function showCert() {
+function showCert(){
   document.getElementById('certName').textContent=state.learner.prenom+' '+state.learner.nom;
   document.getElementById('certPoste').textContent=state.learner.poste;
   document.getElementById('certScore').textContent=state.score+'%';
@@ -477,98 +496,91 @@ function showCert() {
 
 function copyLink(){navigator.clipboard.writeText(state.certId).then(()=>alert('ID copié : '+state.certId)).catch(()=>alert('ID : '+state.certId));}
 
-// ============ SAUVEGARDE + ENVOI GOOGLE SHEETS (méthode GET) ============
-function saveResult(passed) {
+// ============ SAUVEGARDE SUPABASE ============
+async function saveResult(passed){
   const entry={
     nom: state.learner.nom+' '+state.learner.prenom,
     poste: state.learner.poste,
     email: state.learner.email,
     score: state.score,
-    passed: passed,
-    attempt: state.attempts,
+    reussi: passed,
+    tentative: state.attempts,
     date: new Date().toLocaleString('fr-FR'),
-    certId: state.certId
+    certificat: state.certId||''
   };
-  results.push(entry);
-  try{localStorage.setItem('hse_results',JSON.stringify(results));}catch(e){}
-
-  // Envoi vers Google Sheets via requête GET
-  const params=new URLSearchParams({
-    nom: entry.nom,
-    poste: entry.poste,
-    email: entry.email,
-    score: String(entry.score),
-    passed: String(entry.passed),
-    attempt: String(entry.attempt),
-    date: entry.date,
-    certId: entry.certId||''
-  });
-  fetch(SHEETS_URL+'?'+params.toString())
-    .then(r=>r.text())
-    .then(t=>console.log('Sheets OK:',t))
-    .catch(err=>console.warn('Sheets erreur:',err));
+  try {
+    const ok = await supabaseInsert(entry);
+    if(ok) console.log('✅ Supabase: résultat enregistré');
+    else console.warn('⚠️ Supabase: erreur insertion');
+  } catch(e) {
+    console.warn('⚠️ Supabase non joignable:', e);
+  }
 }
 
 // ============ ADMIN ============
-function toggleAdmin() {
+function toggleAdmin(){
   if(!adminUnlocked){
     document.getElementById('adminOverlay').classList.add('active');
     document.getElementById('adminPwd').value='';
     setTimeout(()=>document.getElementById('adminPwd').focus(),100);
     return;
   }
-  const mc=document.getElementById('mainContent'), ap=document.getElementById('adminPanel');
+  const mc=document.getElementById('mainContent'),ap=document.getElementById('adminPanel');
   if(ap.style.display==='block'){ap.style.display='none';mc.style.display='block';}
-  else{mc.style.display='none';ap.style.display='block';renderAdmin();}
+  else{mc.style.display='none';ap.style.display='block';loadAdmin();}
 }
 
-function checkAdmin() {
+function checkAdmin(){
   if(document.getElementById('adminPwd').value===ADMIN_PWD){
     adminUnlocked=true;
     document.getElementById('adminOverlay').classList.remove('active');
     document.getElementById('mainContent').style.display='none';
     document.getElementById('adminPanel').style.display='block';
-    renderAdmin();
+    loadAdmin();
   } else {
     document.getElementById('adminPwd').style.borderColor='var(--red)';
     setTimeout(()=>document.getElementById('adminPwd').style.borderColor='',800);
   }
 }
 
-function renderAdmin() {
-  const total=results.length;
-  const passed=results.filter(r=>r.passed).length;
+async function loadAdmin(){
+  document.getElementById('adminTbody').innerHTML='<tr><td colspan="8" class="empty-table">Chargement...</td></tr>';
+  const data = await supabaseSelect();
+  renderAdmin(data);
+}
+
+function renderAdmin(data){
+  const total=data.length, passed=data.filter(r=>r.reussi).length;
   document.getElementById('kpiTotal').textContent=total;
   document.getElementById('kpiPassed').textContent=passed;
   document.getElementById('kpiFailed').textContent=total-passed;
   document.getElementById('kpiRate').textContent=total>0?Math.round(passed/total*100)+'%':'—';
-  document.getElementById('kpiAvg').textContent=total>0?Math.round(results.reduce((a,r)=>a+r.score,0)/total)+'%':'—';
+  document.getElementById('kpiAvg').textContent=total>0?Math.round(data.reduce((a,r)=>a+r.score,0)/total)+'%':'—';
   const tbody=document.getElementById('adminTbody');
   if(total===0){tbody.innerHTML='<tr><td colspan="8" class="empty-table">Aucun résultat pour le moment.</td></tr>';return;}
-  tbody.innerHTML=results.slice().reverse().map(r=>`
+  tbody.innerHTML=data.map(r=>`
     <tr>
-      <td><strong>${r.nom}</strong></td><td>${r.poste}</td>
-      <td style="font-family:var(--font-mono);font-size:12px">${r.email}</td>
-      <td><strong style="color:${r.passed?'var(--green)':'var(--red)'}">${r.score}%</strong></td>
-      <td><span class="${r.passed?'badge-pass':'badge-fail'}">${r.passed?'✓ Réussi':'✗ Échec'}</span></td>
-      <td style="text-align:center">${r.attempt}</td>
-      <td style="font-size:12px;color:var(--gray-500)">${r.date}</td>
-      <td style="font-family:var(--font-mono);font-size:11px;color:var(--gray-500)">${r.certId||'—'}</td>
+      <td><strong>${r.nom||''}</strong></td>
+      <td>${r.poste||''}</td>
+      <td style="font-size:12px">${r.email||''}</td>
+      <td><strong style="color:${r.reussi?'var(--green)':'var(--red)'}">${r.score}%</strong></td>
+      <td><span class="${r.reussi?'badge-pass':'badge-fail'}">${r.reussi?'✓ Réussi':'✗ Échec'}</span></td>
+      <td style="text-align:center">${r.tentative||''}</td>
+      <td style="font-size:12px;color:var(--gray-500)">${r.date||''}</td>
+      <td style="font-size:11px;color:var(--gray-500)">${r.certificat||'—'}</td>
     </tr>`).join('');
+  window._adminData = data;
 }
 
-function exportCSV() {
-  const header=['Nom','Poste','Email','Score','Résultat','Tentative','Date','Certificat'];
-  const rows=results.map(r=>[r.nom,r.poste,r.email,r.score+'%',r.passed?'Réussi':'Échec',r.attempt,r.date,r.certId||''].map(v=>`"${v}"`).join(','));
-  const csv=[header.join(','),...rows].join('\n');
+function exportCSV(){
+  const data = window._adminData || [];
+  const h=['Nom','Poste','Email','Score','Résultat','Tentative','Date','Certificat'];
+  const rows=data.map(r=>[r.nom,r.poste,r.email,r.score+'%',r.reussi?'Réussi':'Échec',r.tentative,r.date,r.certificat||''].map(v=>`"${v}"`).join(','));
+  const csv=[h.join(','),...rows].join('\n');
   const a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
   a.download='resultats_hse_'+new Date().toISOString().slice(0,10)+'.csv';
   a.click();
-}
-
-function clearResults() {
-  if(confirm('Effacer tous les résultats ? Cette action est irréversible.')){results=[];localStorage.removeItem('hse_results');renderAdmin();}
 }
 </script>
 </body>
