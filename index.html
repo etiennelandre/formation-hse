@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Formation HSE</title>
+<title>Formation HSE — Onboarding Sécurité</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -57,7 +57,7 @@
   .play-circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
   .play-circle:hover { background: rgba(255,255,255,0.22); transform: scale(1.05); }
   .play-tri { width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 20px solid white; margin-left: 4px; }
-  .video-label { color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 500; text-align: center; padding: 0 20px; }
+  .video-label { color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 500; }
   .video-dur { color: rgba(255,255,255,0.5); font-size: 12px; }
   .video-playing { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.5); border-radius: 4px; padding: 3px 8px; font-size: 11px; color: white; display: none; }
   .vp-wrap { margin-bottom: 14px; }
@@ -117,9 +117,6 @@
   .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
   .form-input { width: 100%; padding: 11px 14px; border: 1px solid var(--gray-300); border-radius: var(--radius); font-size: 14px; font-family: var(--font); color: var(--gray-900); background: var(--white); outline: none; transition: border-color 0.15s; }
   .form-input:focus { border-color: var(--blue); }
-  .loading-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 16px; color: var(--gray-500); font-size: 14px; }
-  .loading-spinner { width: 36px; height: 36px; border: 3px solid var(--gray-200); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
   @media print {
     .topbar, .steps-bar, .btn-row, .btn-admin { display: none !important; }
     body { background: white; }
@@ -132,12 +129,12 @@
   <div class="topbar-left">
     <div class="topbar-logo">🛡</div>
     <div>
-      <div class="topbar-name" id="topbarName">Formation HSE</div>
-      <div class="topbar-sub" id="topbarSub">Onboarding Sécurité</div>
+      <div class="topbar-name">Formation HSE</div>
+      <div class="topbar-sub">Onboarding Sécurité</div>
     </div>
   </div>
   <div class="topbar-right">
-    <span class="tag-module" id="topbarModule">Module 1</span>
+    <span class="tag-module">Module 1</span>
     <a href="admin.html" class="btn-admin">📊 Admin</a>
   </div>
 </div>
@@ -155,18 +152,13 @@
 </div>
 
 <div class="main" id="mainContent">
-  <div class="loading-screen" id="loadingScreen">
-    <div class="loading-spinner"></div>
-    Chargement de la formation…
-  </div>
 
-  <!-- SCREEN 0 : IDENTIFICATION -->
-  <div class="screen" id="screen0" style="display:none">
+  <div class="screen active" id="screen0">
     <div class="id-screen">
       <div class="id-hero">
         <span class="id-emblem">🛡</span>
-        <div class="id-title" id="heroTitle">Formation HSE Onboarding</div>
-        <div class="id-sub" id="heroSub">Module obligatoire — Santé, Sécurité & Environnement<br>Durée estimée : 20 minutes</div>
+        <div class="id-title">Formation HSE Onboarding</div>
+        <div class="id-sub">Module obligatoire — Santé, Sécurité & Environnement<br>Durée estimée : 20 minutes</div>
       </div>
       <div class="card">
         <div class="card-title">Votre identification</div>
@@ -180,27 +172,27 @@
     </div>
   </div>
 
-  <!-- SCREEN 1 : VIDEO -->
   <div class="screen" id="screen1">
     <div class="card">
-      <div class="card-title" id="videoTitle">Module 1 — Introduction à la sécurité</div>
+      <div class="card-title">Module 1 — Introduction à la sécurité au travail</div>
       <div class="card-sub">Visionnez la vidéo intégralement pour accéder à l'évaluation</div>
       <div class="chip-row">
-        <span class="chip" id="videoDurChip">📹 Vidéo obligatoire</span>
+        <span class="chip">📹 Durée : 8 min 24 sec</span>
         <span class="chip">⚠️ Obligatoire</span>
+        <span class="chip">📋 Art. 12 règlement intérieur</span>
       </div>
-      <div class="video-wrap" id="videoWrap" onclick="startVideo()">
+      <div class="video-wrap" onclick="startVideo()">
         <div class="video-grid"></div>
         <div class="video-center" id="videoCenter">
           <div class="play-circle"><div class="play-tri"></div></div>
-          <div class="video-label" id="videoLabel">Cliquez pour lancer la vidéo</div>
-          <div class="video-dur">Cliquez pour lancer</div>
+          <div class="video-label">Sécurité & Prévention des risques — Introduction HSE</div>
+          <div class="video-dur">8:24 — Cliquez pour lancer</div>
         </div>
         <div class="video-playing" id="videoPlaying">▶ Lecture en cours…</div>
       </div>
       <div class="vp-wrap" id="vpWrap" style="display:none">
         <div class="vp-track"><div class="vp-fill" id="vpFill" style="width:0%"></div></div>
-        <div class="vp-meta"><span id="vpPct">0% visionné</span><span id="vpTime">0:00</span></div>
+        <div class="vp-meta"><span id="vpPct">0% visionné</span><span id="vpTime">0:00 / 8:24</span></div>
       </div>
       <div class="notice info" id="videoNotice">
         <span class="notice-icon">ℹ</span>
@@ -212,11 +204,10 @@
     </div>
   </div>
 
-  <!-- SCREEN 2 : QCM -->
   <div class="screen" id="screen2">
     <div class="card">
       <div class="card-title">Évaluation des connaissances</div>
-      <div class="card-sub" id="qcmSub">Questions — Score minimum requis : 90%</div>
+      <div class="card-sub">10 questions — Score minimum requis : 90%</div>
       <div class="notice info"><span class="notice-icon">ℹ</span><span>Une seule réponse correcte par question. Toutes les réponses doivent être remplies.</span></div>
       <div id="qcmBody"></div>
     </div>
@@ -226,7 +217,6 @@
     </div>
   </div>
 
-  <!-- SCREEN 3 : RÉSULTATS -->
   <div class="screen" id="screen3">
     <div class="card">
       <div class="card-title">Résultats de l'évaluation</div>
@@ -234,11 +224,15 @@
       <div class="stat-row">
         <div class="stat-box"><div class="stat-val" id="statS">-</div><div class="stat-lbl">Score</div></div>
         <div class="stat-box"><div class="stat-val" id="statC">-</div><div class="stat-lbl">Correctes</div></div>
-        <div class="stat-box"><div class="stat-val" id="statReq">90%</div><div class="stat-lbl">Requis</div></div>
+        <div class="stat-box"><div class="stat-val">90%</div><div class="stat-lbl">Requis</div></div>
         <div class="stat-box"><div class="stat-val" id="statT">-</div><div class="stat-lbl">Tentative n°</div></div>
       </div>
       <div style="position:relative;margin:4px 0 16px;">
         <div style="width:100%;height:8px;background:var(--gray-200);border-radius:4px;overflow:hidden;"><div id="sbFill" style="height:100%;border-radius:4px;transition:width 1.2s;width:0%"></div></div>
+        <div style="position:relative;height:0;overflow:visible;">
+          <div style="position:absolute;left:90%;top:-16px;width:2px;height:24px;background:var(--orange);border-radius:1px;"></div>
+          <div style="position:absolute;left:90%;top:-28px;transform:translateX(-50%);font-size:10px;font-weight:600;color:var(--orange);white-space:nowrap;font-family:var(--font-mono);">Min 90%</div>
+        </div>
       </div>
       <div id="resultNotice"></div>
     </div>
@@ -246,7 +240,6 @@
     <div class="btn-row" id="resultBtnRow"></div>
   </div>
 
-  <!-- SCREEN 4 : CERTIFICAT -->
   <div class="screen" id="screen4">
     <div class="cert-outer">
       <div class="cert-bg"></div>
@@ -254,7 +247,7 @@
       <div class="cert-corner-bl"></div><div class="cert-corner-br"></div>
       <span class="cert-emblem">🛡</span>
       <div class="cert-headline">Attestation de formation</div>
-      <div class="cert-title" id="certTitle">Formation HSE — Onboarding Sécurité</div>
+      <div class="cert-title">Formation HSE — Onboarding Sécurité</div>
       <div class="cert-delivered">Ce certificat est délivré à</div>
       <div class="cert-name" id="certName">-</div>
       <div class="cert-module-label">Poste / Service</div>
@@ -265,7 +258,7 @@
         <span class="cert-badge">✓ Évaluation réussie</span>
       </div>
       <div class="cert-module-label">Module complété</div>
-      <div class="cert-module-name" id="certModule">-</div>
+      <div class="cert-module-name">Introduction à la sécurité au travail</div>
       <div class="cert-divider"></div>
       <div class="cert-date" id="certDate">-</div>
       <div class="cert-id" id="certId">-</div>
@@ -279,98 +272,30 @@
       <span>Résultat enregistré. Accessible dans le tableau de bord administrateur.</span>
     </div>
   </div>
+
 </div>
 
 <script>
-// ============ SUPABASE ============
 const SUPABASE_URL = 'https://hgkgllsnduswlayjxtib.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhna2dsbHNuZHVzd2xheWp4dGliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4Mjk4OTAsImV4cCI6MjA5MzQwNTg5MH0.ZOfrmF8joxIeVLzyQUOFtqaRsAhyihK0Dr4-SyD7A34';
+const MIN_SCORE = 90;
 
-// ============ CONFIG PAR DÉFAUT (si pas de ?client=xxx) ============
-const DEFAULT_CONFIG = {
-  nom: "Formation HSE",
-  sous_titre: "Onboarding Sécurité",
-  module: "Introduction à la sécurité au travail",
-  video_titre: "Sécurité & Prévention des risques",
-  video_duree: "8:24",
-  video_duree_secondes: 504,
-  score_minimum: 90,
-  table_supabase: "resultats",
-  questions: [
-    { q: "En cas d'incendie, quelle est la première action à effectuer ?", opts: ["Utiliser l'extincteur immédiatement","Alerter et évacuer les personnes","Ouvrir les fenêtres pour aérer","Chercher l'origine du feu"], correct: 1 },
-    { q: "Que signifie le pictogramme 'crâne et tibias croisés' sur un produit chimique ?", opts: ["Produit inflammable","Produit irritant","Produit toxique ou mortel","Produit corrosif"], correct: 2 },
-    { q: "À quelle fréquence les exercices d'évacuation incendie doivent-ils être réalisés ?", opts: ["Tous les 5 ans","Tous les 2 ans","Au moins une fois par an","Tous les 3 mois"], correct: 2 },
-    { q: "Qui est responsable de la santé et sécurité des travailleurs ?", opts: ["Le CSE uniquement","Le responsable HSE uniquement","L'employeur","Les salariés eux-mêmes"], correct: 2 },
-    { q: "Que contient obligatoirement une trousse de premiers secours ?", opts: ["Des médicaments et antibiotiques","Des pansements, compresses et antiseptique","Un défibrillateur portable","Des masques chirurgicaux uniquement"], correct: 1 },
-    { q: "Face à un accident du travail, quelle est la priorité absolue ?", opts: ["Rédiger le registre d'accident","Sécuriser la zone et appeler les secours","Déplacer la victime","Informer la direction par email"], correct: 1 },
-    { q: "Quel numéro d'urgence appeler en cas d'accident grave en France ?", opts: ["15 — SAMU uniquement","17 — Police uniquement","18 — Pompiers uniquement","15, 18 ou 112 selon la situation"], correct: 3 },
-    { q: "Que signifie EPI dans le contexte HSE ?", opts: ["Équipement de Protection Incendie","Équipement de Première Intervention","Équipement de Protection Individuelle","Évaluation des Procédures Internes"], correct: 2 },
-    { q: "Le Document Unique d'Évaluation des Risques (DUER) doit être mis à jour :", opts: ["Uniquement lors d'un accident","Au moins une fois par an et lors de tout changement","Tous les 5 ans","Seulement à la demande de l'inspection du travail"], correct: 1 },
-    { q: "Quelle attitude adopter face à un collègue qui ne respecte pas les consignes ?", opts: ["Ignorer, ce n'est pas votre responsabilité","Le signaler à votre manager ou au responsable HSE","Attendre qu'un accident se produise","En parler uniquement à ses collègues"], correct: 1 }
-  ]
-};
+const QUESTIONS = [
+  { q: "En cas d'incendie, quelle est la première action à effectuer ?", opts: ["Utiliser l'extincteur immédiatement","Alerter et évacuer les personnes","Ouvrir les fenêtres pour aérer","Chercher l'origine du feu"], correct: 1 },
+  { q: "Que signifie le pictogramme 'crâne et tibias croisés' sur un produit chimique ?", opts: ["Produit inflammable","Produit irritant","Produit toxique ou mortel","Produit corrosif"], correct: 2 },
+  { q: "À quelle fréquence les exercices d'évacuation incendie doivent-ils être réalisés ?", opts: ["Tous les 5 ans","Tous les 2 ans","Au moins une fois par an","Tous les 3 mois"], correct: 2 },
+  { q: "Qui est responsable de la santé et sécurité des travailleurs dans l'entreprise ?", opts: ["Le CSE uniquement","Le responsable HSE uniquement","L'employeur","Les salariés eux-mêmes"], correct: 2 },
+  { q: "Que contient obligatoirement une trousse de premiers secours au travail ?", opts: ["Des médicaments et antibiotiques","Des pansements, compresses et antiseptique","Un défibrillateur portable","Des masques chirurgicaux uniquement"], correct: 1 },
+  { q: "Face à un accident du travail, quelle est la priorité absolue ?", opts: ["Rédiger le registre d'accident","Sécuriser la zone et appeler les secours","Déplacer la victime vers un endroit confortable","Informer la direction par email"], correct: 1 },
+  { q: "Quel numéro d'urgence appeler en cas d'accident grave en France ?", opts: ["15 — SAMU uniquement","17 — Police uniquement","18 — Pompiers uniquement","15, 18 ou 112 selon la situation"], correct: 3 },
+  { q: "Que signifie EPI dans le contexte HSE ?", opts: ["Équipement de Protection Incendie","Équipement de Première Intervention","Équipement de Protection Individuelle","Évaluation des Procédures Internes"], correct: 2 },
+  { q: "Le Document Unique d'Évaluation des Risques (DUER) doit être mis à jour :", opts: ["Uniquement lors d'un accident","Au moins une fois par an et lors de tout changement","Tous les 5 ans","Seulement à la demande de l'inspection du travail"], correct: 1 },
+  { q: "Quelle attitude adopter face à un collègue qui ne respecte pas les consignes de sécurité ?", opts: ["Ignorer, ce n'est pas votre responsabilité","Le signaler à votre manager ou au responsable HSE","Attendre qu'un accident se produise","En parler uniquement à ses collègues"], correct: 1 }
+];
 
-let CONFIG = null;
-let state = { learner:{prenom:'',nom:'',poste:'',email:''}, videoWatched:false, answers:[], attempts:0, score:0, certId:'' };
+let state = { learner:{prenom:'',nom:'',poste:'',email:''}, videoWatched:false, answers:new Array(10).fill(null), attempts:0, score:0, certId:'' };
 let videoProgress=0, videoInterval=null;
 
-// ============ CHARGEMENT CONFIG ============
-async function loadConfig() {
-  const params = new URLSearchParams(window.location.search);
-  const client = params.get('client');
-
-  if (client) {
-    try {
-      const res = await fetch(`config/${client}.json`);
-      if (res.ok) {
-        CONFIG = await res.json();
-      } else {
-        console.warn(`Config ${client} introuvable, config par défaut utilisée`);
-        CONFIG = DEFAULT_CONFIG;
-      }
-    } catch(e) {
-      CONFIG = DEFAULT_CONFIG;
-    }
-  } else {
-    CONFIG = DEFAULT_CONFIG;
-  }
-
-  applyConfig();
-}
-
-function applyConfig() {
-  // Topbar
-  document.getElementById('topbarName').textContent = CONFIG.nom;
-  document.getElementById('topbarSub').textContent = CONFIG.sous_titre || 'Onboarding Sécurité';
-  document.title = `${CONFIG.nom} — Formation HSE`;
-
-  // Hero
-  document.getElementById('heroTitle').textContent = `${CONFIG.nom} — Formation HSE`;
-  document.getElementById('heroSub').textContent = `Module obligatoire — Santé, Sécurité & Environnement\nDurée estimée : ${CONFIG.duree_estimee || '20 minutes'}`;
-
-  // Vidéo
-  document.getElementById('videoTitle').textContent = `Module 1 — ${CONFIG.module}`;
-  document.getElementById('videoLabel').textContent = CONFIG.video_titre || 'Formation HSE';
-  document.getElementById('videoDurChip').textContent = `📹 Durée : ${CONFIG.video_duree || ''}`;
-
-  // QCM
-  document.getElementById('qcmSub').textContent = `${CONFIG.questions.length} questions — Score minimum requis : ${CONFIG.score_minimum}%`;
-  document.getElementById('statReq').textContent = CONFIG.score_minimum + '%';
-
-  // Certificat
-  document.getElementById('certTitle').textContent = `${CONFIG.nom} — Formation HSE`;
-  document.getElementById('certModule').textContent = CONFIG.module;
-
-  // Masquer le loading, afficher la formation
-  document.getElementById('loadingScreen').style.display = 'none';
-  document.getElementById('screen0').style.display = 'block';
-  document.getElementById('screen0').classList.add('active');
-
-  // Init answers
-  state.answers = new Array(CONFIG.questions.length).fill(null);
-}
-
-// ============ NAVIGATION ============
 function setStep(n){
   for(let i=1;i<=5;i++){
     const si=document.getElementById('si'+i),sn=document.getElementById('sn'+i);
@@ -382,19 +307,12 @@ function setStep(n){
 }
 
 function goTo(n){
-  for(let i=0;i<=4;i++){
-    const s=document.getElementById('screen'+i);
-    s.classList.remove('active');
-    if(i===0) s.style.display='none';
-  }
-  const target=document.getElementById('screen'+n);
-  if(n===0) target.style.display='block';
-  target.classList.add('active');
+  for(let i=0;i<=4;i++)document.getElementById('screen'+i).classList.remove('active');
+  document.getElementById('screen'+n).classList.add('active');
   setStep(n+1);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ============ IDENTIFICATION ============
 function startTraining(){
   const p=document.getElementById('inputPrenom').value.trim();
   const n=document.getElementById('inputNom').value.trim();
@@ -403,21 +321,18 @@ function startTraining(){
   goTo(1);
 }
 
-// ============ VIDEO ============
 function startVideo(){
   if(videoInterval)return;
   document.getElementById('videoCenter').style.display='none';
   document.getElementById('videoPlaying').style.display='block';
   document.getElementById('vpWrap').style.display='block';
-  const totalSecs = CONFIG.video_duree_secondes || 504;
-  const duree = CONFIG.video_duree || '8:24';
   videoInterval=setInterval(()=>{
     videoProgress+=1.2;
     if(videoProgress>=100){videoProgress=100;clearInterval(videoInterval);videoDone();}
     document.getElementById('vpFill').style.width=videoProgress+'%';
     document.getElementById('vpPct').textContent=Math.round(videoProgress)+'% visionné';
-    const secs=Math.round(videoProgress/100*totalSecs);
-    document.getElementById('vpTime').textContent=`${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')} / ${duree}`;
+    const secs=Math.round(videoProgress/100*504);
+    document.getElementById('vpTime').textContent=`${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')} / 8:24`;
   },80);
 }
 
@@ -432,10 +347,9 @@ function videoDone(){
 
 function goToQCM(){renderQCM();goTo(2);}
 
-// ============ QCM ============
 function renderQCM(){
-  state.answers=new Array(CONFIG.questions.length).fill(null);
-  document.getElementById('qcmBody').innerHTML=CONFIG.questions.map((q,i)=>`
+  state.answers=new Array(QUESTIONS.length).fill(null);
+  document.getElementById('qcmBody').innerHTML=QUESTIONS.map((q,i)=>`
     <div class="q-block">
       <div class="q-header"><span class="q-badge">Q${i+1}</span><div class="q-text">${q.q}</div></div>
       ${q.opts.map((o,j)=>`<div class="option" id="o${i}_${j}" onclick="pickOpt(${i},${j})"><div class="opt-radio"><div class="opt-dot" id="dot${i}_${j}" style="display:none"></div></div>${o}</div>`).join('')}
@@ -443,7 +357,7 @@ function renderQCM(){
 }
 
 function pickOpt(qi,oi){
-  CONFIG.questions[qi].opts.forEach((_,j)=>{document.getElementById(`o${qi}_${j}`).classList.remove('selected');document.getElementById(`dot${qi}_${j}`).style.display='none';});
+  QUESTIONS[qi].opts.forEach((_,j)=>{document.getElementById(`o${qi}_${j}`).classList.remove('selected');document.getElementById(`dot${qi}_${j}`).style.display='none';});
   state.answers[qi]=oi;
   document.getElementById(`o${qi}_${oi}`).classList.add('selected');
   document.getElementById(`dot${qi}_${oi}`).style.display='block';
@@ -452,10 +366,10 @@ function pickOpt(qi,oi){
 function submitQCM(){
   if(state.answers.includes(null)){alert('Veuillez répondre à toutes les questions ('+state.answers.filter(a=>a===null).length+' manquantes).');return;}
   let correct=0;
-  CONFIG.questions.forEach((q,i)=>{if(state.answers[i]===q.correct)correct++;});
-  state.score=Math.round(correct/CONFIG.questions.length*100);
+  QUESTIONS.forEach((q,i)=>{if(state.answers[i]===q.correct)correct++;});
+  state.score=Math.round(correct/QUESTIONS.length*100);
   state.attempts++;
-  const passed=state.score>=CONFIG.score_minimum;
+  const passed=state.score>=MIN_SCORE;
   state.certId=passed?'HSE-'+new Date().getFullYear()+'-'+Math.random().toString(36).substr(2,8).toUpperCase():'';
   saveResult(passed);
   showResults(correct,passed);
@@ -464,14 +378,14 @@ function submitQCM(){
 function showResults(correct,passed){
   document.getElementById('statS').textContent=state.score+'%';
   document.getElementById('statS').style.color=passed?'var(--green)':'var(--red)';
-  document.getElementById('statC').textContent=correct+'/'+CONFIG.questions.length;
+  document.getElementById('statC').textContent=correct+'/'+QUESTIONS.length;
   document.getElementById('statT').textContent=state.attempts;
-  document.getElementById('resultSubtitle').textContent=passed?'🎉 Félicitations, vous avez réussi !':'Score insuffisant — '+CONFIG.score_minimum+'% requis.';
+  document.getElementById('resultSubtitle').textContent=passed?'🎉 Félicitations, vous avez réussi !':'Score insuffisant — '+MIN_SCORE+'% requis.';
   setTimeout(()=>{document.getElementById('sbFill').style.width=state.score+'%';document.getElementById('sbFill').style.background=passed?'var(--green)':'var(--red)';},200);
   document.getElementById('resultNotice').innerHTML=passed
     ?`<div class="notice success"><span class="notice-icon">✓</span><span>Score : <strong>${state.score}%</strong> — évaluation validée.</span></div>`
-    :`<div class="notice error"><span class="notice-icon">✗</span><span>Score : <strong>${state.score}%</strong> — insuffisant (${CONFIG.score_minimum}% requis).</span></div>`;
-  document.getElementById('correctionBody').innerHTML=CONFIG.questions.map((q,i)=>{
+    :`<div class="notice error"><span class="notice-icon">✗</span><span>Score : <strong>${state.score}%</strong> — insuffisant (${MIN_SCORE}% requis).</span></div>`;
+  document.getElementById('correctionBody').innerHTML=QUESTIONS.map((q,i)=>{
     const ok=state.answers[i]===q.correct;
     return`<div class="q-block"><div class="q-header"><span class="q-badge" style="background:${ok?'var(--green-light)':'var(--red-light)'};color:${ok?'var(--green-dark)':'var(--red)'};border-color:${ok?'#aed8c8':'#f0b8b0'}">Q${i+1} ${ok?'✓':'✗'}</span><div class="q-text">${q.q}</div></div>
     ${q.opts.map((o,j)=>{let c='option';if(j===q.correct)c+=' correct';else if(j===state.answers[i]&&!ok)c+=' wrong';return`<div class="${c}" style="cursor:default"><div class="opt-radio"><div class="opt-dot" style="display:${j===q.correct||j===state.answers[i]?'block':'none'}"></div></div>${o}</div>`;}).join('')}</div>`;
@@ -496,9 +410,7 @@ function showCert(){
 
 function copyLink(){navigator.clipboard.writeText(state.certId).then(()=>alert('ID copié : '+state.certId)).catch(()=>alert('ID : '+state.certId));}
 
-// ============ SAUVEGARDE SUPABASE ============
 async function saveResult(passed){
-  const table = CONFIG.table_supabase || 'resultats';
   const entry={
     nom: state.learner.nom+' '+state.learner.prenom,
     poste: state.learner.poste,
@@ -510,7 +422,7 @@ async function saveResult(passed){
     certificat: state.certId||''
   };
   try {
-    await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    await fetch(`${SUPABASE_URL}/rest/v1/resultats`, {
       method: 'POST',
       headers: {
         'apikey': SUPABASE_KEY,
@@ -522,9 +434,6 @@ async function saveResult(passed){
     });
   } catch(e) { console.warn('Supabase:', e); }
 }
-
-// ============ INIT ============
-loadConfig();
 </script>
 </body>
 </html>
