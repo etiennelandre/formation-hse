@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSE Dashboard — Administration</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d12;
+    --surface: #111620;
+    --surface2: #161c28;
+    --border: #1e2840;
+    --border2: #242f47;
+    --green: #00e5a0;
+    --green-dim: rgba(0,229,160,0.12);
+    --green-glow: rgba(0,229,160,0.25);
+    --red: #ff4d6d;
+    --red-dim: rgba(255,77,109,0.12);
+    --orange: #ff9f43;
+    --orange-dim: rgba(255,159,67,0.12);
+    --blue: #4d9fff;
+    --blue-dim: rgba(77,159,255,0.12);
+    --text: #e8edf5;
+    --text2: #8896b3;
+    --text3: #4a5568;
+    --font: 'Inter', sans-serif;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius: 12px;
+    --radius-lg: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── LOGIN ── */
+  .login-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    position: relative;
+  }
+  .login-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,229,160,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(77,159,255,0.04) 0%, transparent 50%);
+  }
+  .login-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .login-box {
+    position: relative; z-index: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 48px;
+    width: 420px;
+    box-shadow: 0 0 80px rgba(0,229,160,0.06), 0 32px 64px rgba(0,0,0,0.4);
+  }
+  .login-logo {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 36px;
+  }
+  .login-icon {
+    width: 44px; height: 44px;
+    background: var(--green-dim);
+    border: 1px solid rgba(0,229,160,0.3);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .login-brand { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text); }
+  .login-brand span { color: var(--green); }
+  .login-title { font-family: var(--font-display); font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .login-sub { font-size: 14px; color: var(--text2); margin-bottom: 32px; }
+  .field-label { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; display: block; }
+  .field-wrap { margin-bottom: 16px; }
+  .field-input {
+    width: 100%; padding: 13px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    font-size: 14px; font-family: var(--font);
+    color: var(--text); outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-dim); }
+  .login-error { font-size: 13px; color: var(--red); margin-bottom: 16px; display: none; }
+  .btn-login {
+    width: 100%; padding: 14px;
+    background: var(--green);
+    color: #0a0d12;
+    border: none; border-radius: 10px;
+    font-size: 14px; font-weight: 700;
+    font-family: var(--font-display);
+    cursor: pointer; transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .btn-login:hover { background: #00ffb3; transform: translateY(-1px); box-shadow: 0 8px 24px var(--green-glow); }
+  .btn-login:active { transform: translateY(0); }
+
+  /* ── DASHBOARD ── */
+  .dashboard { display: none; min-height: 100vh; }
+
+  /* Header */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .header-icon {
+    width: 36px; height: 36px;
+    background: var(--green-dim);
+    border: 1px solid rgba(0,229,160,0.3);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .header-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; }
+  .header-title span { color: var(--green); }
+  .header-client {
+    font-size: 12px; color: var(--text2);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 4px 12px; border-radius: 20px;
+    font-family: var(--font-mono);
+  }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .btn-refresh {
+    padding: 7px 14px; border-radius: 8px;
+    background: var(--surface2); border: 1px solid var(--border2);
+    color: var(--text2); font-size: 12px; font-family: var(--font);
+    cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 6px;
+  }
+  .btn-refresh:hover { border-color: var(--green); color: var(--green); }
+  .btn-export {
+    padding: 7px 14px; border-radius: 8px;
+    background: var(--green-dim); border: 1px solid rgba(0,229,160,0.3);
+    color: var(--green); font-size: 12px; font-family: var(--font);
+    cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 6px;
+    font-weight: 500;
+  }
+  .btn-export:hover { background: var(--green); color: #0a0d12; }
+  .btn-logout {
+    padding: 7px 14px; border-radius: 8px;
+    background: transparent; border: 1px solid var(--border2);
+    color: var(--text3); font-size: 12px; font-family: var(--font);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .btn-logout:hover { border-color: var(--red); color: var(--red); }
+
+  /* Main */
+  .main { padding: 32px; max-width: 1400px; margin: 0 auto; }
+
+  /* KPIs */
+  .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 28px; }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px 24px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .kpi-card:hover { border-color: var(--border2); }
+  .kpi-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: var(--accent, var(--green));
+    opacity: 0.6;
+  }
+  .kpi-card.red { --accent: var(--red); }
+  .kpi-card.orange { --accent: var(--orange); }
+  .kpi-card.blue { --accent: var(--blue); }
+  .kpi-card.purple { --accent: #a78bfa; }
+  .kpi-label { font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .kpi-value { font-family: var(--font-display); font-size: 36px; font-weight: 800; color: var(--text); line-height: 1; margin-bottom: 6px; }
+  .kpi-value.green { color: var(--green); }
+  .kpi-value.red { color: var(--red); }
+  .kpi-value.orange { color: var(--orange); }
+  .kpi-value.blue { color: var(--blue); }
+  .kpi-sub { font-size: 12px; color: var(--text3); }
+  .kpi-icon { position: absolute; top: 20px; right: 20px; font-size: 22px; opacity: 0.3; }
+
+  /* Section header */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .section-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; }
+  .section-count { font-size: 12px; color: var(--text2); font-family: var(--font-mono); background: var(--surface2); padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border); }
+
+  /* Filters */
+  .filters { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 500;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text2); cursor: pointer; transition: all 0.15s;
+  }
+  .filter-btn.active { background: var(--green-dim); border-color: rgba(0,229,160,0.4); color: var(--green); }
+  .filter-btn:hover:not(.active) { border-color: var(--border2); color: var(--text); }
+  .search-input {
+    flex: 1; min-width: 200px; max-width: 300px;
+    padding: 7px 14px; background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 8px;
+    font-size: 12px; font-family: var(--font); color: var(--text); outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--green); }
+  .search-input::placeholder { color: var(--text3); }
+
+  /* Table */
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    text-align: left; font-size: 10px; font-weight: 600;
+    color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 14px 18px; border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  tbody td {
+    padding: 14px 18px; font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2); transition: background 0.1s;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: rgba(255,255,255,0.015); }
+  .td-name { font-weight: 600; color: var(--text); font-size: 14px; }
+  .td-mono { font-family: var(--font-mono); font-size: 11px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600;
+  }
+  .badge-pass { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,229,160,0.2); }
+  .badge-fail { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,77,109,0.2); }
+  .score-bar { display: flex; align-items: center; gap: 8px; }
+  .score-track { width: 60px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 2px; transition: width 0.6s; }
+  .empty-state {
+    text-align: center; padding: 60px 20px;
+    color: var(--text3); font-size: 14px;
+  }
+  .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.4; }
+
+  /* Loading spinner */
+  .loading { text-align: center; padding: 60px; color: var(--text3); }
+  .spinner {
+    width: 32px; height: 32px; border: 2px solid var(--border2);
+    border-top-color: var(--green); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Status dot */
+  .status-dot {
+    display: inline-block; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--green);
+    box-shadow: 0 0 6px var(--green); margin-right: 6px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 12px; padding: 14px 20px;
+    font-size: 13px; color: var(--text);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    transform: translateY(80px); opacity: 0;
+    transition: all 0.3s; z-index: 999;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { border-color: rgba(0,229,160,0.3); }
+  .toast.error { border-color: rgba(255,77,109,0.3); }
+
+  @media (max-width: 900px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .main { padding: 16px; }
+    .header { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ═══ -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-bg"></div>
+  <div class="login-grid"></div>
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-icon">🛡</div>
+      <div class="login-brand">HSE<span>Platform</span></div>
+    </div>
+    <div class="login-title">Tableau de bord</div>
+    <div class="login-sub">Connectez-vous pour accéder aux résultats de vos collaborateurs</div>
+    <div class="field-wrap">
+      <label class="field-label">Identifiant client</label>
+      <input type="text" class="field-input" id="loginUser" placeholder="votre-entreprise" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="field-wrap">
+      <label class="field-label">Mot de passe</label>
+      <input type="password" class="field-input" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="login-error" id="loginError">Identifiant ou mot de passe incorrect.</div>
+    <button class="btn-login" onclick="doLogin()">Accéder au dashboard →</button>
+  </div>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="dashboard" id="dashboardWrap">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="header-icon">🛡</div>
+      <div class="header-title">HSE<span>Platform</span></div>
+      <div class="header-client" id="headerClient">—</div>
+    </div>
+    <div class="header-right">
+      <span style="font-size:11px;color:var(--text3)"><span class="status-dot"></span>Live</span>
+      <button class="btn-refresh" onclick="loadData()">↻ Actualiser</button>
+      <button class="btn-export" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="btn-logout" onclick="logout()">Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- KPIs -->
+    <div class="kpi-grid" id="kpiGrid">
+      <div class="kpi-card">
+        <div class="kpi-icon">👥</div>
+        <div class="kpi-label">Formations passées</div>
+        <div class="kpi-value" id="kpiTotal">—</div>
+        <div class="kpi-sub">tentatives totales</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">✅</div>
+        <div class="kpi-label">Certifiés</div>
+        <div class="kpi-value green" id="kpiPassed">—</div>
+        <div class="kpi-sub">évaluations réussies</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-icon">❌</div>
+        <div class="kpi-label">Échecs</div>
+        <div class="kpi-value red" id="kpiFailed">—</div>
+        <div class="kpi-sub">à repasser</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-icon">📊</div>
+        <div class="kpi-label">Taux de réussite</div>
+        <div class="kpi-value orange" id="kpiRate">—</div>
+        <div class="kpi-sub">sur l'ensemble</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-icon">🎯</div>
+        <div class="kpi-label">Score moyen</div>
+        <div class="kpi-value blue" id="kpiAvg">—</div>
+        <div class="kpi-sub">sur 100%</div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="section-header">
+      <div class="section-title">Résultats des collaborateurs</div>
+      <div class="section-count" id="resultCount">0 résultat</div>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" onclick="setFilter('all', this)">Tous</button>
+      <button class="filter-btn" onclick="setFilter('pass', this)">✓ Réussis</button>
+      <button class="filter-btn" onclick="setFilter('fail', this)">✗ Échecs</button>
+      <input type="text" class="search-input" id="searchInput" placeholder="🔍 Rechercher un nom, email..." oninput="renderTable()">
+    </div>
+
+    <div class="table-wrap">
+      <div class="loading" id="tableLoading">
+        <div class="spinner"></div>
+        Chargement des données…
+      </div>
+      <table id="dataTable" style="display:none">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Poste</th>
+            <th>Email</th>
+            <th>Score</th>
+            <th>Résultat</th>
+            <th>Tentative</th>
+            <th>Date</th>
+            <th>Certificat</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG — à modifier pour chaque client
+// ══════════════════════════════════════════
+const SUPABASE_URL = 'https://hgkgllsnduswlayjxtib.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhna2dsbHNuZHVzd2xheWp4dGliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4Mjk4OTAsImV4cCI6MjA5MzQwNTg5MH0.ZOfrmF8joxIeVLzyQUOFtqaRsAhyihK0Dr4-SyD7A34';
+const TABLE = 'resultats';
+
+// Comptes clients — ajouter un compte par client
+const CLIENTS = {
+  'admin':    { password: 'hse2024',     label: 'Administrateur Global' },
+  'client1':  { password: 'client1pass', label: 'Client Démo' },
+  // Ajouter: 'nom-entreprise': { password: 'motdepasse', label: 'Nom Affiché' }
+};
+
+// ══════════════════════════════════════════
+let currentClient = null;
+let allData = [];
+let currentFilter = 'all';
+
+// ── LOGIN ──
+function doLogin() {
+  const user = document.getElementById('loginUser').value.trim().toLowerCase();
+  const pass = document.getElementById('loginPass').value;
+  const err = document.getElementById('loginError');
+
+  if (CLIENTS[user] && CLIENTS[user].password === pass) {
+    currentClient = { id: user, ...CLIENTS[user] };
+    err.style.display = 'none';
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('dashboardWrap').style.display = 'block';
+    document.getElementById('headerClient').textContent = currentClient.label;
+    loadData();
+  } else {
+    err.style.display = 'block';
+    document.getElementById('loginPass').style.borderColor = 'var(--red)';
+    setTimeout(() => document.getElementById('loginPass').style.borderColor = '', 800);
+  }
+}
+
+function logout() {
+  currentClient = null;
+  allData = [];
+  document.getElementById('dashboardWrap').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+}
+
+// ── DATA ──
+async function loadData() {
+  document.getElementById('tableLoading').style.display = 'block';
+  document.getElementById('dataTable').style.display = 'none';
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?select=*&order=created_at.desc`, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      }
+    });
+
+    if (!res.ok) throw new Error('Erreur API');
+    allData = await res.json();
+    updateKPIs();
+    renderTable();
+    showToast('✓ Données actualisées', 'success');
+  } catch(e) {
+    showToast('⚠ Impossible de charger les données', 'error');
+    document.getElementById('tableBody').innerHTML = `<tr><td colspan="8" class="empty-state"><div class="empty-icon">⚠️</div>Erreur de connexion à la base de données</td></tr>`;
+  } finally {
+    document.getElementById('tableLoading').style.display = 'none';
+    document.getElementById('dataTable').style.display = 'table';
+  }
+}
+
+function updateKPIs() {
+  const total = allData.length;
+  const passed = allData.filter(r => r.reussi).length;
+  const failed = total - passed;
+  const rate = total > 0 ? Math.round(passed / total * 100) : 0;
+  const avg = total > 0 ? Math.round(allData.reduce((a, r) => a + (r.score || 0), 0) / total) : 0;
+
+  document.getElementById('kpiTotal').textContent = total;
+  document.getElementById('kpiPassed').textContent = passed;
+  document.getElementById('kpiFailed').textContent = failed;
+  document.getElementById('kpiRate').textContent = total > 0 ? rate + '%' : '—';
+  document.getElementById('kpiAvg').textContent = total > 0 ? avg + '%' : '—';
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function renderTable() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  let data = allData;
+
+  if (currentFilter === 'pass') data = data.filter(r => r.reussi);
+  if (currentFilter === 'fail') data = data.filter(r => !r.reussi);
+  if (search) data = data.filter(r =>
+    (r.nom||'').toLowerCase().includes(search) ||
+    (r.email||'').toLowerCase().includes(search) ||
+    (r.poste||'').toLowerCase().includes(search)
+  );
+
+  document.getElementById('resultCount').textContent = `${data.length} résultat${data.length > 1 ? 's' : ''}`;
+
+  const tbody = document.getElementById('tableBody');
+  if (data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">📋</div>Aucun résultat trouvé</div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(r => {
+    const score = r.score || 0;
+    const color = score >= 90 ? 'var(--green)' : score >= 70 ? 'var(--orange)' : 'var(--red)';
+    return `<tr>
+      <td class="td-name">${r.nom || '—'}</td>
+      <td>${r.poste || '—'}</td>
+      <td class="td-mono" style="font-size:12px">${r.email || '—'}</td>
+      <td>
+        <div class="score-bar">
+          <div class="score-track"><div class="score-fill" style="width:${score}%;background:${color}"></div></div>
+          <span style="font-family:var(--font-mono);font-size:12px;color:${color};font-weight:600">${score}%</span>
+        </div>
+      </td>
+      <td><span class="badge ${r.reussi ? 'badge-pass' : 'badge-fail'}">${r.reussi ? '✓ Certifié' : '✗ Échec'}</span></td>
+      <td style="text-align:center;font-family:var(--font-mono);font-size:12px">${r.tentative || 1}</td>
+      <td style="font-size:12px;color:var(--text3)">${r.date || '—'}</td>
+      <td class="td-mono" style="color:var(--text3)">${r.certificat || '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── EXPORT ──
+function exportCSV() {
+  if (allData.length === 0) { showToast('Aucune donnée à exporter', 'error'); return; }
+  const h = ['Nom','Poste','Email','Score','Résultat','Tentative','Date','Certificat'];
+  const rows = allData.map(r => [
+    r.nom, r.poste, r.email, r.score+'%',
+    r.reussi ? 'Réussi' : 'Échec',
+    r.tentative, r.date, r.certificat||''
+  ].map(v => `"${v||''}"`).join(','));
+  const csv = [h.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+  a.download = `resultats_hse_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  showToast('✓ Export CSV téléchargé', 'success');
+}
+
+// ── TOAST ──
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
