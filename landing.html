@@ -748,7 +748,140 @@ footer {
 }
 .nav-links a:hover::after { width: 100%; }
 
+/* ══════════════════════════════
+   FORMULAIRE CONTACT
+══════════════════════════════ */
+.contact-form-wrap {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 40px;
+  margin-top: 40px;
+  backdrop-filter: blur(8px);
+}
+.cf-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.cf-full { grid-column: 1 / -1; }
+.cf-group { display: flex; flex-direction: column; gap: 6px; }
+.cf-label {
+  font-size: 12px; font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.cf-input {
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  font-size: 14px; font-family: var(--font);
+  color: var(--white); outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.cf-input:focus {
+  border-color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.10);
+}
+.cf-input::placeholder { color: rgba(255,255,255,0.25); }
+.cf-textarea { min-height: 100px; resize: vertical; }
+.cf-footer {
+  display: flex; align-items: center; gap: 20px;
+  flex-wrap: wrap;
+}
+.cf-submit {
+  padding: 14px 36px; border-radius: 10px;
+  background: var(--white); color: var(--navy);
+  font-size: 15px; font-weight: 600;
+  font-family: var(--font); cursor: pointer;
+  border: none; transition: all 0.25s;
+  letter-spacing: -0.01em;
+}
+.cf-submit:hover { background: var(--bg); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); }
+.cf-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.cf-note { font-size: 12px; color: rgba(255,255,255,0.3); font-family: var(--font-mono); }
+.cf-success {
+  text-align: center; padding: 40px 20px;
+}
+.cf-success-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(29,115,72,0.2); border: 1px solid rgba(29,115,72,0.4);
+  color: #7db89c; font-size: 24px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.cf-success-title {
+  font-family: var(--font-display); font-size: 24px;
+  font-weight: 600; color: var(--white); margin-bottom: 8px;
+}
+.cf-success-sub { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+.cf-error {
+  margin-top: 16px; padding: 12px 16px;
+  background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.3);
+  border-radius: 8px; font-size: 13px; color: #f0a090;
+}
+
+/* ══════════════════════════════
+   MODALS
+══════════════════════════════ */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 2000;
+  background: rgba(13,33,55,0.7);
+  backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+.modal-overlay.open { display: flex; }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.modal-box {
+  background: var(--white);
+  border-radius: 20px;
+  max-width: 640px; width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 32px 80px rgba(13,33,55,0.3);
+  animation: slideUp 0.3s var(--ease);
+}
+@keyframes slideUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: var(--white); z-index: 1;
+}
+.modal-title {
+  font-family: var(--font-display); font-size: 20px;
+  font-weight: 600; color: var(--navy); letter-spacing: -0.02em;
+}
+.modal-close {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--text2); font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; font-family: var(--font);
+}
+.modal-close:hover { background: var(--bg2); color: var(--navy); }
+.modal-body {
+  padding: 32px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+.modal-body h3 {
+  font-family: var(--font-display); font-size: 16px;
+  font-weight: 600; color: var(--navy); margin-bottom: 6px;
+  padding-top: 8px; border-top: 1px solid var(--border);
+}
+.modal-body h3:first-child { border-top: none; padding-top: 0; }
+.modal-body p { font-size: 14px; color: var(--text2); line-height: 1.7; font-weight: 300; }
+.modal-body ul { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.modal-body ul li { font-size: 14px; color: var(--text2); line-height: 1.6; font-weight: 300; }
+
 @media (max-width: 900px) {
+  .cf-grid { grid-template-columns: 1fr; }
+  .contact-form-wrap { padding: 24px 20px; }
+}
   nav { padding: 18px 24px; }
   nav.scrolled { padding: 14px 24px; }
   .nav-links { display: none; }
@@ -803,8 +936,8 @@ footer {
       Remplacez la présentation TV et les feuilles d'émargement par une plateforme digitale complète. Vidéo, QCM, certificat automatique — opérationnel en 48h.
     </p>
     <div class="hero-actions">
-      <a href="#contact" class="btn-main">Voir la démo en direct →</a>
-      <a href="#solution" class="btn-ghost">En savoir plus</a>
+    <a href="#contact" class="btn-main">Voir la démo en direct →</a>
+    <a href="#solution" class="btn-ghost">En savoir plus</a>
     </div>
     <div class="hero-proof">
       <div class="proof-item">
@@ -1023,8 +1156,6 @@ footer {
           <li>Support par email inclus</li>
         </ul>
         <a href="#contact" class="btn-book dark">Démarrer →</a>
-      </div>
-      <div class="pricing-card featured r d1">
         <span class="p-tag light">Multi-sites</span>
         <div class="p-name light">Groupe industriel</div>
         <div class="p-desc light">Pour les groupes avec plusieurs sites ou BU. Tarif dégressif. Modules HSE différents par site, vue consolidée.</div>
@@ -1090,15 +1221,127 @@ footer {
 
 <!-- ══ CTA FINAL ══ -->
 <div class="cta-section" id="contact">
-  <div class="section-inner" style="position:relative;z-index:1">
+  <div class="section-inner" style="position:relative;z-index:1;max-width:720px">
     <div class="eyebrow cta-eyebrow r">Contact</div>
     <h2 class="cta-title r d1">Prêt à sécuriser<br><em>votre onboarding ?</em></h2>
     <p class="cta-sub r d2">Démo personnalisée en direct. Mise en place en 48h.<br>Sans engagement, sans frais cachés.</p>
-    <div class="cta-btns r d3">
-      <a href="mailto:contact@hseplatform.fr" class="btn-cta-white">Demander une démo gratuite →</a>
-      <a href="tel:+33600000000" class="btn-cta-outline">📞 Nous appeler directement</a>
+
+    <!-- Formulaire de contact -->
+    <div class="contact-form-wrap r d3" id="contactFormWrap">
+      <form id="contactForm" onsubmit="submitForm(event)">
+        <div class="cf-grid">
+          <div class="cf-group">
+            <label class="cf-label">Prénom & Nom *</label>
+            <input type="text" class="cf-input" id="cfNom" placeholder="Jean Dupont" required>
+          </div>
+          <div class="cf-group">
+            <label class="cf-label">Email professionnel *</label>
+            <input type="email" class="cf-input" id="cfEmail" placeholder="j.dupont@entreprise.fr" required>
+          </div>
+          <div class="cf-group">
+            <label class="cf-label">Entreprise</label>
+            <input type="text" class="cf-input" id="cfEntreprise" placeholder="Nom de votre entreprise">
+          </div>
+          <div class="cf-group">
+            <label class="cf-label">Téléphone</label>
+            <input type="tel" class="cf-input" id="cfTel" placeholder="+33 6 00 00 00 00">
+          </div>
+          <div class="cf-group cf-full">
+            <label class="cf-label">Votre message</label>
+            <textarea class="cf-input cf-textarea" id="cfMessage" placeholder="Décrivez votre besoin, le nombre de sites, vos intervenants..."></textarea>
+          </div>
+        </div>
+        <div class="cf-footer">
+          <button type="submit" class="cf-submit" id="cfSubmit">
+            <span id="cfSubmitText">Envoyer ma demande →</span>
+          </button>
+          <div class="cf-note">Réponse sous 24h · Aucune carte bancaire requise</div>
+        </div>
+      </form>
+
+      <!-- État succès -->
+      <div class="cf-success" id="cfSuccess" style="display:none">
+        <div class="cf-success-icon">✓</div>
+        <div class="cf-success-title">Demande envoyée !</div>
+        <div class="cf-success-sub">Etienne vous recontacte sous 24h pour organiser votre démo personnalisée.</div>
+      </div>
+
+      <!-- État erreur -->
+      <div class="cf-error" id="cfError" style="display:none">
+        <div>⚠ Une erreur est survenue. Écrivez directement à <strong>etiennelandre11@gmail.com</strong></div>
+      </div>
     </div>
-    <div class="cta-reassurance r d4">Réponse sous 24h · Aucune carte bancaire requise · Démo sur votre propre contenu</div>
+
+    <div class="cta-reassurance r d4" style="margin-top:20px">Démo sur votre propre contenu · Mise en place en 48h · Sans engagement</div>
+  </div>
+</div>
+
+<!-- ══ MODAL MENTIONS LÉGALES ══ -->
+<div class="modal-overlay" id="modalMentions" onclick="closeModal('modalMentions')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">Mentions légales</div>
+      <button class="modal-close" onclick="closeModal('modalMentions')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h3>Éditeur du site</h3>
+      <p>Etienne LANDRE<br>7 boulevard de Balmont, 69009 Lyon<br>Email : etiennelandre11@gmail.com<br>Activité : Micro-entreprise</p>
+
+      <h3>Hébergement</h3>
+      <p>GitHub Pages — GitHub, Inc.<br>88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis<br>github.com</p>
+
+      <h3>Propriété intellectuelle</h3>
+      <p>L'ensemble des contenus présents sur ce site (textes, images, vidéos, logiciels) sont la propriété exclusive d'Etienne LANDRE. Toute reproduction, représentation ou diffusion, totale ou partielle, est interdite sans autorisation écrite préalable.</p>
+
+      <h3>Responsabilité</h3>
+      <p>Etienne LANDRE s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site. Cependant, il ne peut garantir l'exactitude, la précision ou l'exhaustivité des informations mises à disposition.</p>
+
+      <h3>Droit applicable</h3>
+      <p>Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL POLITIQUE CONFIDENTIALITÉ ══ -->
+<div class="modal-overlay" id="modalRGPD" onclick="closeModal('modalRGPD')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">Politique de confidentialité</div>
+      <button class="modal-close" onclick="closeModal('modalRGPD')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h3>Responsable du traitement</h3>
+      <p>Etienne LANDRE — etiennelandre11@gmail.com<br>7 boulevard de Balmont, 69009 Lyon</p>
+
+      <h3>Données collectées</h3>
+      <p>Dans le cadre de l'utilisation de la plateforme HSEPlatform, nous collectons les données suivantes :</p>
+      <ul>
+        <li>Nom et prénom du collaborateur</li>
+        <li>Adresse email professionnelle</li>
+        <li>Poste et entreprise</li>
+        <li>Résultats de formation (score, date, certificat)</li>
+      </ul>
+
+      <h3>Finalité du traitement</h3>
+      <p>Les données sont collectées dans le but de :</p>
+      <ul>
+        <li>Assurer le suivi des formations HSE obligatoires</li>
+        <li>Générer les attestations de formation</li>
+        <li>Permettre aux responsables HSE de justifier la conformité réglementaire</li>
+      </ul>
+
+      <h3>Base légale</h3>
+      <p>Le traitement est fondé sur l'exécution d'une obligation légale (Art. R4511-1 du Code du travail) et sur l'intérêt légitime de l'entreprise utilisatrice.</p>
+
+      <h3>Durée de conservation</h3>
+      <p>Les données de formation sont conservées pendant 5 ans à compter de la date de formation, conformément aux obligations légales en matière de traçabilité HSE.</p>
+
+      <h3>Droits des personnes</h3>
+      <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité de vos données. Pour exercer ces droits : etiennelandre11@gmail.com</p>
+
+      <h3>Hébergement des données</h3>
+      <p>Les données sont hébergées sur Supabase (infrastructure AWS, région Europe — Irlande), conforme au RGPD.</p>
+    </div>
   </div>
 </div>
 
@@ -1106,8 +1349,8 @@ footer {
 <footer>
   <div class="footer-logo-text">HSE<span>Platform</span></div>
   <div class="footer-links">
-    <a href="#">Mentions légales</a>
-    <a href="#">Politique de confidentialité</a>
+    <a href="#" onclick="openModal('modalMentions');return false;">Mentions légales</a>
+    <a href="#" onclick="openModal('modalRGPD');return false;">Politique de confidentialité</a>
     <a href="#contact">Contact</a>
   </div>
   <div class="footer-copy">© 2025 HSEPlatform · Tous droits réservés</div>
@@ -1257,8 +1500,86 @@ if (statBlock) {
 }
 
 // ══════════════════════════════
-// SMOOTH SCROLL sur ancres
+// FORMULAIRE CONTACT — RESEND
 // ══════════════════════════════
+async function submitForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('cfSubmit');
+  const btnText = document.getElementById('cfSubmitText');
+  const nom = document.getElementById('cfNom').value;
+  const email = document.getElementById('cfEmail').value;
+  const entreprise = document.getElementById('cfEntreprise').value;
+  const tel = document.getElementById('cfTel').value;
+  const message = document.getElementById('cfMessage').value;
+
+  btn.disabled = true;
+  btnText.textContent = 'Envoi en cours…';
+
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer re_9E3UmFnW_EqFqYLFVpTMZNdjM4tF78cJT',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'HSEPlatform <onboarding@resend.dev>',
+        to: ['etiennelandre11@gmail.com'],
+        reply_to: email,
+        subject: `🛡 Nouvelle demande de démo — ${nom} (${entreprise || 'entreprise non précisée'})`,
+        html: `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f8f6;padding:32px;border-radius:12px;">
+            <div style="background:#0d2137;padding:24px 32px;border-radius:10px;margin-bottom:24px;">
+              <h1 style="color:white;font-size:20px;margin:0;">🛡 Nouvelle demande de démo HSEPlatform</h1>
+            </div>
+            <div style="background:white;padding:28px 32px;border-radius:10px;border:1px solid #e4e4de;">
+              <table style="width:100%;border-collapse:collapse;">
+                <tr><td style="padding:10px 0;border-bottom:1px solid #f0f0ec;font-size:13px;color:#8a9aaa;width:140px;">Nom</td><td style="padding:10px 0;border-bottom:1px solid #f0f0ec;font-size:14px;color:#0d2137;font-weight:600;">${nom}</td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #f0f0ec;font-size:13px;color:#8a9aaa;">Email</td><td style="padding:10px 0;border-bottom:1px solid #f0f0ec;font-size:14px;color:#0d2137;">${email}</td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #f0f0ec;font-size:13px;color:#8a9aaa;">Entreprise</td><td style="padding:10px 0;border-bottom:1px solid #f0f0ec;font-size:14px;color:#0d2137;">${entreprise || '—'}</td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #f0f0ec;font-size:13px;color:#8a9aaa;">Téléphone</td><td style="padding:10px 0;border-bottom:1px solid #f0f0ec;font-size:14px;color:#0d2137;">${tel || '—'}</td></tr>
+                <tr><td style="padding:10px 0;font-size:13px;color:#8a9aaa;vertical-align:top;padding-top:14px;">Message</td><td style="padding:10px 0;font-size:14px;color:#0d2137;padding-top:14px;line-height:1.6;">${message || '—'}</td></tr>
+              </table>
+            </div>
+            <p style="font-size:12px;color:#8a9aaa;text-align:center;margin-top:20px;">HSEPlatform · Répondez directement à cet email pour contacter ${nom}</p>
+          </div>
+        `
+      })
+    });
+
+    if (res.ok) {
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('cfSuccess').style.display = 'block';
+      document.getElementById('cfError').style.display = 'none';
+    } else {
+      throw new Error('Erreur envoi');
+    }
+  } catch(err) {
+    document.getElementById('cfError').style.display = 'block';
+    btn.disabled = false;
+    btnText.textContent = 'Envoyer ma demande →';
+  }
+}
+
+// ══════════════════════════════
+// MODALS
+// ══════════════════════════════
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+      m.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+});
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const target = document.querySelector(a.getAttribute('href'));
