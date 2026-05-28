@@ -18,6 +18,8 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body { font-family: var(--font); background: var(--bg); color: var(--gray-900); min-height: 100vh; }
+
+  /* ── TOPBAR ── */
   .topbar { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
   .topbar-left { display: flex; align-items: center; gap: 12px; }
   .topbar-logo { width: 32px; height: 32px; background: var(--green); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
@@ -27,6 +29,8 @@
   .tag-module { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: var(--green-light); color: var(--green-dark); border: 1px solid #b2ddd0; }
   .btn-admin { font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 6px; background: var(--gray-100); border: 1px solid var(--gray-200); color: var(--gray-700); cursor: pointer; font-family: var(--font); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
   .btn-admin:hover { background: var(--gray-200); }
+
+  /* ── STEPS ── */
   .steps-bar { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 12px 24px; display: flex; align-items: center; }
   .step-item { display: flex; align-items: center; gap: 8px; flex: 1; }
   .step-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1.5px solid var(--gray-300); color: var(--gray-500); background: var(--white); flex-shrink: 0; transition: all 0.3s; }
@@ -37,10 +41,14 @@
   .step-item.active .step-num { background: var(--blue); border-color: var(--blue); color: white; }
   .step-item.active .step-txt { color: var(--blue); }
   .step-line.done { background: var(--green); }
+
+  /* ── MAIN ── */
   .main { max-width: 760px; margin: 0 auto; padding: 28px 20px 60px; }
   .screen { display: none; }
   .screen.active { display: block; animation: fadeUp 0.3s ease; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── CARDS ── */
   .card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow); }
   .card-title { font-size: 16px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
   .card-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 16px; }
@@ -51,30 +59,54 @@
   .notice.success { background: var(--green-light); border: 1px solid #aed8c8; color: var(--green-dark); }
   .notice.error { background: var(--red-light); border: 1px solid #f0b8b0; color: var(--red); }
   .notice-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
-  .video-wrap { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #0d3b5e 0%, #1a6b4a 100%); border-radius: var(--radius); overflow: hidden; position: relative; margin-bottom: 14px; cursor: pointer; }
-  .video-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; }
-  .video-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
-  .play-circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-  .play-circle:hover { background: rgba(255,255,255,0.22); transform: scale(1.05); }
-  .play-tri { width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 20px solid white; margin-left: 4px; }
-  .video-label { color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 500; }
-  .video-dur { color: rgba(255,255,255,0.5); font-size: 12px; }
-  .video-playing { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.5); border-radius: 4px; padding: 3px 8px; font-size: 11px; color: white; display: none; }
+
+  /* ── LOGIN COLLABORATEUR ── */
+  .login-screen { max-width: 440px; margin: 60px auto; }
+  .login-hero { text-align: center; margin-bottom: 36px; }
+  .login-emblem { width: 72px; height: 72px; border-radius: 20px; background: var(--green); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; box-shadow: 0 8px 24px rgba(26,122,94,0.2); }
+  .login-title { font-family: var(--font-display); font-size: 28px; color: var(--gray-900); margin-bottom: 8px; }
+  .login-sub { font-size: 14px; color: var(--gray-500); line-height: 1.6; }
+  .form-group { margin-bottom: 14px; }
+  .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .form-input { width: 100%; padding: 11px 14px; border: 1px solid var(--gray-300); border-radius: var(--radius); font-size: 14px; font-family: var(--font); color: var(--gray-900); background: var(--white); outline: none; transition: border-color 0.15s; }
+  .form-input:focus { border-color: var(--blue); }
+  .form-input.error { border-color: var(--red); }
+
+  /* ── VIDEO ── */
+  .video-container { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; background: #000; }
+  .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+  .video-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0d3b5e 0%, #1a6b4a 100%); cursor: pointer; z-index: 2; flex-direction: column; gap: 12px; }
+  .video-overlay.hidden { display: none; }
+  .play-btn { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .play-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
+  .play-tri { width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 22px solid white; margin-left: 5px; }
+  .video-overlay-label { color: rgba(255,255,255,0.9); font-size: 15px; font-weight: 500; }
+  .video-overlay-sub { color: rgba(255,255,255,0.4); font-size: 12px; }
+
+  /* ── SKIP DEMO ── */
+  .btn-skip-demo { display: none; position: absolute; bottom: 14px; right: 14px; background: rgba(255,214,0,0.92); color: #1d1d1f; font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--font); z-index: 10; transition: all 0.15s; }
+  .btn-skip-demo:hover { background: rgba(255,214,0,1); transform: scale(1.04); }
+  .demo-badge { display: none; position: fixed; bottom: 20px; left: 20px; background: rgba(255,214,0,0.95); color: #1d1d1f; font-size: 11px; font-weight: 700; padding: 7px 16px; border-radius: 20px; z-index: 999; font-family: var(--font); }
+
+  /* ── PROGRESS ── */
   .vp-wrap { margin-bottom: 14px; }
-  .vp-track { width: 100%; height: 5px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
-  .vp-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-mid)); border-radius: 3px; transition: width 0.4s; }
-  .vp-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--gray-500); margin-top: 5px; font-family: var(--font-mono); }
+  .vp-track { width: 100%; height: 4px; background: var(--gray-100); border-radius: 2px; overflow: hidden; }
+  .vp-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-mid)); border-radius: 2px; transition: width 0.8s; }
+  .vp-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--gray-500); margin-top: 6px; font-family: var(--font-mono); }
+
+  /* ── BUTTONS ── */
   .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: var(--font); border: none; transition: all 0.18s; }
-  .btn-green { background: var(--green); color: white; }
+  .btn-green { background: var(--green); color: white; width: 100%; justify-content: center; }
   .btn-green:hover { background: var(--green-dark); }
   .btn-green:disabled { opacity: 0.35; cursor: not-allowed; }
   .btn-outline { background: transparent; color: var(--gray-700); border: 1px solid var(--gray-300); }
   .btn-outline:hover { background: var(--gray-100); }
   .btn-row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; flex-wrap: wrap; }
+
+  /* ── QCM ── */
   .q-block { margin-bottom: 28px; }
-  .q-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .q-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; background: var(--blue-light); color: var(--blue); border: 1px solid #c0d4eb; flex-shrink: 0; font-family: var(--font-mono); }
-  .q-text { font-size: 14px; font-weight: 500; color: var(--gray-900); line-height: 1.55; }
+  .q-num { font-size: 11px; font-weight: 600; color: var(--gray-500); font-family: var(--font-mono); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .q-text { font-size: 15px; font-weight: 500; color: var(--gray-900); line-height: 1.55; margin-bottom: 12px; }
   .option { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: var(--radius); border: 1px solid var(--gray-200); cursor: pointer; margin-bottom: 7px; font-size: 13px; background: var(--white); transition: all 0.15s; color: var(--gray-700); user-select: none; }
   .option:hover { border-color: var(--gray-300); background: var(--gray-100); }
   .option.selected { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
@@ -85,12 +117,16 @@
   .option.correct .opt-radio { border-color: var(--green); background: var(--green); }
   .option.wrong .opt-radio { border-color: var(--red); background: var(--red); }
   .opt-dot { width: 6px; height: 6px; border-radius: 50%; background: white; }
+
+  /* ── RÉSULTATS ── */
   .stat-row { display: flex; gap: 10px; margin-bottom: 18px; }
   .stat-box { flex: 1; background: var(--gray-100); border-radius: var(--radius); padding: 14px 16px; text-align: center; border: 1px solid var(--gray-200); }
   .stat-val { font-size: 26px; font-weight: 600; color: var(--gray-900); font-family: var(--font-mono); }
   .stat-lbl { font-size: 11px; color: var(--gray-500); margin-top: 2px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  /* ── CERTIFICAT ── */
   .cert-outer { border: 2px solid var(--green); border-radius: var(--radius-lg); padding: 36px 32px; background: var(--white); position: relative; overflow: hidden; text-align: center; margin-bottom: 16px; }
-  .cert-bg { position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 20%, rgba(26,122,94,0.04) 0%, transparent 60%), radial-gradient(circle at 80% 80%, rgba(26,122,94,0.04) 0%, transparent 60%); pointer-events: none; }
+  .cert-bg { position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 20%, rgba(26,122,94,0.04) 0%, transparent 60%); pointer-events: none; }
   .cert-corner-tl, .cert-corner-tr, .cert-corner-bl, .cert-corner-br { position: absolute; width: 50px; height: 50px; border: 2px solid #a8d8c8; border-radius: 4px; }
   .cert-corner-tl { top: 10px; left: 10px; border-right: none; border-bottom: none; }
   .cert-corner-tr { top: 10px; right: 10px; border-left: none; border-bottom: none; }
@@ -101,29 +137,18 @@
   .cert-title { font-family: var(--font-display); font-size: 24px; color: var(--green-dark); margin-bottom: 16px; }
   .cert-delivered { font-size: 12px; color: var(--gray-500); margin-bottom: 6px; }
   .cert-name { font-family: var(--font-display); font-size: 22px; color: var(--gray-900); display: inline-block; border-bottom: 2px solid var(--green); padding-bottom: 4px; margin-bottom: 14px; min-width: 240px; }
-  .cert-module-label { font-size: 13px; color: var(--gray-500); margin-bottom: 4px; }
-  .cert-module-name { font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: 14px; }
   .cert-badges { display: flex; justify-content: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
   .cert-badge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; background: var(--green-light); color: var(--green-dark); border: 1px solid #a8d8c8; }
   .cert-divider { width: 60px; height: 1px; background: var(--gray-200); margin: 14px auto; }
   .cert-date { font-size: 12px; color: var(--gray-500); margin-bottom: 4px; }
   .cert-id { font-size: 11px; color: var(--gray-400); font-family: var(--font-mono); }
-  .id-screen { max-width: 480px; margin: 60px auto; }
-  .id-hero { text-align: center; margin-bottom: 32px; }
-  .id-emblem { font-size: 48px; display: block; margin-bottom: 12px; }
-  .id-title { font-family: var(--font-display); font-size: 26px; color: var(--gray-900); margin-bottom: 6px; }
-  .id-sub { font-size: 14px; color: var(--gray-500); }
-  .form-group { margin-bottom: 14px; }
-  .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .form-input { width: 100%; padding: 11px 14px; border: 1px solid var(--gray-300); border-radius: var(--radius); font-size: 14px; font-family: var(--font); color: var(--gray-900); background: var(--white); outline: none; transition: border-color 0.15s; }
-  .form-input:focus { border-color: var(--blue); }
-  @media print {
-    .topbar, .steps-bar, .btn-row, .btn-admin { display: none !important; }
-    body { background: white; }
-  }
+
+  @media print { .topbar, .steps-bar, .btn-row, .btn-admin, .demo-badge { display: none !important; } body { background: white; } }
 </style>
 </head>
 <body>
+
+<div class="demo-badge" id="demoBadge">⚡ MODE DÉMO</div>
 
 <div class="topbar">
   <div class="topbar-left">
@@ -140,7 +165,7 @@
 </div>
 
 <div class="steps-bar">
-  <div class="step-item active" id="si1"><div class="step-num" id="sn1">1</div><span class="step-txt">Identification</span></div>
+  <div class="step-item active" id="si1"><div class="step-num" id="sn1">1</div><span class="step-txt">Connexion</span></div>
   <div class="step-line" id="sl1"></div>
   <div class="step-item" id="si2"><div class="step-num" id="sn2">2</div><span class="step-txt">Vidéo</span></div>
   <div class="step-line" id="sl2"></div>
@@ -151,95 +176,89 @@
   <div class="step-item" id="si5"><div class="step-num" id="sn5">5</div><span class="step-txt">Certificat</span></div>
 </div>
 
-<div class="main" id="mainContent">
+<div class="main">
 
+  <!-- SCREEN 0 — LOGIN COLLABORATEUR -->
   <div class="screen active" id="screen0">
-    <div class="id-screen">
-      <div class="id-hero">
-        <span class="id-emblem">🛡</span>
-        <div class="id-title">Formation HSE Onboarding</div>
-        <div class="id-sub">Module obligatoire — Santé, Sécurité & Environnement<br>Durée estimée : 20 minutes</div>
+    <div class="login-screen">
+      <div class="login-hero">
+        <div class="login-emblem">🛡</div>
+        <div class="login-title">Formation HSE</div>
+        <div class="login-sub">Connectez-vous avec les identifiants reçus par email pour accéder à votre formation obligatoire.</div>
       </div>
       <div class="card">
-        <div class="card-title">Votre identification</div>
-        <div class="card-sub">Ces informations figureront sur votre certificat</div>
-        <div class="form-group"><label class="form-label">Prénom *</label><input type="text" class="form-input" id="inputPrenom" placeholder="ex : Marie"></div>
-        <div class="form-group"><label class="form-label">Nom *</label><input type="text" class="form-input" id="inputNom" placeholder="ex : Dupont"></div>
-        <div class="form-group"><label class="form-label">Poste / Service</label><input type="text" class="form-input" id="inputPoste" placeholder="ex : Technicien de maintenance"></div>
-        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="inputEmail" placeholder="marie.dupont@entreprise.fr"></div>
+        <div class="card-title">Vos identifiants</div>
+        <div class="card-sub">Renseignés dans l'email de convocation reçu</div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="loginEmail" placeholder="votre.email@entreprise.fr" onkeydown="if(event.key==='Enter')loginCollab()"></div>
+        <div class="form-group"><label class="form-label">Mot de passe</label><input type="password" class="form-input" id="loginPwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')loginCollab()"></div>
+        <div class="notice error" id="loginErrMsg" style="display:none"><span class="notice-icon">✗</span><span>Email ou mot de passe incorrect. Vérifiez votre email de convocation.</span></div>
+        <button class="btn btn-green" id="btnLogin" onclick="loginCollab()" style="margin-top:8px">Accéder à ma formation →</button>
       </div>
-      <div style="text-align:right"><button class="btn btn-green" onclick="startTraining()">Commencer la formation →</button></div>
     </div>
   </div>
 
+  <!-- SCREEN 1 — VIDÉO -->
   <div class="screen" id="screen1">
     <div class="card">
-      <div class="card-title">Module 1 — Introduction à la sécurité au travail</div>
+      <div class="card-title">Module 1 — Intervenants extérieurs : sécurité sur site industriel</div>
       <div class="card-sub">Visionnez la vidéo intégralement pour accéder à l'évaluation</div>
       <div class="chip-row">
-        <span class="chip">📹 Durée : 8 min 24 sec</span>
+        <span class="chip">📹 Source INRS</span>
         <span class="chip">⚠️ Obligatoire</span>
-        <span class="chip">📋 Art. 12 règlement intérieur</span>
+        <span class="chip">📋 Art. R4511-1 Code du travail</span>
       </div>
-      <div class="video-wrap" onclick="startVideo()">
-        <div class="video-grid"></div>
-        <div class="video-center" id="videoCenter">
-          <div class="play-circle"><div class="play-tri"></div></div>
-          <div class="video-label">Sécurité & Prévention des risques — Introduction HSE</div>
-          <div class="video-dur">8:24 — Cliquez pour lancer</div>
+      <div class="video-container" id="videoContainer">
+        <div class="video-overlay" id="videoOverlay" onclick="launchVideo()">
+          <div class="play-btn"><div class="play-tri"></div></div>
+          <div class="video-overlay-label">Intervenants extérieurs — Sécurité industrielle</div>
+          <div class="video-overlay-sub">INRS — Cliquez pour lancer</div>
         </div>
-        <div class="video-playing" id="videoPlaying">▶ Lecture en cours…</div>
+        <div id="ytPlayer"></div>
+        <button class="btn-skip-demo" id="btnSkip" onclick="skipVideo()">⚡ Skip démo</button>
       </div>
       <div class="vp-wrap" id="vpWrap" style="display:none">
         <div class="vp-track"><div class="vp-fill" id="vpFill" style="width:0%"></div></div>
-        <div class="vp-meta"><span id="vpPct">0% visionné</span><span id="vpTime">0:00 / 8:24</span></div>
+        <div class="vp-meta"><span id="vpPct">0% visionné</span><span id="vpTime">0:00</span></div>
       </div>
-      <div class="notice info" id="videoNotice">
-        <span class="notice-icon">ℹ</span>
-        <span>Vous devez visionner 100% de la vidéo avant d'accéder au QCM.</span>
-      </div>
+      <div class="notice info" id="videoNotice"><span class="notice-icon">ℹ</span><span>Visionnez 100% de la vidéo pour accéder à l'évaluation.</span></div>
     </div>
     <div class="btn-row">
       <button class="btn btn-green" id="btnToQCM" disabled onclick="goToQCM()">Accéder à l'évaluation →</button>
     </div>
   </div>
 
+  <!-- SCREEN 2 — QCM -->
   <div class="screen" id="screen2">
     <div class="card">
       <div class="card-title">Évaluation des connaissances</div>
       <div class="card-sub">10 questions — Score minimum requis : 90%</div>
-      <div class="notice info"><span class="notice-icon">ℹ</span><span>Une seule réponse correcte par question. Toutes les réponses doivent être remplies.</span></div>
+      <div class="notice info"><span class="notice-icon">ℹ</span><span>Une seule réponse correcte par question.</span></div>
       <div id="qcmBody"></div>
     </div>
     <div class="btn-row">
       <button class="btn btn-outline" onclick="goTo(1)">← Revoir la vidéo</button>
-      <button class="btn btn-green" onclick="submitQCM()">Valider mes réponses →</button>
+      <button class="btn btn-green" onclick="submitQCM()">Valider →</button>
     </div>
   </div>
 
+  <!-- SCREEN 3 — RÉSULTATS -->
   <div class="screen" id="screen3">
     <div class="card">
-      <div class="card-title">Résultats de l'évaluation</div>
-      <div class="card-sub" id="resultSubtitle">-</div>
+      <div class="card-title">Résultats</div>
+      <div class="card-sub" id="resultSubtitle">—</div>
       <div class="stat-row">
-        <div class="stat-box"><div class="stat-val" id="statS">-</div><div class="stat-lbl">Score</div></div>
-        <div class="stat-box"><div class="stat-val" id="statC">-</div><div class="stat-lbl">Correctes</div></div>
+        <div class="stat-box"><div class="stat-val" id="statS">—</div><div class="stat-lbl">Score</div></div>
+        <div class="stat-box"><div class="stat-val" id="statC">—</div><div class="stat-lbl">Correctes</div></div>
         <div class="stat-box"><div class="stat-val">90%</div><div class="stat-lbl">Requis</div></div>
-        <div class="stat-box"><div class="stat-val" id="statT">-</div><div class="stat-lbl">Tentative n°</div></div>
-      </div>
-      <div style="position:relative;margin:4px 0 16px;">
-        <div style="width:100%;height:8px;background:var(--gray-200);border-radius:4px;overflow:hidden;"><div id="sbFill" style="height:100%;border-radius:4px;transition:width 1.2s;width:0%"></div></div>
-        <div style="position:relative;height:0;overflow:visible;">
-          <div style="position:absolute;left:90%;top:-16px;width:2px;height:24px;background:var(--orange);border-radius:1px;"></div>
-          <div style="position:absolute;left:90%;top:-28px;transform:translateX(-50%);font-size:10px;font-weight:600;color:var(--orange);white-space:nowrap;font-family:var(--font-mono);">Min 90%</div>
-        </div>
+        <div class="stat-box"><div class="stat-val" id="statT">—</div><div class="stat-lbl">Tentative</div></div>
       </div>
       <div id="resultNotice"></div>
     </div>
-    <div class="card"><div class="card-title" style="margin-bottom:14px">Correction détaillée</div><div id="correctionBody"></div></div>
+    <div class="card"><div class="card-title" style="margin-bottom:14px">Correction</div><div id="correctionBody"></div></div>
     <div class="btn-row" id="resultBtnRow"></div>
   </div>
 
+  <!-- SCREEN 4 — CERTIFICAT -->
   <div class="screen" id="screen4">
     <div class="cert-outer">
       <div class="cert-bg"></div>
@@ -249,96 +268,163 @@
       <div class="cert-headline">Attestation de formation</div>
       <div class="cert-title">Formation HSE — Onboarding Sécurité</div>
       <div class="cert-delivered">Ce certificat est délivré à</div>
-      <div class="cert-name" id="certName">-</div>
-      <div class="cert-module-label">Poste / Service</div>
-      <div class="cert-module-name" id="certPoste">-</div>
+      <div class="cert-name" id="certName">—</div>
       <div class="cert-badges">
-        <span class="cert-badge">✓ Vidéo visionnée intégralement</span>
-        <span class="cert-badge">✓ Score : <strong id="certScore">-</strong></span>
+        <span class="cert-badge">✓ Vidéo visionnée</span>
+        <span class="cert-badge">✓ Score : <strong id="certScore">—</strong></span>
         <span class="cert-badge">✓ Évaluation réussie</span>
       </div>
-      <div class="cert-module-label">Module complété</div>
-      <div class="cert-module-name">Introduction à la sécurité au travail</div>
+      <div style="font-size:14px;color:var(--gray-500);margin-bottom:14px">Intervenants extérieurs — Sécurité sur site industriel</div>
       <div class="cert-divider"></div>
-      <div class="cert-date" id="certDate">-</div>
-      <div class="cert-id" id="certId">-</div>
+      <div class="cert-date" id="certDate">—</div>
+      <div class="cert-id" id="certId">—</div>
     </div>
     <div class="btn-row" style="justify-content:center">
-      <button class="btn btn-green" onclick="window.print()">🖨 Imprimer / Sauvegarder PDF</button>
-      <button class="btn btn-outline" onclick="copyLink()">📋 Copier l'ID du certificat</button>
+      <button class="btn btn-green" onclick="window.print()">🖨 Imprimer / PDF</button>
+      <button class="btn btn-outline" onclick="copyId()">📋 Copier l'ID</button>
     </div>
     <div class="notice success" style="margin-top:14px;text-align:center">
       <span class="notice-icon">✓</span>
-      <span>Résultat enregistré. Accessible dans le tableau de bord administrateur.</span>
+      <span>Résultat enregistré et disponible dans le tableau de bord.</span>
     </div>
   </div>
 
 </div>
 
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
 const SUPABASE_URL = 'https://hgkgllsnduswlayjxtib.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhna2dsbHNuZHVzd2xheWp4dGliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4Mjk4OTAsImV4cCI6MjA5MzQwNTg5MH0.ZOfrmF8joxIeVLzyQUOFtqaRsAhyihK0Dr4-SyD7A34';
 const MIN_SCORE = 90;
+const YOUTUBE_VIDEO_ID = 'O5bksBCTr60';
+const sbH = { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' };
+
+const IS_DEMO = new URLSearchParams(window.location.search).get('demo') === 'true';
+if (IS_DEMO) {
+  document.getElementById('btnSkip').style.display = 'block';
+  document.getElementById('demoBadge').style.display = 'block';
+}
 
 const QUESTIONS = [
-  { q: "En cas d'incendie, quelle est la première action à effectuer ?", opts: ["Utiliser l'extincteur immédiatement","Alerter et évacuer les personnes","Ouvrir les fenêtres pour aérer","Chercher l'origine du feu"], correct: 1 },
-  { q: "Que signifie le pictogramme 'crâne et tibias croisés' sur un produit chimique ?", opts: ["Produit inflammable","Produit irritant","Produit toxique ou mortel","Produit corrosif"], correct: 2 },
-  { q: "À quelle fréquence les exercices d'évacuation incendie doivent-ils être réalisés ?", opts: ["Tous les 5 ans","Tous les 2 ans","Au moins une fois par an","Tous les 3 mois"], correct: 2 },
-  { q: "Qui est responsable de la santé et sécurité des travailleurs dans l'entreprise ?", opts: ["Le CSE uniquement","Le responsable HSE uniquement","L'employeur","Les salariés eux-mêmes"], correct: 2 },
-  { q: "Que contient obligatoirement une trousse de premiers secours au travail ?", opts: ["Des médicaments et antibiotiques","Des pansements, compresses et antiseptique","Un défibrillateur portable","Des masques chirurgicaux uniquement"], correct: 1 },
-  { q: "Face à un accident du travail, quelle est la priorité absolue ?", opts: ["Rédiger le registre d'accident","Sécuriser la zone et appeler les secours","Déplacer la victime vers un endroit confortable","Informer la direction par email"], correct: 1 },
-  { q: "Quel numéro d'urgence appeler en cas d'accident grave en France ?", opts: ["15 — SAMU uniquement","17 — Police uniquement","18 — Pompiers uniquement","15, 18 ou 112 selon la situation"], correct: 3 },
-  { q: "Que signifie EPI dans le contexte HSE ?", opts: ["Équipement de Protection Incendie","Équipement de Première Intervention","Équipement de Protection Individuelle","Évaluation des Procédures Internes"], correct: 2 },
-  { q: "Le Document Unique d'Évaluation des Risques (DUER) doit être mis à jour :", opts: ["Uniquement lors d'un accident","Au moins une fois par an et lors de tout changement","Tous les 5 ans","Seulement à la demande de l'inspection du travail"], correct: 1 },
-  { q: "Quelle attitude adopter face à un collègue qui ne respecte pas les consignes de sécurité ?", opts: ["Ignorer, ce n'est pas votre responsabilité","Le signaler à votre manager ou au responsable HSE","Attendre qu'un accident se produise","En parler uniquement à ses collègues"], correct: 1 }
+  { q: "Qu'est-ce qu'une entreprise extérieure selon le Code du travail ?", opts: ["Une entreprise étrangère","Une entreprise intervenant dans les locaux d'une entreprise utilisatrice","Une entreprise sous-traitante uniquement","Une PME de moins de 10 salariés"], correct: 1 },
+  { q: "Qu'est-ce qu'un plan de prévention ?", opts: ["Un plan d'évacuation incendie","Un document listant les risques et mesures lors d'une intervention extérieure","Un registre des accidents du travail","Un plan de formation annuel"], correct: 1 },
+  { q: "Quand le plan de prévention est-il obligatoirement écrit ?", opts: ["Pour toute intervention","Pour les interventions dépassant 400h/an ou travaux dangereux","Uniquement pour les chantiers BTP","Jamais, il est toujours oral"], correct: 1 },
+  { q: "Qui est responsable de l'accueil sécurité des intervenants extérieurs ?", opts: ["L'entreprise extérieure uniquement","L'intervenant lui-même","L'entreprise utilisatrice et l'entreprise extérieure conjointement","Le service RH uniquement"], correct: 2 },
+  { q: "Que doit faire l'entreprise utilisatrice avant une intervention extérieure ?", opts: ["Rien de particulier","Informer l'EE des risques spécifiques au site et des mesures de prévention","Fournir les EPI à l'EE","Assurer la formation complète des intervenants"], correct: 1 },
+  { q: "En cas d'accident d'un intervenant extérieur sur site, qui peut être responsable ?", opts: ["Uniquement l'entreprise extérieure","Uniquement l'entreprise utilisatrice","Les deux entreprises selon les circonstances","L'intervenant lui-même uniquement"], correct: 2 },
+  { q: "Quel numéro d'urgence appeler en cas d'accident grave sur site industriel ?", opts: ["15 — SAMU uniquement","17 — Police uniquement","18 — Pompiers uniquement","15, 18 ou 112 selon la situation"], correct: 3 },
+  { q: "Qu'est-ce que la coactivité dans le cadre des entreprises extérieures ?", opts: ["Le travail en équipe interne","La présence simultanée de plusieurs entreprises sur un même site","Le travail de nuit","Le travail en hauteur"], correct: 1 },
+  { q: "Les EPI sur un site industriel sont :", opts: ["Optionnels selon les situations","Obligatoires uniquement pour les permanents","Obligatoires pour tous les intervenants selon les zones","À la charge exclusive de l'entreprise utilisatrice"], correct: 2 },
+  { q: "La première chose à faire en arrivant sur un site industriel en tant qu'intervenant extérieur ?", opts: ["Commencer les travaux immédiatement","Se présenter à l'accueil et suivre la procédure d'accueil sécurité","Appeler son responsable","Chercher la zone d'intervention seul"], correct: 1 }
 ];
 
-let state = { learner:{prenom:'',nom:'',poste:'',email:''}, videoWatched:false, answers:new Array(10).fill(null), attempts:0, score:0, certId:'' };
-let videoProgress=0, videoInterval=null;
+let state = { learner:{nom:'',email:'',accesId:null}, videoWatched:false, answers:new Array(10).fill(null), attempts:0, score:0, certId:'' };
+let ytPlayer=null, progressInterval=null;
 
-function setStep(n){
-  for(let i=1;i<=5;i++){
-    const si=document.getElementById('si'+i),sn=document.getElementById('sn'+i);
-    si.className='step-item';sn.textContent=i;
-    if(i<n){si.classList.add('done');sn.textContent='✓';}
-    if(i===n)si.classList.add('active');
-    if(i<5)document.getElementById('sl'+i).className='step-line'+(i<n?' done':'');
+// ── LOGIN COLLABORATEUR ──
+async function loginCollab() {
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pwd = document.getElementById('loginPwd').value;
+  const btn = document.getElementById('btnLogin');
+
+  if (!email || !pwd) return;
+
+  btn.disabled = true; btn.textContent = 'Vérification…';
+
+  if (IS_DEMO) {
+    state.learner = { nom: 'Utilisateur Démo', email: 'demo@hseplatform.fr', accesId: null };
+    goTo(1); btn.disabled = false; btn.textContent = 'Accéder à ma formation →';
+    return;
+  }
+
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/acces?email=eq.${encodeURIComponent(email)}&select=*`, { headers: sbH });
+    const data = await r.json();
+
+    if (!data.length || data[0].mot_de_passe !== pwd) {
+      document.getElementById('loginErrMsg').style.display = 'flex';
+      document.getElementById('loginPwd').classList.add('error');
+      setTimeout(() => document.getElementById('loginPwd').classList.remove('error'), 800);
+    } else {
+      const user = data[0];
+      state.learner = { nom: user.nom, email: user.email, accesId: user.id };
+      document.getElementById('loginErrMsg').style.display = 'none';
+      goTo(1);
+    }
+  } catch(e) {
+    document.getElementById('loginErrMsg').style.display = 'flex';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Accéder à ma formation →';
   }
 }
 
-function goTo(n){
-  for(let i=0;i<=4;i++)document.getElementById('screen'+i).classList.remove('active');
+// ── STEPS ──
+function setStep(n) {
+  for(let i=1;i<=5;i++){
+    const si=document.getElementById('si'+i),sn=document.getElementById('sn'+i);
+    si.className='step-item'; sn.textContent=i;
+    if(i<n){si.classList.add('done');sn.textContent='✓';}
+    if(i===n) si.classList.add('active');
+    if(i<5) document.getElementById('sl'+i).className='step-line'+(i<n?' done':'');
+  }
+}
+
+function goTo(n) {
+  for(let i=0;i<=4;i++) document.getElementById('screen'+i).classList.remove('active');
   document.getElementById('screen'+n).classList.add('active');
   setStep(n+1);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function startTraining(){
-  const p=document.getElementById('inputPrenom').value.trim();
-  const n=document.getElementById('inputNom').value.trim();
-  if(!p||!n){alert('Veuillez entrer votre prénom et nom.');return;}
-  state.learner={prenom:p,nom:n,poste:document.getElementById('inputPoste').value.trim()||'Non précisé',email:document.getElementById('inputEmail').value.trim()||'Non renseigné'};
-  goTo(1);
+// ── VIDÉO ──
+function onYouTubeIframeAPIReady() {}
+
+function launchVideo() {
+  document.getElementById('videoOverlay').classList.add('hidden');
+  document.getElementById('vpWrap').style.display = 'block';
+  ytPlayer = new YT.Player('ytPlayer', {
+    videoId: YOUTUBE_VIDEO_ID,
+    playerVars: { autoplay:1, rel:0, modestbranding:1 },
+    events: { onStateChange: onPlayerStateChange, onReady: e => e.target.playVideo() }
+  });
 }
 
-function startVideo(){
-  if(videoInterval)return;
-  document.getElementById('videoCenter').style.display='none';
-  document.getElementById('videoPlaying').style.display='block';
+function onPlayerStateChange(event) {
+  if(event.data===YT.PlayerState.ENDED) videoDone();
+  if(event.data===YT.PlayerState.PLAYING) startProgress();
+  if(event.data===YT.PlayerState.PAUSED) stopProgress();
+}
+
+function startProgress() {
+  stopProgress();
+  progressInterval = setInterval(() => {
+    if(!ytPlayer||typeof ytPlayer.getCurrentTime!=='function') return;
+    const cur=ytPlayer.getCurrentTime(), dur=ytPlayer.getDuration();
+    if(!dur) return;
+    const pct=Math.min(Math.round(cur/dur*100),100);
+    document.getElementById('vpFill').style.width=pct+'%';
+    document.getElementById('vpPct').textContent=pct+'% visionné';
+    const fmt=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+    document.getElementById('vpTime').textContent=`${fmt(cur)} / ${fmt(dur)}`;
+    if(pct>=100){stopProgress();videoDone();}
+  },1000);
+}
+
+function stopProgress() { if(progressInterval){clearInterval(progressInterval);progressInterval=null;} }
+
+function skipVideo() {
+  stopProgress();
+  if(ytPlayer&&typeof ytPlayer.stopVideo==='function') ytPlayer.stopVideo();
   document.getElementById('vpWrap').style.display='block';
-  videoInterval=setInterval(()=>{
-    videoProgress+=1.2;
-    if(videoProgress>=100){videoProgress=100;clearInterval(videoInterval);videoDone();}
-    document.getElementById('vpFill').style.width=videoProgress+'%';
-    document.getElementById('vpPct').textContent=Math.round(videoProgress)+'% visionné';
-    const secs=Math.round(videoProgress/100*504);
-    document.getElementById('vpTime').textContent=`${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')} / 8:24`;
-  },80);
+  document.getElementById('vpFill').style.width='100%';
+  document.getElementById('vpPct').textContent='100% visionné';
+  document.getElementById('videoOverlay').classList.add('hidden');
+  videoDone();
 }
 
-function videoDone(){
+function videoDone() {
+  stopProgress();
   state.videoWatched=true;
-  document.getElementById('videoPlaying').style.display='none';
   const n=document.getElementById('videoNotice');
   n.className='notice success';
   n.innerHTML='<span class="notice-icon">✓</span><span>Vidéo visionnée intégralement. Vous pouvez accéder à l\'évaluation.</span>';
@@ -347,24 +433,26 @@ function videoDone(){
 
 function goToQCM(){renderQCM();goTo(2);}
 
-function renderQCM(){
+// ── QCM ──
+function renderQCM() {
   state.answers=new Array(QUESTIONS.length).fill(null);
   document.getElementById('qcmBody').innerHTML=QUESTIONS.map((q,i)=>`
     <div class="q-block">
-      <div class="q-header"><span class="q-badge">Q${i+1}</span><div class="q-text">${q.q}</div></div>
+      <div class="q-num">Question ${i+1} / ${QUESTIONS.length}</div>
+      <div class="q-text">${q.q}</div>
       ${q.opts.map((o,j)=>`<div class="option" id="o${i}_${j}" onclick="pickOpt(${i},${j})"><div class="opt-radio"><div class="opt-dot" id="dot${i}_${j}" style="display:none"></div></div>${o}</div>`).join('')}
     </div>`).join('');
 }
 
-function pickOpt(qi,oi){
+function pickOpt(qi,oi) {
   QUESTIONS[qi].opts.forEach((_,j)=>{document.getElementById(`o${qi}_${j}`).classList.remove('selected');document.getElementById(`dot${qi}_${j}`).style.display='none';});
   state.answers[qi]=oi;
   document.getElementById(`o${qi}_${oi}`).classList.add('selected');
   document.getElementById(`dot${qi}_${oi}`).style.display='block';
 }
 
-function submitQCM(){
-  if(state.answers.includes(null)){alert('Veuillez répondre à toutes les questions ('+state.answers.filter(a=>a===null).length+' manquantes).');return;}
+function submitQCM() {
+  if(state.answers.includes(null)){alert('Veuillez répondre à toutes les questions.');return;}
   let correct=0;
   QUESTIONS.forEach((q,i)=>{if(state.answers[i]===q.correct)correct++;});
   state.score=Math.round(correct/QUESTIONS.length*100);
@@ -375,19 +463,18 @@ function submitQCM(){
   showResults(correct,passed);
 }
 
-function showResults(correct,passed){
+function showResults(correct,passed) {
   document.getElementById('statS').textContent=state.score+'%';
   document.getElementById('statS').style.color=passed?'var(--green)':'var(--red)';
   document.getElementById('statC').textContent=correct+'/'+QUESTIONS.length;
   document.getElementById('statT').textContent=state.attempts;
-  document.getElementById('resultSubtitle').textContent=passed?'🎉 Félicitations, vous avez réussi !':'Score insuffisant — '+MIN_SCORE+'% requis.';
-  setTimeout(()=>{document.getElementById('sbFill').style.width=state.score+'%';document.getElementById('sbFill').style.background=passed?'var(--green)':'var(--red)';},200);
+  document.getElementById('resultSubtitle').textContent=passed?'🎉 Félicitations !':'Score insuffisant';
   document.getElementById('resultNotice').innerHTML=passed
     ?`<div class="notice success"><span class="notice-icon">✓</span><span>Score : <strong>${state.score}%</strong> — évaluation validée.</span></div>`
     :`<div class="notice error"><span class="notice-icon">✗</span><span>Score : <strong>${state.score}%</strong> — insuffisant (${MIN_SCORE}% requis).</span></div>`;
   document.getElementById('correctionBody').innerHTML=QUESTIONS.map((q,i)=>{
     const ok=state.answers[i]===q.correct;
-    return`<div class="q-block"><div class="q-header"><span class="q-badge" style="background:${ok?'var(--green-light)':'var(--red-light)'};color:${ok?'var(--green-dark)':'var(--red)'};border-color:${ok?'#aed8c8':'#f0b8b0'}">Q${i+1} ${ok?'✓':'✗'}</span><div class="q-text">${q.q}</div></div>
+    return`<div class="q-block"><div class="q-num" style="color:${ok?'var(--green)':'var(--red)'}">${ok?'✓':'✗'} Question ${i+1}</div><div class="q-text">${q.q}</div>
     ${q.opts.map((o,j)=>{let c='option';if(j===q.correct)c+=' correct';else if(j===state.answers[i]&&!ok)c+=' wrong';return`<div class="${c}" style="cursor:default"><div class="opt-radio"><div class="opt-dot" style="display:${j===q.correct||j===state.answers[i]?'block':'none'}"></div></div>${o}</div>`;}).join('')}</div>`;
   }).join('');
   document.getElementById('resultBtnRow').innerHTML=passed
@@ -398,9 +485,8 @@ function showResults(correct,passed){
 
 function retryQCM(){renderQCM();goTo(2);}
 
-function showCert(){
-  document.getElementById('certName').textContent=state.learner.prenom+' '+state.learner.nom;
-  document.getElementById('certPoste').textContent=state.learner.poste;
+function showCert() {
+  document.getElementById('certName').textContent=state.learner.nom;
   document.getElementById('certScore').textContent=state.score+'%';
   const now=new Date();
   document.getElementById('certDate').textContent='Délivré le '+now.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})+' à '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
@@ -408,31 +494,33 @@ function showCert(){
   goTo(4);
 }
 
-function copyLink(){navigator.clipboard.writeText(state.certId).then(()=>alert('ID copié : '+state.certId)).catch(()=>alert('ID : '+state.certId));}
+function copyId(){navigator.clipboard.writeText(state.certId).then(()=>alert('ID copié : '+state.certId)).catch(()=>alert('ID : '+state.certId));}
 
-async function saveResult(passed){
-  const entry={
-    nom: state.learner.nom+' '+state.learner.prenom,
-    poste: state.learner.poste,
-    email: state.learner.email,
-    score: state.score,
-    reussi: passed,
-    tentative: state.attempts,
-    date: new Date().toLocaleString('fr-FR'),
-    certificat: state.certId||''
-  };
+// ── SAUVEGARDE ──
+async function saveResult(passed) {
+  // Sauvegarder dans resultats
   try {
     await fetch(`${SUPABASE_URL}/rest/v1/resultats`, {
-      method: 'POST',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify(entry)
+      method:'POST',
+      headers:{...sbH,'Prefer':'return=minimal'},
+      body:JSON.stringify({
+        nom:state.learner.nom, poste:'', email:state.learner.email,
+        score:state.score, reussi:passed, tentative:state.attempts,
+        date:new Date().toLocaleString('fr-FR'), certificat:state.certId||''
+      })
     });
-  } catch(e) { console.warn('Supabase:', e); }
+  } catch(e){console.warn('Erreur resultats:',e);}
+
+  // Mettre à jour formation_completee dans acces si l'utilisateur est identifié
+  if(passed && state.learner.accesId) {
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/acces?id=eq.${state.learner.accesId}`, {
+        method:'PATCH',
+        headers:{...sbH,'Prefer':'return=minimal'},
+        body:JSON.stringify({ formation_completee:true, date_formation:new Date().toISOString() })
+      });
+    } catch(e){console.warn('Erreur update acces:',e);}
+  }
 }
 </script>
 </body>
