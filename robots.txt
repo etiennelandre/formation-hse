@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://etiennelandre.github.io/formation-hse/sitemap.xml
+Sitemap: https://hseplatform.fr/sitemap.xml
