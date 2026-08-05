@@ -155,7 +155,19 @@
   .cert-date { font-size: 12px; color: var(--gray-500); margin-bottom: 4px; }
   .cert-id { font-size: 11px; color: var(--gray-400); font-family: var(--font-mono); }
 
-  @media print { .topbar, .steps-bar, .btn-row, .btn-admin, .demo-badge { display: none !important; } body { background: white; } }
+  @media print {
+    .topbar, .steps-bar, .btn-row, .btn-admin, .demo-badge { display: none !important; }
+    html, body { background: #fff !important; }
+    /* l'animation fadeUp rendait le certificat transparent à l'impression -> on la neutralise */
+    .screen { animation: none !important; }
+    .screen.active { display: block !important; opacity: 1 !important; transform: none !important; animation: none !important; }
+    .main { max-width: none !important; padding: 0 !important; }
+    /* Chrome abandonne le contenu in-flow des blocs overflow:hidden a l'impression -> on repasse en visible */
+    .cert-outer { box-shadow: none !important; overflow: visible !important; page-break-inside: avoid; }
+    .cert-bg { display: none !important; }
+    .cert-outer > * { position: relative; z-index: 1; opacity: 1 !important; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  }
 </style>
 </head>
 <body>
