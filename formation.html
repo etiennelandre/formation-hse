@@ -330,16 +330,13 @@ const QUESTIONS = [
   { q: "La première chose à faire en arrivant sur un site industriel en tant qu'intervenant extérieur ?", opts: ["Commencer les travaux immédiatement","Se présenter à l'accueil et suivre la procédure d'accueil sécurité","Appeler son responsable","Chercher la zone d'intervention seul"], correct: 1 }
 ];
 
-// ── DÉMO : bonne réponse toujours en 1re position (facilite la démonstration) ──
-// N'affecte QUE le mode démo (?demo=true). Le vrai QCM reste dans l'ordre d'origine.
-if (IS_DEMO) {
-  QUESTIONS.forEach(q => {
-    const right = q.opts[q.correct];
-    q.opts.splice(q.correct, 1);
-    q.opts.unshift(right);
-    q.correct = 0;
-  });
-}
+// ── Bonne réponse toujours en 1re position (choix produit, appliqué partout) ──
+QUESTIONS.forEach(q => {
+  const right = q.opts[q.correct];
+  q.opts.splice(q.correct, 1);
+  q.opts.unshift(right);
+  q.correct = 0;
+});
 
 let state = { learner:{nom:'',email:'',accesId:null}, videoWatched:false, answers:new Array(10).fill(null), attempts:0, score:0, certId:'' };
 let ytPlayer=null, progressInterval=null;
