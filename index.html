@@ -383,6 +383,12 @@ nav:not(.sc) .nav-cta { background:var(--green); }
 nav:not(.sc) .nav-cta:hover { background:var(--green2); }
 @media (prefers-reduced-motion:reduce){ .hero-aurora .blob { animation:none; } }
 </style>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 </head>
 <body>
 
@@ -413,7 +419,7 @@ nav:not(.sc) .nav-cta:hover { background:var(--green2); }
     <a href="#probleme">Problème</a>
     <a href="#solution">Solution</a>
     <a href="#process">Process</a>
-    <a href="#tarifs">Tarifs</a>
+    <a href="#parcours">Parcours</a>
   </div>
   <a href="#contact" class="nav-cta">Demander une démo</a>
 </nav>
@@ -550,6 +556,13 @@ nav:not(.sc) .nav-cta:hover { background:var(--green2); }
   #parcours .vic svg{width:24px;height:24px}
   #parcours .vh{font-size:18px;font-weight:600;color:var(--navy);margin:0 0 10px}
   #parcours .vp{font-size:14px;color:var(--text2);line-height:1.65;margin:0}
+  #parcours .pv{margin-top:72px}
+  #parcours .pv-head{text-align:center;margin-bottom:28px}
+  #parcours .pv-eyebrow{display:inline-block;font-size:12px;font-weight:500;color:var(--green);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+  #parcours .pv-title{font-family:var(--font-display);font-size:clamp(22px,2.4vw,30px);font-weight:700;color:var(--navy);letter-spacing:-.02em}
+  #parcours .pv-frame{max-width:920px;margin:0 auto;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 30px 80px rgba(13,33,55,.18);background:#000;line-height:0}
+  #parcours .pv-video{display:block;width:100%;height:auto}
+  #parcours .pv-cap{text-align:center;margin-top:16px;font-size:13px;color:var(--text2)}
   @media (max-width:820px){
     #parcours .jrn{flex-direction:column;align-items:center}
     #parcours .jstep{width:100%;max-width:340px}
@@ -610,6 +623,19 @@ nav:not(.sc) .nav-cta:hover { background:var(--green2); }
         <h3 class="vh">Zéro agent dédié</h3>
         <p class="vp">Aucune personne à mobiliser en permanence à l'accueil ; la borne en libre-service gère les intervenants non préparés.</p>
       </div>
+    </div>
+    <div class="pv">
+      <div class="pv-head">
+        <span class="pv-eyebrow">La démo en vidéo</span>
+        <div class="pv-title">Le parcours complet, en conditions réelles</div>
+      </div>
+      <div class="pv-frame">
+        <video class="pv-video" controls preload="metadata" poster="/demo-parcours-poster.jpg" playsinline>
+          <source src="/demo-parcours.mp4" type="video/mp4">
+          Votre navigateur ne peut pas lire la vidéo. <a href="/demo-parcours.mp4">Télécharger la démo</a>.
+        </video>
+      </div>
+      <div class="pv-cap">De la connexion au certificat — en moins d'une minute.</div>
     </div>
   </div>
 </div>
