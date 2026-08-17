@@ -370,7 +370,7 @@ async function loginCollab() {
   }
 
   try {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/acces?email=eq.${encodeURIComponent(email)}&select=*`, { headers: sbH });
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/acces?email=ilike.${encodeURIComponent(email)}&select=*`, { headers: sbH });
     const data = await r.json();
 
     if (!data.length || data[0].mot_de_passe !== pwd) {
