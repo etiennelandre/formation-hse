@@ -474,14 +474,25 @@ function showNotice(msg, type) {
 
 // ── EXPORT ──
 function exportCSV() {
-  const data = window._adminData || [];
-  if (!data.length) { showToast('Aucune donnée à exporter', 'error'); return; }
-  const h = ['Nom','Poste','Email','Score','Résultat','Tentative','Date','Certificat'];
-  const rows = data.map(r => [r.nom,r.poste,r.email,r.score+'%',r.reussi?'Réussi':'Échec',r.tentative,r.date,r.certificat||''].map(v=>`"${v||''}"`).join(','));
+  const onAcces = document.getElementById('panel-acces').style.display !== 'none';
+  let h, rows, fname;
+  if (onAcces) {
+    const data = allAcces || [];
+    if (!data.length) { showToast('Aucune donnée à exporter', 'error'); return; }
+    h = ['Nom','Email','Statut formation','Créé le','Formé le'];
+    rows = data.map(x => [x.nom, x.email, x.formation_completee ? 'Formé' : 'En attente', x.date_creation, x.date_formation || ''].map(v=>`"${v||''}"`).join(','));
+    fname = `acces_hse_${new Date().toISOString().slice(0,10)}.csv`;
+  } else {
+    const data = allData || [];
+    if (!data.length) { showToast('Aucune donnée à exporter', 'error'); return; }
+    h = ['Nom','Poste','Email','Score','Résultat','Tentative','Date','Certificat'];
+    rows = data.map(r => [r.nom,r.poste,r.email,r.score+'%',r.reussi?'Réussi':'Échec',r.tentative,r.date,r.certificat||''].map(v=>`"${v||''}"`).join(','));
+    fname = `resultats_hse_${new Date().toISOString().slice(0,10)}.csv`;
+  }
   const csv = [h.join(','),...rows].join('\n');
   const a = document.createElement('a');
   a.href = 'data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
-  a.download = `resultats_hse_${new Date().toISOString().slice(0,10)}.csv`;
+  a.download = fname;
   a.click();
   showToast('✓ Export CSV téléchargé', 'success');
 }
