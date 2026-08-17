@@ -423,38 +423,47 @@ async function createAccess() {
   const btn = document.getElementById('btnCreate');
   btn.disabled = true; btn.textContent = 'Création en cours…';
 
+  // 1) Création du compte (indépendante de l'email)
+  let created = false;
   try {
-    // 1. Créer le compte dans Supabase
-    const ok = await sbInsert('acces', {
+    created = await sbInsert('acces', {
       nom, email, mot_de_passe: pwd,
       formation_completee: false,
       date_creation: new Date().toISOString()
     });
+  } catch(e) { created = false; }
 
-    if (!ok) throw new Error('Erreur Supabase');
+  if (!created) {
+    showNotice('Erreur lors de la création. Réessayez.', 'error');
+    btn.disabled = false; btn.textContent = 'Créer et envoyer l\'email →';
+    return;
+  }
 
-    // 2. Envoyer l'email via Edge Function
+  // Compte bien créé : on vide le formulaire et on rafraîchit la liste tout de suite
+  document.getElementById('newNom').value = '';
+  document.getElementById('newEmail').value = '';
+  document.getElementById('newPwd').value = '';
+  loadAcces();
+
+  // 2) Envoi de l'email — SÉPARÉ : un échec ici NE remet PAS en cause la création
+  let emailOk = false;
+  try {
     const emailRes = await fetch(EDGE_FN_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_KEY}` },
       body: JSON.stringify({ nom, email, mot_de_passe: pwd, lien_formation: LIEN_FORMATION })
     });
+    emailOk = emailRes.ok;
+  } catch(e) { emailOk = false; }
 
-    if (emailRes.ok) {
-      showNotice(`✓ Compte créé et email envoyé à ${email}`, 'success');
-      document.getElementById('newNom').value = '';
-      document.getElementById('newEmail').value = '';
-      document.getElementById('newPwd').value = '';
-      loadAcces();
-      showToast('✓ Accès créé avec succès', 'success');
-    } else {
-      showNotice('Compte créé mais email non envoyé. Vérifiez la configuration Resend.', 'error');
-    }
-  } catch(e) {
-    showNotice('Erreur lors de la création. Réessayez.', 'error');
-  } finally {
-    btn.disabled = false; btn.textContent = 'Créer et envoyer l\'email →';
+  if (emailOk) {
+    showNotice(`✓ Compte créé et email envoyé à ${email}`, 'success');
+    showToast('✓ Accès créé avec succès', 'success');
+  } else {
+    showNotice(`✓ Compte créé pour ${email}. ⚠ Email non envoyé — à vérifier côté Resend / Edge Function.`, 'error');
+    showToast('✓ Compte créé (email non envoyé)', 'success');
   }
+  btn.disabled = false; btn.textContent = 'Créer et envoyer l\'email →';
 }
 
 function showNotice(msg, type) {
