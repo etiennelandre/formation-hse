@@ -413,6 +413,13 @@ async function createAccess() {
   const pwd = document.getElementById('newPwd').value.trim();
   if (!nom || !email || !pwd) { showNotice('Veuillez remplir tous les champs.', 'error'); return; }
 
+  // Pre-verification : email deja utilise ? (evite l'erreur generique sur doublon)
+  try {
+    const chk = await fetch(`${SUPABASE_URL}/rest/v1/acces?email=eq.${encodeURIComponent(email)}&select=id`, { headers: sbHeaders });
+    const existing = chk.ok ? await chk.json() : [];
+    if (existing.length) { showNotice('Un compte existe deja pour cet email.', 'error'); return; }
+  } catch(e) {}
+
   const btn = document.getElementById('btnCreate');
   btn.disabled = true; btn.textContent = 'Création en cours…';
 
