@@ -409,13 +409,13 @@ function genPwd() {
 // ── CRÉER UN ACCÈS ──
 async function createAccess() {
   const nom = document.getElementById('newNom').value.trim();
-  const email = document.getElementById('newEmail').value.trim();
+  const email = document.getElementById('newEmail').value.trim().toLowerCase();
   const pwd = document.getElementById('newPwd').value.trim();
   if (!nom || !email || !pwd) { showNotice('Veuillez remplir tous les champs.', 'error'); return; }
 
   // Pre-verification : email deja utilise ? (evite l'erreur generique sur doublon)
   try {
-    const chk = await fetch(`${SUPABASE_URL}/rest/v1/acces?email=eq.${encodeURIComponent(email)}&select=id`, { headers: sbHeaders });
+    const chk = await fetch(`${SUPABASE_URL}/rest/v1/acces?email=ilike.${encodeURIComponent(email)}&select=id`, { headers: sbHeaders });
     const existing = chk.ok ? await chk.json() : [];
     if (existing.length) { showNotice('Un compte existe deja pour cet email.', 'error'); return; }
   } catch(e) {}
