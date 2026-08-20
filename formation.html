@@ -319,17 +319,19 @@
 <script>
 const SUPABASE_URL = 'https://hgkgllsnduswlayjxtib.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhna2dsbHNuZHVzd2xheWp4dGliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4Mjk4OTAsImV4cCI6MjA5MzQwNTg5MH0.ZOfrmF8joxIeVLzyQUOFtqaRsAhyihK0Dr4-SyD7A34';
-const MIN_SCORE = 90;
-const YOUTUBE_VIDEO_ID = 'O5bksBCTr60';
+let MIN_SCORE = 90;
+let YOUTUBE_VIDEO_ID = 'O5bksBCTr60';
 const sbH = { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' };
 
+const CLIENT_SLUG = new URLSearchParams(window.location.search).get('client') || 'demo';
+let ENTREPRISE_ID = null;
 const IS_DEMO = new URLSearchParams(window.location.search).get('demo') === 'true';
 if (IS_DEMO) {
   document.getElementById('btnSkip').style.display = 'block';
   document.getElementById('demoBadge').style.display = 'block';
 }
 
-const QUESTIONS = [
+let QUESTIONS = [
   { q: "Qu'est-ce qu'une entreprise extérieure selon le Code du travail ?", opts: ["Une entreprise étrangère","Une entreprise intervenant dans les locaux d'une entreprise utilisatrice","Une entreprise sous-traitante uniquement","Une PME de moins de 10 salariés"], correct: 1 },
   { q: "Qu'est-ce qu'un plan de prévention ?", opts: ["Un plan d'évacuation incendie","Un document listant les risques et mesures lors d'une intervention extérieure","Un registre des accidents du travail","Un plan de formation annuel"], correct: 1 },
   { q: "Quand le plan de prévention est-il obligatoirement écrit ?", opts: ["Pour toute intervention","Pour les interventions dépassant 400h/an ou travaux dangereux","Uniquement pour les chantiers BTP","Jamais, il est toujours oral"], correct: 1 },
@@ -353,6 +355,30 @@ QUESTIONS.forEach(q => {
 let state = { learner:{nom:'',email:'',accesId:null}, videoWatched:false, answers:new Array(10).fill(null), attempts:0, score:0, certId:'' };
 let ytPlayer=null, progressInterval=null;
 
+// ── CONFIG CLIENT (multi-tenant) : charge la config du client depuis ?client= ──
+async function loadClientConfig() {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/entreprises?slug=eq.${encodeURIComponent(CLIENT_SLUG)}&select=*`, { headers: sbH });
+    const rows = r.ok ? await r.json() : [];
+    if (!rows.length) return;
+    const e = rows[0]; ENTREPRISE_ID = e.id;
+    const c = e.config || {}; const f = c.formation || {};
+    if (Array.isArray(f.qcm) && f.qcm.length) {
+      QUESTIONS = f.qcm;
+      QUESTIONS.forEach(q => { const right=q.opts[q.correct]; q.opts.splice(q.correct,1); q.opts.unshift(right); q.correct=0; });
+      state.answers = new Array(QUESTIONS.length).fill(null);
+    }
+    if (f.video_youtube_id) YOUTUBE_VIDEO_ID = f.video_youtube_id;
+    if (typeof f.seuil_reussite === 'number') MIN_SCORE = f.seuil_reussite;
+    if (c.nom) document.title = c.nom;
+    if (c.couleurs) {
+      if (c.couleurs.primaire) document.documentElement.style.setProperty('--navy', c.couleurs.primaire);
+      if (c.couleurs.accent)   document.documentElement.style.setProperty('--green', c.couleurs.accent);
+    }
+  } catch(err) { console.warn('config client:', err); }
+}
+loadClientConfig();
+
 // ── LOGIN COLLABORATEUR ──
 async function loginCollab() {
   const email = document.getElementById('loginEmail').value.trim().toLowerCase();
@@ -370,7 +396,7 @@ async function loginCollab() {
   }
 
   try {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/acces?email=ilike.${encodeURIComponent(email)}&select=*`, { headers: sbH });
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/acces?email=ilike.${encodeURIComponent(email)}&select=*${ENTREPRISE_ID ? '&entreprise_id=eq.'+ENTREPRISE_ID : ''}`, { headers: sbH });
     const data = await r.json();
 
     if (!data.length || data[0].mot_de_passe !== pwd) {
@@ -536,7 +562,7 @@ async function saveResult(passed) {
       method:'POST',
       headers:{...sbH,'Prefer':'return=minimal'},
       body:JSON.stringify({
-        nom:state.learner.nom, poste:'', email:state.learner.email,
+        entreprise_id: ENTREPRISE_ID, nom:state.learner.nom, poste:'', email:state.learner.email,
         score:state.score, reussi:passed, tentative:state.attempts,
         date:new Date().toLocaleString('fr-FR'), certificat:state.certId||''
       })
