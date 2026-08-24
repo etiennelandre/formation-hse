@@ -130,6 +130,7 @@
 
   @media(max-width:900px) { .kpi-grid{grid-template-columns:repeat(2,1fr)} .create-layout{grid-template-columns:1fr} .main{padding:16px} .header{padding:0 16px} .tabs{padding:0 16px} }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -143,7 +144,7 @@
     </div>
     <div class="login-title">Tableau de bord</div>
     <div class="login-sub">Connectez-vous pour accéder aux résultats et gérer les accès collaborateurs.</div>
-    <div class="field-wrap"><label class="field-label">Identifiant</label><input type="text" class="field-input" id="loginUser" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="field-wrap"><label class="field-label">Email</label><input type="email" class="field-input" id="loginEmail" placeholder="admin-demo@hseplatform.fr" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <div class="field-wrap"><label class="field-label">Mot de passe</label><input type="password" class="field-input" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <div class="login-error" id="loginError">Identifiant ou mot de passe incorrect.</div>
     <button class="btn-login" onclick="doLogin()">Accéder au dashboard →</button>
@@ -250,9 +251,10 @@
 const SUPABASE_URL = 'https://hgkgllsnduswlayjxtib.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhna2dsbHNuZHVzd2xheWp4dGliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4Mjk4OTAsImV4cCI6MjA5MzQwNTg5MH0.ZOfrmF8joxIeVLzyQUOFtqaRsAhyihK0Dr4-SyD7A34';
 const EDGE_FN_URL = 'https://hgkgllsnduswlayjxtib.supabase.co/functions/v1/hyper-worker';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const CLIENT_SLUG = new URLSearchParams(window.location.search).get('client') || 'demo';
 let ENTREPRISE_ID = null;
-const LIEN_FORMATION = 'https://hseplatform.fr/formation.html?client=' + CLIENT_SLUG;
+let LIEN_FORMATION = 'https://hseplatform.fr/formation.html?client=' + CLIENT_SLUG;
 
 const CLIENTS = {
   'admin': { password: 'hse2024', label: 'Administrateur Global' },
@@ -287,30 +289,54 @@ async function loadClientConfig() {
   } catch(e) { console.warn('config client:', e); }
 }
 
-function doLogin() {
-  const user = document.getElementById('loginUser').value.trim().toLowerCase();
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPass').value;
-  if (CLIENTS[user] && CLIENTS[user].password === pass) {
-    currentClient = { id: user, ...CLIENTS[user] };
-    document.getElementById('loginError').style.display = 'none';
-    document.getElementById('loginWrap').style.display = 'none';
-    document.getElementById('dashboardWrap').style.display = 'block';
-    document.getElementById('headerClient').textContent = currentClient.label;
-    loadClientConfig().then(loadResultats);
-  } else {
-    document.getElementById('loginError').style.display = 'block';
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error || !data || !data.session) {
+    const e = document.getElementById('loginError');
+    e.textContent = 'Email ou mot de passe incorrect.'; e.style.display = 'block';
     document.getElementById('loginPass').style.borderColor = 'var(--red)';
     setTimeout(() => document.getElementById('loginPass').style.borderColor = '', 800);
+    return;
   }
+  await onAuthenticated(data.session);
 }
 
-function logout() {
-  currentClient = null;
+// Commun a la connexion ET a la restauration de session
+async function onAuthenticated(session) {
+  const e = document.getElementById('loginError');
+  sbHeaders.Authorization = 'Bearer ' + session.access_token;   // requetes avec le JWT admin (prepare le RLS)
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/admins?user_id=eq.${session.user.id}&select=entreprise_id`, { headers: sbHeaders });
+  const rows = r.ok ? await r.json() : [];
+  if (!rows.length) {
+    e.textContent = "Ce compte n'est rattache a aucune entreprise."; e.style.display = 'block';
+    await sb.auth.signOut(); return;
+  }
+  ENTREPRISE_ID = rows[0].entreprise_id;   // source de verite = le compte admin, PAS l'URL
+  const er = await fetch(`${SUPABASE_URL}/rest/v1/entreprises?id=eq.${ENTREPRISE_ID}&select=nom,slug`, { headers: sbHeaders });
+  const ent = ((er.ok ? await er.json() : [])[0]) || {};
+  document.getElementById('headerClient').textContent = ent.nom || 'Administration';
+  LIEN_FORMATION = 'https://hseplatform.fr/formation.html?client=' + (ent.slug || '');
+  e.style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('dashboardWrap').style.display = 'block';
+  loadResultats();
+}
+
+async function logout() {
+  await sb.auth.signOut();
+  ENTREPRISE_ID = null;
   document.getElementById('dashboardWrap').style.display = 'none';
   document.getElementById('loginWrap').style.display = 'flex';
-  document.getElementById('loginUser').value = '';
+  document.getElementById('loginEmail').value = '';
   document.getElementById('loginPass').value = '';
 }
+
+// Si l'admin est deja connecte, on le reconnecte automatiquement
+(async () => {
+  try { const { data } = await sb.auth.getSession(); if (data && data.session) await onAuthenticated(data.session); } catch(e) {}
+})();
 
 // ── TABS ──
 function switchTab(tab) {
