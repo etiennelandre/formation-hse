@@ -396,16 +396,20 @@ async function loginCollab() {
   }
 
   try {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/acces?email=ilike.${encodeURIComponent(email)}&select=*${ENTREPRISE_ID ? '&entreprise_id=eq.'+ENTREPRISE_ID : ''}`, { headers: sbH });
-    const data = await r.json();
+    // Connexion vérifiée cote serveur (Edge Function) : le navigateur ne lit plus la table acces
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/login-collaborateur`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SUPABASE_KEY },
+      body: JSON.stringify({ slug: CLIENT_SLUG, email, password: pwd })
+    });
+    const out = await res.json();
 
-    if (!data.length || data[0].mot_de_passe !== pwd) {
+    if (!res.ok || !out.ok || !out.learner) {
       document.getElementById('loginErrMsg').style.display = 'flex';
       document.getElementById('loginPwd').classList.add('error');
       setTimeout(() => document.getElementById('loginPwd').classList.remove('error'), 800);
     } else {
-      const user = data[0];
-      state.learner = { nom: user.nom, email: user.email, accesId: user.id };
+      state.learner = { nom: out.learner.nom, email: out.learner.email, accesId: out.learner.id };
       document.getElementById('loginErrMsg').style.display = 'none';
       goTo(1);
     }
