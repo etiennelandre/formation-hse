@@ -217,21 +217,11 @@ nav.sc { background:rgba(255,255,255,.95); backdrop-filter:blur(16px); padding:1
 .ps-title { font-family:var(--font-display); font-size:20px; font-weight:600; color:var(--navy); margin-bottom:8px; letter-spacing:-.02em; }
 .ps-desc { font-size:14px; color:var(--text2); line-height:1.7; font-weight:300; max-width:440px; }
 
-/* ── COMPARATIF ── */
-.comp-wrap { overflow-x:auto; border-radius:16px; border:1px solid var(--border); box-shadow:0 8px 32px rgba(13,33,55,.06); margin-top:64px; }
-.comp-table { width:100%; border-collapse:collapse; background:var(--white); min-width:700px; }
-.comp-table thead th { padding:20px; font-size:13px; font-weight:600; color:var(--text2); text-align:center; border-bottom:1px solid var(--border); background:var(--white); }
-.comp-table thead th span { display:block; font-size:11px; font-weight:400; color:var(--text3); margin-top:3px; }
-.comp-th-feat { text-align:left !important; width:220px; background:var(--bg) !important; }
-.comp-fc { background:rgba(26,115,94,.04) !important; border-left:2px solid var(--green) !important; border-right:2px solid var(--green) !important; }
-.comp-table thead th.comp-fc { color:var(--green) !important; border-top:2px solid var(--green); }
-.comp-table thead th.comp-fc span { color:rgba(26,115,94,.7); }
-.comp-feat { padding:14px 20px; font-size:14px; font-weight:500; color:var(--navy); background:var(--bg); border-bottom:1px solid var(--border); }
-.comp-cell { padding:14px 20px; text-align:center; border-bottom:1px solid var(--border); font-size:13px; }
-.comp-table tbody tr:last-child td { border-bottom:none; }
-.comp-table tbody tr:hover .comp-cell { background:rgba(13,33,55,.02); }
-.comp-table tbody tr:hover .comp-cell.comp-fc { background:rgba(26,115,94,.06); }
-.cg{color:var(--green);font-weight:600} .cb{color:#c0392b} .cn{color:var(--text3)}
+/* ── RÉFÉRENTIELS ── */
+.ref-block { margin-top:44px; text-align:center; }
+.ref-caption { font-size:12px; color:var(--text3); text-transform:uppercase; letter-spacing:.1em; margin-bottom:18px; }
+.ref-tags { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+.ref-tag { display:inline-flex; align-items:center; padding:11px 24px; border-radius:12px; background:var(--white); border:1px solid var(--border); font-weight:700; font-size:15px; color:var(--navy); letter-spacing:.02em; box-shadow:0 4px 16px rgba(13,33,55,.05); }
 
 /* ── EARLY ADOPTER ── */
 .early-wrap { background:var(--white); border:1px solid var(--border); border-radius:24px; padding:48px; box-shadow:0 8px 40px rgba(13,33,55,.08); }
@@ -429,7 +419,7 @@ nav:not(.sc) .nav-cta:hover { background:var(--green2); }
   <div class="hero-l">
     <div class="h-eyebrow">Onboarding HSE · Sites industriels</div>
     <h1 class="h-title">L'accueil sécurité<br><em>enfin traçable,</em><br>enfin fiable.</h1>
-    <p class="h-body">Remplacez la présentation TV et les feuilles d'émargement par une plateforme digitale complète. Vidéo, QCM, certificat automatique. Sans installation ni engagement.</p>
+    <p class="h-body">Remplacez la présentation TV et les feuilles d'émargement par une plateforme digitale complète. Vidéo, QCM, certificat automatique.</p>
     <div class="h-actions">
       <a href="#contact" class="btn-main">Voir la démo en direct →</a>
       <a href="#solution" class="btn-ghost">En savoir plus</a>
@@ -702,34 +692,21 @@ nav:not(.sc) .nav-cta:hover { background:var(--green2); }
 })();
 </script>
 
-<!-- COMPARATIF -->
+<!-- TRAÇABILITÉ & CONFORMITÉ -->
 <div class="sw">
   <div class="si">
-    <div class="eyebrow r">Comparatif</div>
-    <h2 class="sec-title r d1">Pourquoi choisir<br><em>HSEPlatform ?</em></h2>
-    <p class="sec-body r d2" style="margin-bottom:0">Les solutions du marché sont soit trop complexes, soit trop chères.</p>
-    <div class="comp-wrap r d2">
-      <table class="comp-table">
-        <thead>
-          <tr>
-            <th class="comp-th-feat">Critère</th>
-            <th>LMS Généraliste<br><span>Formation en ligne standard</span></th>
-            <th>Solution HSE Spécialisée<br><span>Plateforme HSE complète</span></th>
-            <th class="comp-fc">HSEPlatform<br><span>Votre solution</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td class="comp-feat">Mise en place</td><td class="comp-cell"><span class="cb">3 à 6 mois</span></td><td class="comp-cell"><span class="cb">1 à 3 mois</span></td><td class="comp-cell comp-fc"><span class="cg">⚡ Clé en main</span></td></tr>
-          <tr><td class="comp-feat">Délai première formation</td><td class="comp-cell"><span class="cb">Plusieurs semaines</span></td><td class="comp-cell"><span class="cb">1 à 3 mois</span></td><td class="comp-cell comp-fc"><span class="cg">⚡ En autonomie</span></td></tr>
-          <tr><td class="comp-feat">Contenu 100% personnalisable</td><td class="comp-cell"><span class="cn">Complexe & payant</span></td><td class="comp-cell"><span class="cn">Selon module</span></td><td class="comp-cell comp-fc"><span class="cg">✓ Votre vidéo, vos questions</span></td></tr>
-          <tr><td class="comp-feat">Certificat automatique</td><td class="comp-cell"><span class="cn">En option</span></td><td class="comp-cell"><span class="cg">✓ Oui</span></td><td class="comp-cell comp-fc"><span class="cg">✓ Inclus</span></td></tr>
-          <tr><td class="comp-feat">Traçabilité juridique</td><td class="comp-cell"><span class="cn">Partielle</span></td><td class="comp-cell"><span class="cg">✓ Oui</span></td><td class="comp-cell comp-fc"><span class="cg">✓ Complète</span></td></tr>
-          <tr><td class="comp-feat">Sans formation requise</td><td class="comp-cell"><span class="cb">✗ Formation nécessaire</span></td><td class="comp-cell"><span class="cb">✗ Intégrateur requis</span></td><td class="comp-cell comp-fc"><span class="cg">✓ Zéro formation</span></td></tr>
-          <tr><td class="comp-feat">Engagement</td><td class="comp-cell"><span class="cb">Annuel minimum</span></td><td class="comp-cell"><span class="cb">Pluriannuel</span></td><td class="comp-cell comp-fc"><span class="cg">✓ Sans engagement</span></td></tr>
-          <tr><td class="comp-feat">Support humain</td><td class="comp-cell"><span class="cn">Ticketing uniquement</span></td><td class="comp-cell"><span class="cn">Account manager dédié</span></td><td class="comp-cell comp-fc"><span class="cg">✓ Humain & direct</span></td></tr>
-          <tr><td class="comp-feat">Cockpit admin dédié</td><td class="comp-cell"><span class="cn">Générique</span></td><td class="comp-cell"><span class="cg">✓ Oui</span></td><td class="comp-cell comp-fc"><span class="cg">✓ Temps réel</span></td></tr>
-        </tbody>
-      </table>
+    <div class="eyebrow r">Traçabilité &amp; conformité</div>
+    <h2 class="sec-title r d1">Une preuve qui sert vos <em>certifications.</em></h2>
+    <p class="sec-body r d2">Chaque accueil sécurité réalisé est horodaté, archivé et associé à une attestation nominative. Le jour d'un audit MASE, d'une certification ISO 9001 ou ISO 45001, ou d'un contrôle de donneur d'ordre, vous prouvez immédiatement que chaque intervenant a bien suivi sa formation. Cette traçabilité complète alimente votre système de management QHSE et facilite le maintien de vos référentiels, sans ressortir un classeur de feuilles d'émargement.</p>
+    <div class="ref-block r d3">
+      <div class="ref-caption">Conçu pour vos audits, vos référentiels et vos sites les plus exigeants</div>
+      <div class="ref-tags">
+        <span class="ref-tag">MASE</span>
+        <span class="ref-tag">ISO 9001</span>
+        <span class="ref-tag">ISO 45001</span>
+        <span class="ref-tag">ISO 14001</span>
+        <span class="ref-tag">Sites Seveso</span>
+      </div>
     </div>
   </div>
 </div>
