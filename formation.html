@@ -568,29 +568,20 @@ function copyId(){navigator.clipboard.writeText(state.certId).then(()=>alert('ID
 
 // ── SAUVEGARDE ──
 async function saveResult(passed) {
-  // Sauvegarder dans resultats
+  // Enregistrement cote serveur (Edge Function) : le navigateur n'ecrit plus jamais en direct
   try {
-    await fetch(`${SUPABASE_URL}/rest/v1/resultats`, {
-      method:'POST',
-      headers:{...sbH,'Prefer':'return=minimal'},
-      body:JSON.stringify({
-        entreprise_id: ENTREPRISE_ID, nom:state.learner.nom, poste:'', email:state.learner.email,
-        score:state.score, reussi:passed, tentative:state.attempts,
-        date:new Date().toLocaleString('fr-FR'), certificat:state.certId||''
+    await fetch(`${SUPABASE_URL}/functions/v1/enregistrer-resultat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SUPABASE_KEY },
+      body: JSON.stringify({
+        slug: CLIENT_SLUG,
+        accesId: state.learner.accesId || '',
+        nom: state.learner.nom, email: state.learner.email, poste: '',
+        score: state.score, reussi: passed, tentative: state.attempts,
+        date: new Date().toLocaleString('fr-FR'), certificat: state.certId || ''
       })
     });
-  } catch(e){console.warn('Erreur resultats:',e);}
-
-  // Mettre à jour formation_completee dans acces si l'utilisateur est identifié
-  if(passed && state.learner.accesId) {
-    try {
-      await fetch(`${SUPABASE_URL}/rest/v1/acces?id=eq.${state.learner.accesId}`, {
-        method:'PATCH',
-        headers:{...sbH,'Prefer':'return=minimal'},
-        body:JSON.stringify({ formation_completee:true, date_formation:new Date().toISOString() })
-      });
-    } catch(e){console.warn('Erreur update acces:',e);}
-  }
+  } catch(e) { console.warn('Erreur enregistrement:', e); }
 }
 </script>
 </body>
