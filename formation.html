@@ -535,7 +535,7 @@ function submitQCM() {
 
 function showResults(correct,passed) {
   document.getElementById('statS').textContent=state.score+'%';
-  document.getElementById('statS').style.color=passed?'var(--green)':'var(--red)';
+  document.getElementById('statS').style.color=passed?'#1a7a5e':'var(--red)';
   document.getElementById('statC').textContent=correct+'/'+QUESTIONS.length;
   document.getElementById('statT').textContent=state.attempts;
   document.getElementById('resultSubtitle').textContent=passed?'🎉 Félicitations !':'Score insuffisant';
@@ -544,7 +544,7 @@ function showResults(correct,passed) {
     :`<div class="notice error"><span class="notice-icon">✗</span><span>Score : <strong>${state.score}%</strong> — insuffisant (${MIN_SCORE}% requis).</span></div>`;
   document.getElementById('correctionBody').innerHTML=QUESTIONS.map((q,i)=>{
     const ok=state.answers[i]===q.correct;
-    return`<div class="q-block"><div class="q-num" style="color:${ok?'var(--green)':'var(--red)'}">${ok?'✓':'✗'} Question ${i+1}</div><div class="q-text">${q.q}</div>
+    return`<div class="q-block"><div class="q-num" style="color:${ok?'#1d1d1f':'var(--red)'}">${ok?'✓':'✗'} Question ${i+1}</div><div class="q-text">${q.q}</div>
     ${q.opts.map((o,j)=>{let c='option';if(j===q.correct)c+=' correct';else if(j===state.answers[i]&&!ok)c+=' wrong';return`<div class="${c}" style="cursor:default"><div class="opt-radio"><div class="opt-dot" style="display:${j===q.correct||j===state.answers[i]?'block':'none'}"></div></div>${o}</div>`;}).join('')}</div>`;
   }).join('');
   document.getElementById('resultBtnRow').innerHTML=passed
