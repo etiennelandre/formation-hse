@@ -375,6 +375,15 @@ async function loadClientConfig() {
       if (c.couleurs.primaire) document.documentElement.style.setProperty('--navy', c.couleurs.primaire);
       if (c.couleurs.accent)   document.documentElement.style.setProperty('--green', c.couleurs.accent);
     }
+    if (c.logo_url) {
+      const _img = '<img src="'+c.logo_url+'" alt="'+(c.nom||'')+'" style="max-width:100%;max-height:100%;object-fit:contain;">';
+      const _em = document.querySelector('.login-emblem');
+      if (_em) { _em.innerHTML = _img; _em.style.background = '#fff'; _em.style.padding = '10px'; }
+      const _tb = document.querySelector('.topbar-logo');
+      if (_tb) { _tb.innerHTML = _img; _tb.style.background = '#fff'; _tb.style.padding = '4px'; }
+      const _ce = document.querySelector('.cert-emblem');
+      if (_ce) { _ce.innerHTML = '<img src="'+c.logo_url+'" alt="'+(c.nom||'')+'" style="height:52px;max-width:220px;object-fit:contain;display:block;margin:0 auto;">'; }
+    }
   } catch(err) { console.warn('config client:', err); }
 }
 loadClientConfig();
