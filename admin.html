@@ -63,7 +63,7 @@
   .main { padding:32px; max-width:1400px; margin:0 auto; }
 
   /* ── KPIs ── */
-  .kpi-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; margin-bottom:28px; }
+  .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:16px; margin-bottom:28px; }
   .kpi-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px 24px; position:relative; overflow:hidden; transition:border-color .2s; }
   .kpi-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--accent,var(--green)); opacity:.6; }
   .kpi-card.red{--accent:var(--red)} .kpi-card.orange{--accent:var(--orange)} .kpi-card.blue{--accent:var(--blue)} .kpi-card.purple{--accent:#a78bfa}
@@ -71,6 +71,18 @@
   .kpi-value { font-family:var(--font-display); font-size:36px; font-weight:800; color:var(--text); line-height:1; margin-bottom:6px; }
   .kpi-value.green{color:var(--green)} .kpi-value.red{color:var(--red)} .kpi-value.orange{color:var(--orange)} .kpi-value.blue{color:var(--blue)}
   .kpi-sub { font-size:12px; color:var(--text3); }
+  .widget-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px; }
+  .widget-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px 22px; }
+  .widget-title { font-size:12px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:.06em; margin-bottom:14px; }
+  .donut-wrap { display:flex; align-items:center; gap:16px; }
+  .donut-svg { width:118px; height:118px; flex-shrink:0; }
+  .donut-num { font-family:var(--font-display); font-size:28px; font-weight:800; fill:var(--text); }
+  .donut-lbl { font-size:9px; fill:var(--text3); text-transform:uppercase; letter-spacing:.08em; }
+  .donut-legend { display:flex; flex-direction:column; gap:9px; font-size:13px; color:var(--text2); flex:1; min-width:0; }
+  .lg-item { display:flex; align-items:center; gap:8px; }
+  .lg-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+  .lg-item b { color:var(--text); margin-left:auto; padding-left:10px; }
+  @media(max-width:900px){ .widget-grid{grid-template-columns:1fr} }
 
   /* ── TABLE ── */
   .section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
@@ -182,10 +194,16 @@
         <div class="kpi-card red"><div class="kpi-label">Échecs</div><div class="kpi-value red" id="kpiFailed">—</div><div class="kpi-sub">à repasser</div></div>
         <div class="kpi-card orange"><div class="kpi-label">Taux de réussite</div><div class="kpi-value orange" id="kpiRate">—</div><div class="kpi-sub">sur l'ensemble</div></div>
         <div class="kpi-card blue"><div class="kpi-label">Score moyen</div><div class="kpi-value blue" id="kpiAvg">—</div><div class="kpi-sub">sur 100%</div></div>
+        <div class="kpi-card orange"><div class="kpi-label">À renouveler</div><div class="kpi-value orange" id="kpiRenew">—</div><div class="kpi-sub">certificats sous 30 j</div></div>
       </div>
 
       <div class="section-header">
-        <div class="section-title">Résultats des collaborateurs</div>
+        <div class="widget-grid">
+        <div class="widget-card"><div class="widget-title">Répartition des évaluations</div><div id="donutEval" class="donut-wrap"></div></div>
+        <div class="widget-card"><div class="widget-title">Validité des certificats</div><div id="donutValid" class="donut-wrap"></div></div>
+        <div class="widget-card"><div class="widget-title">Taux de complétion</div><div id="donutCompletion" class="donut-wrap"></div></div>
+      </div>
+      <div class="section-title">Résultats des collaborateurs</div>
         <div class="section-count" id="resultCount">0 résultat</div>
       </div>
       <div class="filters">
@@ -233,7 +251,7 @@
           <div class="table-wrap">
             <div class="loading" id="loadingAcces"><div class="spinner"></div>Chargement…</div>
             <table id="tableAcces" style="display:none">
-              <thead><tr><th>Nom</th><th>Email</th><th>Statut formation</th><th>Créé le</th><th>Formé le</th></tr></thead>
+              <thead><tr><th>Nom</th><th>Email</th><th>Statut formation</th><th>Créé le</th><th>Formé le</th><th>Validité certificat</th></tr></thead>
               <tbody id="tbodyAcces"></tbody>
             </table>
           </div>
@@ -359,19 +377,59 @@ async function loadResultats() {
   document.getElementById('loadingResultats').style.display = 'block';
   document.getElementById('tableResultats').style.display = 'none';
   allData = await sbSelect('resultats');
-  updateKPIs();
+  allAcces = await sbSelect('acces');
+  updateDashboard();
   renderResultats();
   document.getElementById('loadingResultats').style.display = 'none';
   document.getElementById('tableResultats').style.display = 'table';
 }
 
-function updateKPIs() {
-  const total = allData.length, passed = allData.filter(r => r.reussi).length;
+const VALIDITE_MOIS = 6;
+function certStatut(dateFormationISO) {
+  if (!dateFormationISO) return { key:null, label:'—', word:'', cls:'', expiry:null };
+  const exp = new Date(dateFormationISO); exp.setMonth(exp.getMonth() + VALIDITE_MOIS);
+  const now = new Date(); const j30 = new Date(); j30.setDate(j30.getDate() + 30);
+  const expiry = exp.toLocaleDateString('fr-FR');
+  if (now > exp)  return { key:'expire',  label:'✗ Expiré',          word:'Expiré',          cls:'badge-fail', expiry };
+  if (exp <= j30) return { key:'bientot', label:'⏳ Expire bientôt', word:'Expire bientôt', cls:'badge-wait', expiry };
+  return { key:'valide', label:'✓ Valide', word:'Valide', cls:'badge-pass', expiry };
+}
+
+function renderDonut(elId, segments, centerNum, centerLabel) {
+  const el = document.getElementById(elId); if (!el) return;
+  const total = segments.reduce((a,s)=>a+s.value,0);
+  const R=52, C=2*Math.PI*R, sw=16; let off=0, arcs='';
+  if (total>0) {
+    segments.forEach(seg=>{ if (seg.value<=0) return; const len=seg.value/total*C;
+      arcs += `<circle cx="70" cy="70" r="${R}" fill="none" stroke="${seg.color}" stroke-width="${sw}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 70 70)"></circle>`;
+      off += len; });
+  } else { arcs = `<circle cx="70" cy="70" r="${R}" fill="none" stroke="var(--border)" stroke-width="${sw}"></circle>`; }
+  const legend = segments.map(seg=>`<div class="lg-item"><span class="lg-dot" style="background:${seg.color}"></span>${seg.label} <b>${seg.value}</b></div>`).join('');
+  el.innerHTML = `<svg viewBox="0 0 140 140" class="donut-svg">${arcs}<text x="70" y="68" text-anchor="middle" class="donut-num">${centerNum}</text><text x="70" y="86" text-anchor="middle" class="donut-lbl">${centerLabel}</text></svg><div class="donut-legend">${legend}</div>`;
+}
+
+function updateDashboard() {
+  const total = allData.length, passed = allData.filter(r => r.reussi).length, failed = total - passed;
   document.getElementById('kpiTotal').textContent = total;
   document.getElementById('kpiPassed').textContent = passed;
-  document.getElementById('kpiFailed').textContent = total - passed;
+  document.getElementById('kpiFailed').textContent = failed;
   document.getElementById('kpiRate').textContent = total > 0 ? Math.round(passed/total*100)+'%' : '—';
   document.getElementById('kpiAvg').textContent = total > 0 ? Math.round(allData.reduce((a,r)=>a+r.score,0)/total)+'%' : '—';
+
+  let valide=0, bientot=0, expire=0, formes=0, attente=0;
+  (allAcces||[]).forEach(a=>{
+    if (a.formation_completee && a.date_formation) {
+      formes++; const st = certStatut(a.date_formation).key;
+      if (st==='valide') valide++; else if (st==='bientot') bientot++; else if (st==='expire') expire++;
+    } else { attente++; }
+  });
+  document.getElementById('kpiRenew').textContent = bientot;
+
+  const GR='#00e5a0', RD='#ff4d6d', OR='#ff9f43', GY='#3a3f4b';
+  renderDonut('donutEval', [{label:'Certifiés',value:passed,color:GR},{label:'Échecs',value:failed,color:RD}], total, 'évaluations');
+  renderDonut('donutValid', [{label:'Valides',value:valide,color:GR},{label:'Expire bientôt',value:bientot,color:OR},{label:'Expirés',value:expire,color:RD}], valide+bientot+expire, 'certificats');
+  const totC=(allAcces||[]).length;
+  renderDonut('donutCompletion', [{label:'Formés',value:formes,color:GR},{label:'En attente',value:attente,color:GY}], totC>0?Math.round(formes/totC*100)+'%':'0%', 'complétion');
 }
 
 function setFilter(f, btn) {
@@ -419,7 +477,7 @@ async function loadAcces() {
 function renderAcces() {
   document.getElementById('accesCount').textContent = `${allAcces.length} compte${allAcces.length>1?'s':''}`;
   const tbody = document.getElementById('tbodyAcces');
-  if (!allAcces.length) { tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state">Aucun compte créé pour l\'instant</div></td></tr>'; return; }
+  if (!allAcces.length) { tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state">Aucun compte créé pour l\'instant</div></td></tr>'; return; }
   tbody.innerHTML = allAcces.map(a => {
     const fait = a.formation_completee;
     const dateCreation = a.date_creation ? new Date(a.date_creation).toLocaleDateString('fr-FR') : '—';
@@ -430,6 +488,7 @@ function renderAcces() {
       <td><span class="badge ${fait?'badge-pass':'badge-wait'}">${fait?'✓ Formation complétée':'⏳ En attente'}</span></td>
       <td style="font-size:12px;color:var(--text3)">${dateCreation}</td>
       <td style="font-size:12px;color:var(--text3)">${fait?dateFormation:'—'}</td>
+      <td>${fait ? `<span class="badge ${certStatut(a.date_formation).cls}">${certStatut(a.date_formation).label}</span> <span style="font-size:11px;color:var(--text3)">au ${certStatut(a.date_formation).expiry}</span>` : '—'}</td>
     </tr>`;
   }).join('');
 }
@@ -515,8 +574,8 @@ async function exportCSV() {
   if (onAcces) {
     const data = await sbSelect('acces');
     if (!data.length) { showToast('Aucune donnée à exporter', 'error'); return; }
-    h = ['Nom','Email','Statut formation','Créé le','Formé le'];
-    rows = data.map(x => [x.nom, x.email, x.formation_completee ? 'Formé' : 'En attente', x.date_creation, x.date_formation || ''].map(v=>`"${v||''}"`).join(','));
+    h = ['Nom','Email','Statut formation','Créé le','Formé le','Validité certificat'];
+    rows = data.map(x => [x.nom, x.email, x.formation_completee ? 'Formé' : 'En attente', x.date_creation, x.date_formation || '', x.formation_completee ? certStatut(x.date_formation).word : ''].map(v=>`"${v||''}"`).join(','));
     fname = `acces_hse_${new Date().toISOString().slice(0,10)}.csv`;
   } else {
     const data = await sbSelect('resultats');
