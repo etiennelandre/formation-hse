@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HSE Dashboard — Administration</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0a0d12; --surface: #111620; --surface2: #161c28;
@@ -13,8 +13,8 @@
     --red: #ff4d6d; --red-dim: rgba(255,77,109,0.12);
     --orange: #ff9f43; --blue: #4d9fff;
     --text: #e8edf5; --text2: #8896b3; --text3: #4a5568;
-    --font: 'DM Sans', sans-serif;
-    --font-display: 'Syne', sans-serif;
+    --font: 'Inter', sans-serif;
+    --font-display: 'Space Grotesk', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -83,6 +83,23 @@
   .lg-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
   .lg-item b { color:var(--text); margin-left:auto; padding-left:10px; }
   @media(max-width:900px){ .widget-grid{grid-template-columns:1fr} }
+  .kpi-value, .donut-num, .act-num { font-variant-numeric:tabular-nums; letter-spacing:-.02em; }
+  .kpi-card, .widget-card { background:linear-gradient(160deg,var(--surface),var(--bg)); }
+  .activity-strip { display:flex; align-items:stretch; background:linear-gradient(160deg,var(--surface),var(--bg)); border:1px solid var(--border); border-radius:16px; padding:6px 4px; margin-bottom:22px; }
+  .act-item { flex:1; padding:16px 26px; }
+  .act-num { font-family:var(--font-display); font-size:34px; font-weight:700; color:var(--green); line-height:1; }
+  .act-lbl { font-size:12px; color:var(--text2); margin-top:7px; }
+  .act-sep { width:1px; background:var(--border); margin:16px 0; }
+  .donut-svg { width:128px; height:128px; overflow:visible; }
+  .donut-svg .seg { cursor:pointer; transition:opacity .18s, stroke-width .18s, filter .18s; }
+  .donut-svg .seg.dim { opacity:.22; }
+  .donut-svg .seg.hl { stroke-width:22; filter:drop-shadow(0 0 8px var(--sc)); }
+  .donut-num { font-family:var(--font-display); font-size:30px; font-weight:700; fill:var(--text); }
+  .lg-item { cursor:pointer; border-radius:9px; padding:6px 9px; margin:0 -9px; transition:background .15s, opacity .15s; }
+  .lg-item:hover, .lg-item.hl { background:var(--surface2); }
+  .lg-item.dim { opacity:.4; }
+  .lg-txt { flex:1; }
+  @media(max-width:700px){ .activity-strip{flex-direction:column} .act-sep{width:auto;height:1px;margin:0 16px} }
 
   /* ── TABLE ── */
   .section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
@@ -198,7 +215,14 @@
       </div>
 
       <div class="section-header">
-        <div class="widget-grid">
+        <div class="activity-strip">
+        <div class="act-item"><div class="act-num" id="certToday">—</div><div class="act-lbl">Certifiés aujourd'hui</div></div>
+        <div class="act-sep"></div>
+        <div class="act-item"><div class="act-num" id="certWeek">—</div><div class="act-lbl">Cette semaine</div></div>
+        <div class="act-sep"></div>
+        <div class="act-item"><div class="act-num" id="certMonth">—</div><div class="act-lbl" id="certMonthLbl">Ce mois</div></div>
+      </div>
+      <div class="widget-grid">
         <div class="widget-card"><div class="widget-title">Répartition des évaluations</div><div id="donutEval" class="donut-wrap"></div></div>
         <div class="widget-card"><div class="widget-title">Validité des certificats</div><div id="donutValid" class="donut-wrap"></div></div>
         <div class="widget-card"><div class="widget-title">Taux de complétion</div><div id="donutCompletion" class="donut-wrap"></div></div>
@@ -207,9 +231,9 @@
         <div class="section-count" id="resultCount">0 résultat</div>
       </div>
       <div class="filters">
-        <button class="filter-btn active" onclick="setFilter('all',this)">Tous</button>
-        <button class="filter-btn" onclick="setFilter('pass',this)">✓ Réussis</button>
-        <button class="filter-btn" onclick="setFilter('fail',this)">✗ Échecs</button>
+        <button class="filter-btn active" onclick="setFilter('all',this)" data-f="all">Tous</button>
+        <button class="filter-btn" onclick="setFilter('pass',this)" data-f="pass">✓ Réussis</button>
+        <button class="filter-btn" onclick="setFilter('fail',this)" data-f="fail">✗ Échecs</button>
         <input type="text" class="search-input" id="searchInput" placeholder="🔍 Rechercher..." oninput="renderResultats()">
       </div>
       <div class="table-wrap">
@@ -247,6 +271,14 @@
           <div class="section-header">
             <div class="section-title">Comptes créés</div>
             <div class="section-count" id="accesCount">0 compte</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+            <button class="filter-btn afilter active" onclick="setAccesFilter('all')" data-af="all">Tous</button>
+            <button class="filter-btn afilter" onclick="setAccesFilter('forme')" data-af="forme">✓ Formés</button>
+            <button class="filter-btn afilter" onclick="setAccesFilter('attente')" data-af="attente">⏳ En attente</button>
+            <button class="filter-btn afilter" onclick="setAccesFilter('cert-valide')" data-af="cert-valide">Valides</button>
+            <button class="filter-btn afilter" onclick="setAccesFilter('cert-bientot')" data-af="cert-bientot">Expire bientôt</button>
+            <button class="filter-btn afilter" onclick="setAccesFilter('cert-expire')" data-af="cert-expire">Expirés</button>
           </div>
           <div class="table-wrap">
             <div class="loading" id="loadingAcces"><div class="spinner"></div>Chargement…</div>
@@ -395,17 +427,25 @@ function certStatut(dateFormationISO) {
   return { key:'valide', label:'✓ Valide', word:'Valide', cls:'badge-pass', expiry };
 }
 
-function renderDonut(elId, segments, centerNum, centerLabel) {
+function renderDonut(elId, segments, centerNum, centerLabel, ftype) {
   const el = document.getElementById(elId); if (!el) return;
   const total = segments.reduce((a,s)=>a+s.value,0);
-  const R=52, C=2*Math.PI*R, sw=16; let off=0, arcs='';
-  if (total>0) {
-    segments.forEach(seg=>{ if (seg.value<=0) return; const len=seg.value/total*C;
-      arcs += `<circle cx="70" cy="70" r="${R}" fill="none" stroke="${seg.color}" stroke-width="${sw}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 70 70)"></circle>`;
-      off += len; });
-  } else { arcs = `<circle cx="70" cy="70" r="${R}" fill="none" stroke="var(--border)" stroke-width="${sw}"></circle>`; }
-  const legend = segments.map(seg=>`<div class="lg-item"><span class="lg-dot" style="background:${seg.color}"></span>${seg.label} <b>${seg.value}</b></div>`).join('');
-  el.innerHTML = `<svg viewBox="0 0 140 140" class="donut-svg">${arcs}<text x="70" y="68" text-anchor="middle" class="donut-num">${centerNum}</text><text x="70" y="86" text-anchor="middle" class="donut-lbl">${centerLabel}</text></svg><div class="donut-legend">${legend}</div>`;
+  const cx=80, cy=80, R=58, C=2*Math.PI*R, sw=18;
+  const nSeg = segments.filter(s=>s.value>0).length, gap = nSeg>1 ? 5 : 0;
+  let off=0;
+  let arcs = `<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--surface2)" stroke-width="${sw}"></circle>`;
+  segments.forEach((seg,i)=>{ if (seg.value<=0) return; const len=seg.value/total*C; const dash=Math.max(len-gap,0.8);
+    arcs += `<circle class="seg" data-k="${i}" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${seg.color}" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${dash.toFixed(2)} ${(C-dash).toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})" style="--sc:${seg.color}"></circle>`;
+    off += len; });
+  const legend = segments.map((seg,i)=>`<div class="lg-item" data-k="${i}" title="Voir la liste"><span class="lg-dot" style="background:${seg.color}"></span><span class="lg-txt">${seg.label}</span><b>${seg.value}</b></div>`).join('');
+  el.innerHTML = `<svg viewBox="0 0 160 160" class="donut-svg">${arcs}<text x="${cx}" y="${cy-2}" text-anchor="middle" class="donut-num">${centerNum}</text><text x="${cx}" y="${cy+18}" text-anchor="middle" class="donut-lbl">${centerLabel}</text></svg><div class="donut-legend">${legend}</div>`;
+  const setHL = (k,on)=>{ el.querySelectorAll('.seg,.lg-item').forEach(x=>{ const xk=x.getAttribute('data-k');
+    x.classList.toggle('dim', on && xk!==k); x.classList.toggle('hl', on && xk===k); }); };
+  el.querySelectorAll('.seg,.lg-item').forEach(x=>{ const k=x.getAttribute('data-k');
+    x.addEventListener('mouseenter',()=>setHL(k,true));
+    x.addEventListener('mouseleave',()=>setHL(k,false));
+    x.addEventListener('click',()=>{ const seg=segments[+k]; if (seg && seg.fkey && seg.value>0) applyDonutFilter(ftype, seg.fkey); });
+  });
 }
 
 function updateDashboard() {
@@ -425,17 +465,50 @@ function updateDashboard() {
   });
   document.getElementById('kpiRenew').textContent = bientot;
 
+  // Compteurs temporels : certifiés aujourd'hui / cette semaine / ce mois
+  const now=new Date();
+  const dS=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const wS=new Date(dS); wS.setDate(dS.getDate()-((now.getDay()+6)%7));
+  const mS=new Date(now.getFullYear(),now.getMonth(),1);
+  let cJ=0,cSem=0,cM=0;
+  (allAcces||[]).forEach(a=>{ if (a.formation_completee && a.date_formation){ const d=new Date(a.date_formation);
+    if(d>=dS)cJ++; if(d>=wS)cSem++; if(d>=mS)cM++; }});
+  document.getElementById('certToday').textContent=cJ;
+  document.getElementById('certWeek').textContent=cSem;
+  document.getElementById('certMonth').textContent=cM;
+  document.getElementById('certMonthLbl').textContent=now.toLocaleDateString('fr-FR',{month:'long'}).replace(/^./,c=>c.toUpperCase());
+
   const GR='#00e5a0', RD='#ff4d6d', OR='#ff9f43', GY='#3a3f4b';
-  renderDonut('donutEval', [{label:'Certifiés',value:passed,color:GR},{label:'Échecs',value:failed,color:RD}], total, 'évaluations');
-  renderDonut('donutValid', [{label:'Valides',value:valide,color:GR},{label:'Expire bientôt',value:bientot,color:OR},{label:'Expirés',value:expire,color:RD}], valide+bientot+expire, 'certificats');
+  renderDonut('donutEval', [{label:'Certifiés',value:passed,color:GR,fkey:'pass'},{label:'Échecs',value:failed,color:RD,fkey:'fail'}], total, 'évaluations', 'eval');
+  renderDonut('donutValid', [{label:'Valides',value:valide,color:GR,fkey:'cert-valide'},{label:'Expire bientôt',value:bientot,color:OR,fkey:'cert-bientot'},{label:'Expirés',value:expire,color:RD,fkey:'cert-expire'}], valide+bientot+expire, 'certificats', 'cert');
   const totC=(allAcces||[]).length;
-  renderDonut('donutCompletion', [{label:'Formés',value:formes,color:GR},{label:'En attente',value:attente,color:GY}], totC>0?Math.round(formes/totC*100)+'%':'0%', 'complétion');
+  renderDonut('donutCompletion', [{label:'Formés',value:formes,color:GR,fkey:'forme'},{label:'En attente',value:attente,color:GY,fkey:'attente'}], totC>0?Math.round(formes/totC*100)+'%':'0%', 'complétion', 'comp');
+}
+
+let accesFilter = 'all';
+function setAccesFilter(f) {
+  accesFilter = f;
+  document.querySelectorAll('.afilter').forEach(b => b.classList.toggle('active', b.dataset.af === f));
+  renderAcces();
+}
+function applyDonutFilter(ftype, fkey) {
+  if (ftype === 'eval') {
+    switchTab('resultats');
+    currentFilter = fkey;
+    document.querySelectorAll('#panel-resultats .filter-btn').forEach(b => b.classList.toggle('active', b.dataset.f === fkey));
+    renderResultats();
+    const t=document.getElementById('tableResultats'); if(t) t.scrollIntoView({behavior:'smooth', block:'center'});
+  } else {
+    accesFilter = fkey;
+    switchTab('acces');
+    document.querySelectorAll('.afilter').forEach(b => b.classList.toggle('active', b.dataset.af === fkey));
+  }
 }
 
 function setFilter(f, btn) {
   currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('#panel-resultats .filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
   renderResultats();
 }
 
@@ -475,10 +548,14 @@ async function loadAcces() {
 }
 
 function renderAcces() {
-  document.getElementById('accesCount').textContent = `${allAcces.length} compte${allAcces.length>1?'s':''}`;
+  let data = allAcces;
+  if (accesFilter==='forme') data = data.filter(a=>a.formation_completee);
+  else if (accesFilter==='attente') data = data.filter(a=>!a.formation_completee);
+  else if (accesFilter.indexOf('cert-')===0) { const k=accesFilter.slice(5); data = data.filter(a=>a.formation_completee && certStatut(a.date_formation).key===k); }
+  document.getElementById('accesCount').textContent = `${data.length} compte${data.length>1?'s':''}`;
   const tbody = document.getElementById('tbodyAcces');
-  if (!allAcces.length) { tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state">Aucun compte créé pour l\'instant</div></td></tr>'; return; }
-  tbody.innerHTML = allAcces.map(a => {
+  if (!data.length) { tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state">Aucun compte créé pour l\'instant</div></td></tr>'; return; }
+  tbody.innerHTML = data.map(a => {
     const fait = a.formation_completee;
     const dateCreation = a.date_creation ? new Date(a.date_creation).toLocaleDateString('fr-FR') : '—';
     const dateFormation = a.date_formation ? new Date(a.date_formation).toLocaleDateString('fr-FR') : '—';
