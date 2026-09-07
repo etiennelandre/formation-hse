@@ -155,6 +155,23 @@
   .cert-date { font-size: 12px; color: var(--gray-500); margin-bottom: 4px; }
   .cert-id { font-size: 11px; color: var(--gray-400); font-family: var(--font); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
 
+  .att-doc { max-width: 720px; margin: 24px auto 0; text-align: left; }
+  .att-section { background: #fff; border: 1px solid var(--gray-200); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; page-break-inside: avoid; }
+  .att-h { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--gray-500); border-bottom: 1px solid var(--gray-200); padding-bottom: 10px; margin-bottom: 14px; }
+  .att-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 28px; font-size: 13px; }
+  .att-row { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dotted var(--gray-100); padding-bottom: 6px; }
+  .att-k { color: var(--gray-500); }
+  .att-v { color: var(--gray-900); font-weight: 500; text-align: right; }
+  .att-qitem { padding: 11px 0; border-bottom: 1px solid var(--gray-100); page-break-inside: avoid; }
+  .att-qitem:last-child { border-bottom: none; }
+  .att-q { font-size: 13px; font-weight: 600; color: var(--gray-900); margin-bottom: 5px; }
+  .att-a { font-size: 13px; color: #4a5568; display: flex; align-items: flex-start; gap: 8px; }
+  .att-mark { font-weight: 700; flex-shrink: 0; }
+  .att-mark.ok { color: #1a7a5e; }
+  .att-mark.no { color: var(--red); }
+  .att-corr { font-size: 12px; color: #1a7a5e; margin-top: 4px; margin-left: 22px; }
+  .att-consent { font-size: 13px; color: #4a5568; line-height: 1.65; }
+  .att-sign { margin-top: 22px; padding-top: 12px; border-top: 1px dashed var(--gray-200); font-size: 13px; color: var(--gray-500); }
   @media print {
     .topbar, .steps-bar, .btn-row, .btn-admin, .demo-badge { display: none !important; }
     html, body { background: #fff !important; }
@@ -166,6 +183,8 @@
     .cert-outer { box-shadow: none !important; overflow: visible !important; page-break-inside: avoid; }
     .cert-bg { display: none !important; }
     .cert-outer > * { position: relative; z-index: 1; opacity: 1 !important; }
+    .att-doc { max-width: none !important; margin-top: 24px !important; }
+    .att-section { box-shadow: none !important; break-inside: avoid; page-break-inside: avoid; }
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   }
 </style>
@@ -303,6 +322,20 @@
       <div class="cert-date" id="certDate">—</div>
       <div class="cert-id" id="certId">—</div>
     </div>
+    <div class="att-doc" id="attDoc">
+      <div class="att-section">
+        <div class="att-h">Informations de session</div>
+        <div class="att-grid" id="attInfo"></div>
+      </div>
+      <div class="att-section">
+        <div class="att-h">Détail des réponses</div>
+        <div id="attQA"></div>
+      </div>
+      <div class="att-section">
+        <div class="att-h">Consentement</div>
+        <div class="att-consent" id="attConsent"></div>
+      </div>
+    </div>
     <div class="btn-row" style="justify-content:center">
       <button class="btn btn-green" onclick="window.print()">🖨 Imprimer / PDF</button>
       <button class="btn btn-outline" onclick="copyId()">📋 Copier l'ID</button>
@@ -352,7 +385,8 @@ QUESTIONS.forEach(q => {
   q.correct = 0;
 });
 
-let state = { learner:{nom:'',email:'',accesId:null}, videoWatched:false, answers:new Array(10).fill(null), attempts:0, score:0, certId:'' };
+let state = { learner:{nom:'',email:'',accesId:null}, videoWatched:false, videoStart:null, videoEnd:null, answers:new Array(10).fill(null), attempts:0, score:0, correct:0, certId:'' };
+let ENT_NAME = '';
 let ytPlayer=null, progressInterval=null;
 
 // ── CONFIG CLIENT (multi-tenant) : charge la config du client depuis ?client= ──
@@ -363,6 +397,7 @@ async function loadClientConfig() {
     if (!rows.length) return;
     const e = rows[0]; ENTREPRISE_ID = e.id;
     const c = e.config || {}; const f = c.formation || {};
+    ENT_NAME = e.nom || c.nom || CLIENT_SLUG;
     if (Array.isArray(f.qcm) && f.qcm.length) {
       QUESTIONS = f.qcm;
       QUESTIONS.forEach(q => { const right=q.opts[q.correct]; q.opts.splice(q.correct,1); q.opts.unshift(right); q.correct=0; });
@@ -449,7 +484,63 @@ function goTo(n) {
 // ── VIDÉO ──
 function onYouTubeIframeAPIReady() {}
 
+function sessionInfo() {
+  const ua = navigator.userAgent || '';
+  let nav = 'Navigateur';
+  if (/Edg\//.test(ua)) nav='Microsoft Edge';
+  else if (/OPR\//.test(ua)) nav='Opera';
+  else if (/Firefox\//.test(ua)) nav='Mozilla Firefox';
+  else if (/Chrome\//.test(ua)) nav='Google Chrome';
+  else if (/Safari\//.test(ua)) nav='Safari';
+  const mv = ua.match(/(?:Edg|OPR|Version|Firefox|Chrome)\/(\d+)/);
+  if (mv) nav += ' ' + mv[1];
+  let os = 'Système';
+  if (/Windows NT 10/.test(ua)) os='Windows 10/11';
+  else if (/Windows/.test(ua)) os='Windows';
+  else if (/Mac OS X/.test(ua)) os='macOS';
+  else if (/Android/.test(ua)) os='Android';
+  else if (/iPhone|iPad/.test(ua)) os='iOS';
+  else if (/Linux/.test(ua)) os='Linux';
+  const terminal = /Mobi|Android|iPhone|iPad/.test(ua) ? 'Mobile / tablette' : 'Ordinateur';
+  return { nav, os, terminal };
+}
+function fmtDur(ms) {
+  if (!ms || ms < 0) return '—';
+  const t=Math.round(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), sec=t%60;
+  const pad=n=>String(n).padStart(2,'0');
+  return (h?pad(h)+':':'')+pad(m)+':'+pad(sec);
+}
+function esc(x){ return String(x==null?'':x).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function buildAttestation() {
+  const now = new Date(), si = sessionInfo(), total = QUESTIONS.length;
+  const vS = state.videoStart ? new Date(state.videoStart) : null;
+  const vE = state.videoEnd ? new Date(state.videoEnd) : null;
+  const rows = [
+    ['Nom et prénom', state.learner.nom],
+    ['Identifiant', state.learner.email],
+    ['Entreprise / site', ENT_NAME || '—'],
+    ['Formation', 'Accueil sécurité — Intervenants extérieurs'],
+    ['Note obtenue', state.correct + '/' + total + ' — ' + state.score + '%'],
+    ['Score minimum requis', MIN_SCORE + '%'],
+    ['Nombre de tentatives', String(state.attempts)],
+    ['Date de délivrance', now.toLocaleDateString('fr-FR') + ' à ' + now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})],
+    ['Début du visionnage', vS ? vS.toLocaleString('fr-FR') : '—'],
+    ['Fin du visionnage', vE ? vE.toLocaleString('fr-FR') : '—'],
+    ['Durée du visionnage', (vS && vE) ? fmtDur(state.videoEnd - state.videoStart) : '—'],
+    ['Navigateur', si.nav],
+    ['Système', si.os],
+    ['Terminal', si.terminal],
+  ];
+  document.getElementById('attInfo').innerHTML = rows.map(r=>`<div class="att-row"><span class="att-k">${esc(r[0])}</span><span class="att-v">${esc(r[1]||'—')}</span></div>`).join('');
+  document.getElementById('attQA').innerHTML = QUESTIONS.map((q,i)=>{
+    const ua = state.answers[i], ok = ua===q.correct;
+    const userTxt = (ua!=null) ? q.opts[ua] : 'Aucune réponse';
+    return `<div class="att-qitem"><div class="att-q">Question ${i+1} : ${esc(q.q)}</div><div class="att-a"><span class="att-mark ${ok?'ok':'no'}">${ok?'\u2713':'\u2717'}</span><span>${esc(userTxt)}</span></div>${ok?'':`<div class="att-corr">Bonne réponse : ${esc(q.opts[q.correct])}</div>`}</div>`;
+  }).join('');
+  document.getElementById('attConsent').innerHTML = `Je soussigné(e) <strong>${esc(state.learner.nom)}</strong>, atteste avoir suivi la formation d'accueil sécurité, visionné la vidéo dans son intégralité et complété l'évaluation associée. Les informations ci-dessus reflètent le déroulé réel de ma session.<div class="att-sign">Fait le ${now.toLocaleDateString('fr-FR')} — Signature :</div>`;
+}
 function launchVideo() {
+  state.videoStart = state.videoStart || Date.now();
   document.getElementById('videoOverlay').classList.add('hidden');
   document.getElementById('vpWrap').style.display = 'block';
   ytPlayer = new YT.Player('ytPlayer', {
@@ -495,6 +586,7 @@ function skipVideo() {
 function videoDone() {
   stopProgress();
   state.videoWatched=true;
+  state.videoEnd = Date.now();
   const n=document.getElementById('videoNotice');
   n.className='notice success';
   n.innerHTML='<span class="notice-icon">✓</span><span>Vidéo visionnée intégralement. Vous pouvez accéder à l\'évaluation.</span>';
@@ -525,6 +617,7 @@ function submitQCM() {
   if(state.answers.includes(null)){alert('Veuillez répondre à toutes les questions.');return;}
   let correct=0;
   QUESTIONS.forEach((q,i)=>{if(state.answers[i]===q.correct)correct++;});
+  state.correct=correct;
   state.score=Math.round(correct/QUESTIONS.length*100);
   state.attempts++;
   const passed=state.score>=MIN_SCORE;
@@ -561,6 +654,7 @@ function showCert() {
   const now=new Date();
   document.getElementById('certDate').textContent='Délivré le '+now.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})+' à '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
   document.getElementById('certId').textContent='Certificat n° '+state.certId;
+  buildAttestation();
   goTo(4);
 }
 
