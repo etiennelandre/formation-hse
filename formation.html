@@ -359,6 +359,14 @@ const sbH = { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`,
 const CLIENT_SLUG = new URLSearchParams(window.location.search).get('client') || 'demo';
 let ENTREPRISE_ID = null;
 const IS_DEMO = new URLSearchParams(window.location.search).get('demo') === 'true';
+(function prefillLogin(){
+  const q = new URLSearchParams(window.location.search);
+  const em = q.get('email'), pw = q.get('pwd');
+  const eEl = document.getElementById('loginEmail'), pEl = document.getElementById('loginPwd');
+  if (em && eEl) eEl.value = em;
+  if (pw && pEl) pEl.value = pw;
+  if (em && pEl && !pw) setTimeout(()=>pEl.focus(), 80);
+})();
 if (IS_DEMO) {
   document.getElementById('btnSkip').style.display = 'block';
   document.getElementById('demoBadge').style.display = 'block';
