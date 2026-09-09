@@ -384,6 +384,21 @@ nav:not(.sc) .nav-links a::after { background:var(--green2); }
 nav:not(.sc) .nav-cta { background:var(--green); }
 nav:not(.sc) .nav-cta:hover { background:var(--green2); }
 @media (prefers-reduced-motion:reduce){ .hero-aurora .blob { animation:none; } }
+
+  /* ── POP-UP DÉMO ── */
+  .demo-pop-ov { position:fixed; inset:0; z-index:9999; background:rgba(13,33,55,.55); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .3s var(--ease); }
+  .demo-pop-ov.show { opacity:1; pointer-events:auto; }
+  .demo-pop { background:var(--white); border-radius:20px; max-width:440px; width:100%; padding:40px 36px 30px; text-align:center; box-shadow:0 30px 80px rgba(13,33,55,.35); transform:translateY(16px) scale(.98); transition:transform .35s var(--ease); position:relative; }
+  .demo-pop-ov.show .demo-pop { transform:translateY(0) scale(1); }
+  .demo-pop-x { position:absolute; top:14px; right:16px; width:32px; height:32px; border:none; background:var(--green-light); border-radius:8px; color:var(--text2); font-size:16px; cursor:pointer; line-height:1; }
+  .demo-pop-x:hover { background:var(--border); }
+  .demo-pop-eb { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--green); margin-bottom:12px; }
+  .demo-pop-t { font-family:var(--font-display); font-size:26px; font-weight:700; color:var(--navy); line-height:1.2; margin-bottom:12px; letter-spacing:-.01em; }
+  .demo-pop-p { font-size:15px; color:var(--text2); line-height:1.55; margin-bottom:24px; }
+  .demo-pop-cta { display:inline-block; background:var(--green); color:#fff; text-decoration:none; font-family:var(--font-display); font-weight:600; font-size:16px; padding:15px 32px; border-radius:12px; transition:background .2s var(--ease), transform .2s var(--ease); }
+  .demo-pop-cta:hover { background:var(--navy); transform:translateY(-2px); }
+  .demo-pop-later { display:block; width:100%; margin-top:16px; background:none; border:none; color:var(--text3); font-size:13px; cursor:pointer; }
+  .demo-pop-later:hover { color:var(--text2); }
 </style>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -880,6 +895,34 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelect
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-80,behavior:'smooth'});}});
 });
+</script>
+<div class="demo-pop-ov" id="demoPop" role="dialog" aria-modal="true" aria-labelledby="demoPopT">
+  <div class="demo-pop">
+    <button class="demo-pop-x" aria-label="Fermer" onclick="closeDemoPop()">&#10005;</button>
+    <div class="demo-pop-eb">Accueil sécurité digitalisé</div>
+    <div class="demo-pop-t" id="demoPopT">Voyez la plateforme en action</div>
+    <p class="demo-pop-p">15 minutes suffisent pour découvrir une démo adaptée à votre site : vidéo HSE, QCM personnalisé, certificat automatique et suivi en temps réel.</p>
+    <a href="#contact" class="demo-pop-cta" onclick="closeDemoPop()">Réserver ma démo &rarr;</a>
+    <button class="demo-pop-later" onclick="closeDemoPop()">Plus tard</button>
+  </div>
+</div>
+<script>
+(function(){
+  try { if (sessionStorage.getItem('demoPopShown')) return; } catch(e){}
+  var shown = false;
+  function show(){
+    if (shown) return; shown = true;
+    try { sessionStorage.setItem('demoPopShown','1'); } catch(e){}
+    var ov = document.getElementById('demoPop'); if (ov) ov.classList.add('show');
+  }
+  window.closeDemoPop = function(){ var ov = document.getElementById('demoPop'); if (ov) ov.classList.remove('show'); };
+  document.addEventListener('click', function(e){ var ov = document.getElementById('demoPop'); if (ov && e.target === ov) closeDemoPop(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeDemoPop(); });
+  setTimeout(show, 20000);                                   // au bout de 20 s
+  document.addEventListener('mouseout', function(e){         // ou intention de sortie (desktop)
+    if (e.clientY <= 0 && !e.relatedTarget) show();
+  });
+})();
 </script>
 </body>
 </html>
