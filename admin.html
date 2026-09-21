@@ -258,8 +258,16 @@
         <div class="create-form-card">
           <div class="create-form-title">Créer un accès</div>
           <div class="create-form-sub">Le collaborateur recevra automatiquement un email avec ses identifiants et le lien de formation.</div>
-          <div class="form-group"><label class="form-label">Nom complet *</label><input type="text" class="form-input" id="newNom" placeholder="Marie Dupont"></div>
+          <div style="display:flex;gap:12px">
+            <div class="form-group" style="flex:1"><label class="form-label">Prénom *</label><input type="text" class="form-input" id="newPrenom" placeholder="Marie"></div>
+            <div class="form-group" style="flex:1"><label class="form-label">Nom *</label><input type="text" class="form-input" id="newNom" placeholder="Dupont"></div>
+          </div>
           <div class="form-group"><label class="form-label">Email *</label><input type="email" class="form-input" id="newEmail" placeholder="marie.dupont@entreprise.fr"></div>
+          <div class="form-group"><label class="form-label">Type de personne</label><select class="form-input" id="newType"><option value="">— Non précisé —</option><option>Collaborateur interne</option><option>CDD</option><option>Alternant</option><option>Intérimaire</option><option>Prestataire externe</option><option>Visiteur</option></select></div>
+          <div style="display:flex;gap:12px">
+            <div class="form-group" style="flex:1"><label class="form-label">Date de naissance</label><input type="date" class="form-input" id="newDob"></div>
+            <div class="form-group" style="flex:1"><label class="form-label">Nationalité</label><input type="text" class="form-input" id="newNat" placeholder="Française"></div>
+          </div>
           <div class="form-group">
             <label class="form-label">Mot de passe temporaire *</label>
             <div class="pwd-wrap">
@@ -565,7 +573,7 @@ function renderAcces() {
     const dateCreation = a.date_creation ? new Date(a.date_creation).toLocaleDateString('fr-FR') : '—';
     const dateFormation = a.date_formation ? new Date(a.date_formation).toLocaleDateString('fr-FR') : '—';
     return `<tr>
-      <td style="font-weight:600;color:var(--text)">${a.nom||'—'}</td>
+      <td style="font-weight:600;color:var(--text)">${a.nom||'—'}${a.type_personne?`<div style="font-weight:400;font-size:11px;color:var(--text2);margin-top:2px">${a.type_personne}</div>`:''}</td>
       <td style="font-size:12px;font-family:var(--font-mono)">${a.email||'—'}</td>
       <td><span class="badge ${fait?'badge-pass':'badge-wait'}">${fait?'✓ Formation complétée':'⏳ En attente'}</span></td>
       <td style="font-size:12px;color:var(--text3)">${dateCreation}</td>
@@ -585,10 +593,15 @@ function genPwd() {
 
 // ── CRÉER UN ACCÈS ──
 async function createAccess() {
-  const nom = document.getElementById('newNom').value.trim();
+  const prenom = document.getElementById('newPrenom').value.trim();
+  const nomFamille = document.getElementById('newNom').value.trim();
+  const nom = (prenom + ' ' + nomFamille).trim();
   const email = document.getElementById('newEmail').value.trim().toLowerCase();
   const pwd = document.getElementById('newPwd').value.trim();
-  if (!nom || !email || !pwd) { showNotice('Veuillez remplir tous les champs.', 'error'); return; }
+  const typePersonne = document.getElementById('newType').value || null;
+  const dob = document.getElementById('newDob').value || null;
+  const nationalite = document.getElementById('newNat').value.trim() || null;
+  if (!prenom || !nomFamille || !email || !pwd) { showNotice('Veuillez remplir prénom, nom, email et mot de passe.', 'error'); return; }
 
   // Pre-verification : email deja utilise ? (evite l'erreur generique sur doublon)
   try {
@@ -604,7 +617,8 @@ async function createAccess() {
   let created = false;
   try {
     created = await sbInsert('acces', {
-      entreprise_id: ENTREPRISE_ID, nom, email, mot_de_passe: pwd,
+      entreprise_id: ENTREPRISE_ID, nom, prenom, email, mot_de_passe: pwd,
+      nationalite, date_naissance: dob, type_personne: typePersonne,
       formation_completee: false,
       date_creation: new Date().toISOString()
     });
@@ -617,9 +631,13 @@ async function createAccess() {
   }
 
   // Compte bien créé : on vide le formulaire et on rafraîchit la liste tout de suite
+  document.getElementById('newPrenom').value = '';
   document.getElementById('newNom').value = '';
   document.getElementById('newEmail').value = '';
   document.getElementById('newPwd').value = '';
+  document.getElementById('newType').value = '';
+  document.getElementById('newDob').value = '';
+  document.getElementById('newNat').value = '';
   loadAcces();
 
   // 2) Envoi de l'email — SÉPARÉ : un échec ici NE remet PAS en cause la création
