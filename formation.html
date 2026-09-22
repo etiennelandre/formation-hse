@@ -124,7 +124,9 @@
   .option.selected { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
   .option.correct { border-color: #1a7a5e; background: var(--green-light); color: var(--green-dark); }
   .option.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); }
-  .opt-radio { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--gray-300); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .opt-radio { width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid var(--gray-300); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .q-img { max-width: 100%; max-height: 280px; display: block; margin: 12px auto; border-radius: 10px; border: 1px solid var(--gray-200); }
+  .q-hint { font-size: 12px; color: var(--gray-500); font-style: italic; margin-bottom: 10px; }
   .option.selected .opt-radio { border-color: var(--blue); background: var(--blue); }
   .option.correct .opt-radio { border-color: #1a7a5e; background: #1a7a5e; }
   .option.wrong .opt-radio { border-color: var(--red); background: var(--red); }
@@ -385,13 +387,21 @@ let QUESTIONS = [
   { q: "La première chose à faire en arrivant sur un site industriel en tant qu'intervenant extérieur ?", opts: ["Commencer les travaux immédiatement","Se présenter à l'accueil et suivre la procédure d'accueil sécurité","Appeler son responsable","Chercher la zone d'intervention seul"], correct: 1 }
 ];
 
-// ── Bonne réponse toujours en 1re position (choix produit, appliqué partout) ──
-QUESTIONS.forEach(q => {
-  const right = q.opts[q.correct];
-  q.opts.splice(q.correct, 1);
-  q.opts.unshift(right);
-  q.correct = 0;
-});
+// ── Mélange aléatoire des questions ET des réponses à l'exécution (prepareQuiz) ──
+let QUIZ = [];
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function normCorrect(c){ return Array.isArray(c) ? c.slice() : [c]; }
+function setsEqual(a,b){ if(a.length!==b.length) return false; const st=new Set(a); return b.every(x=>st.has(x)); }
+function prepareQuiz(){
+  QUIZ = shuffle(QUESTIONS.map(q => {
+    const corr = normCorrect(q.correct);
+    const opts = q.opts.map((text,idx)=>({text, ok: corr.includes(idx)}));
+    shuffle(opts);
+    const correct = opts.map((o,i)=>o.ok?i:-1).filter(i=>i>=0);
+    return { q:q.q, img:q.img||null, opts:opts.map(o=>o.text), correct };
+  }));
+  state.answers = QUIZ.map(()=>[]);
+}
 
 let state = { learner:{nom:'',email:'',accesId:null}, videoWatched:false, videoStart:null, videoEnd:null, answers:new Array(10).fill(null), attempts:0, score:0, correct:0, certId:'' };
 let ENT_NAME = '';
@@ -408,7 +418,6 @@ async function loadClientConfig() {
     ENT_NAME = e.nom || c.nom || CLIENT_SLUG;
     if (Array.isArray(f.qcm) && f.qcm.length) {
       QUESTIONS = f.qcm;
-      QUESTIONS.forEach(q => { const right=q.opts[q.correct]; q.opts.splice(q.correct,1); q.opts.unshift(right); q.correct=0; });
       state.answers = new Array(QUESTIONS.length).fill(null);
     }
     if (f.video_youtube_id) YOUTUBE_VIDEO_ID = f.video_youtube_id;
@@ -486,7 +495,7 @@ function goTo(n) {
   for(let i=0;i<=4;i++) document.getElementById('screen'+i).classList.remove('active');
   document.getElementById('screen'+n).classList.add('active');
   setStep(n+1);
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo(0,0);
 }
 
 // ── VIDÉO ──
@@ -540,10 +549,11 @@ function buildAttestation() {
     ['Terminal', si.terminal],
   ];
   document.getElementById('attInfo').innerHTML = rows.map(r=>`<div class="att-row"><span class="att-k">${esc(r[0])}</span><span class="att-v">${esc(r[1]||'—')}</span></div>`).join('');
-  document.getElementById('attQA').innerHTML = QUESTIONS.map((q,i)=>{
-    const ua = state.answers[i], ok = ua===q.correct;
-    const userTxt = (ua!=null) ? q.opts[ua] : 'Aucune réponse';
-    return `<div class="att-qitem"><div class="att-q">Question ${i+1} : ${esc(q.q)}</div><div class="att-a"><span class="att-mark ${ok?'ok':'no'}">${ok?'\u2713':'\u2717'}</span><span>${esc(userTxt)}</span></div>${ok?'':`<div class="att-corr">Bonne réponse : ${esc(q.opts[q.correct])}</div>`}</div>`;
+  document.getElementById('attQA').innerHTML = QUIZ.map((q,i)=>{
+    const sel = state.answers[i]||[], ok = setsEqual(sel,q.correct);
+    const userTxt = sel.length ? sel.map(j=>q.opts[j]).join(' ; ') : 'Aucune réponse';
+    const corrTxt = q.correct.map(j=>q.opts[j]).join(' ; ');
+    return `<div class="att-qitem"><div class="att-q">Question ${i+1} : ${esc(q.q)}</div><div class="att-a"><span class="att-mark ${ok?'ok':'no'}">${ok?'\u2713':'\u2717'}</span><span>${esc(userTxt)}</span></div>${ok?'':`<div class="att-corr">Bonne(s) réponse(s) : ${esc(corrTxt)}</div>`}</div>`;
   }).join('');
   document.getElementById('attConsent').innerHTML = `Je soussigné(e) <strong>${esc(state.learner.nom)}</strong>, atteste avoir suivi la formation d'accueil sécurité, visionné la vidéo dans son intégralité et complété l'évaluation associée. Les informations ci-dessus reflètent le déroulé réel de ma session.<div class="att-sign">Fait le ${now.toLocaleDateString('fr-FR')} — Signature :</div>`;
 }
@@ -605,28 +615,32 @@ function goToQCM(){renderQCM();goTo(2);}
 
 // ── QCM ──
 function renderQCM() {
-  state.answers=new Array(QUESTIONS.length).fill(null);
-  document.getElementById('qcmBody').innerHTML=QUESTIONS.map((q,i)=>`
+  prepareQuiz();
+  document.getElementById('qcmBody').innerHTML=QUIZ.map((q,i)=>`
     <div class="q-block">
-      <div class="q-num">Question ${i+1} / ${QUESTIONS.length}</div>
+      <div class="q-num">Question ${i+1} / ${QUIZ.length}</div>
       <div class="q-text">${q.q}</div>
-      ${q.opts.map((o,j)=>`<div class="option" id="o${i}_${j}" onclick="pickOpt(${i},${j})"><div class="opt-radio"><div class="opt-dot" id="dot${i}_${j}" style="display:none"></div></div>${o}</div>`).join('')}
+      ${q.img?`<img src="${q.img}" alt="illustration" class="q-img">`:''}
+      <div class="q-hint">Sélectionnez la ou les bonnes réponses.</div>
+      ${q.opts.map((o,j)=>`<div class="option" id="o${i}_${j}" onclick="toggleOpt(${i},${j})"><div class="opt-radio"><div class="opt-dot" id="dot${i}_${j}" style="display:none"></div></div>${o}</div>`).join('')}
     </div>`).join('');
 }
 
-function pickOpt(qi,oi) {
-  QUESTIONS[qi].opts.forEach((_,j)=>{document.getElementById(`o${qi}_${j}`).classList.remove('selected');document.getElementById(`dot${qi}_${j}`).style.display='none';});
-  state.answers[qi]=oi;
-  document.getElementById(`o${qi}_${oi}`).classList.add('selected');
-  document.getElementById(`dot${qi}_${oi}`).style.display='block';
+function toggleOpt(qi,oi) {
+  const arr = state.answers[qi];
+  const pos = arr.indexOf(oi);
+  if (pos>=0) arr.splice(pos,1); else arr.push(oi);
+  const sel = arr.includes(oi);
+  document.getElementById(`o${qi}_${oi}`).classList.toggle('selected', sel);
+  document.getElementById(`dot${qi}_${oi}`).style.display = sel?'block':'none';
 }
 
 function submitQCM() {
-  if(state.answers.includes(null)){alert('Veuillez répondre à toutes les questions.');return;}
+  if(state.answers.some(a=>!a||a.length===0)){alert('Veuillez répondre à toutes les questions.');return;}
   let correct=0;
-  QUESTIONS.forEach((q,i)=>{if(state.answers[i]===q.correct)correct++;});
+  QUIZ.forEach((q,i)=>{if(setsEqual(state.answers[i],q.correct))correct++;});
   state.correct=correct;
-  state.score=Math.round(correct/QUESTIONS.length*100);
+  state.score=Math.round(correct/QUIZ.length*100);
   state.attempts++;
   const passed=state.score>=MIN_SCORE;
   state.certId=passed?'HSE-'+new Date().getFullYear()+'-'+Math.random().toString(36).substr(2,8).toUpperCase():'';
@@ -637,16 +651,17 @@ function submitQCM() {
 function showResults(correct,passed) {
   document.getElementById('statS').textContent=state.score+'%';
   document.getElementById('statS').style.color=passed?'#1a7a5e':'var(--red)';
-  document.getElementById('statC').textContent=correct+'/'+QUESTIONS.length;
+  document.getElementById('statC').textContent=correct+'/'+QUIZ.length;
   document.getElementById('statT').textContent=state.attempts;
   document.getElementById('resultSubtitle').textContent=passed?'🎉 Félicitations !':'Score insuffisant';
   document.getElementById('resultNotice').innerHTML=passed
     ?`<div class="notice success"><span class="notice-icon">✓</span><span>Score : <strong>${state.score}%</strong> — évaluation validée.</span></div>`
     :`<div class="notice error"><span class="notice-icon">✗</span><span>Score : <strong>${state.score}%</strong> — insuffisant (${MIN_SCORE}% requis).</span></div>`;
-  document.getElementById('correctionBody').innerHTML=QUESTIONS.map((q,i)=>{
-    const ok=state.answers[i]===q.correct;
+  document.getElementById('correctionBody').innerHTML=QUIZ.map((q,i)=>{
+    const sel=state.answers[i]||[], ok=setsEqual(sel,q.correct);
     return`<div class="q-block"><div class="q-num" style="color:${ok?'#1d1d1f':'var(--red)'}">${ok?'✓':'✗'} Question ${i+1}</div><div class="q-text">${q.q}</div>
-    ${q.opts.map((o,j)=>{let c='option';if(j===q.correct)c+=' correct';else if(j===state.answers[i]&&!ok)c+=' wrong';return`<div class="${c}" style="cursor:default"><div class="opt-radio"><div class="opt-dot" style="display:${j===q.correct||j===state.answers[i]?'block':'none'}"></div></div>${o}</div>`;}).join('')}</div>`;
+    ${q.img?`<img src="${q.img}" alt="" class="q-img">`:''}
+    ${q.opts.map((o,j)=>{const isC=q.correct.includes(j),isS=sel.includes(j);let c='option';if(isC)c+=' correct';else if(isS)c+=' wrong';return`<div class="${c}" style="cursor:default"><div class="opt-radio"><div class="opt-dot" style="display:${isC||isS?'block':'none'}"></div></div>${o}</div>`;}).join('')}</div>`;
   }).join('');
   document.getElementById('resultBtnRow').innerHTML=passed
     ?`<button class="btn btn-green" onclick="showCert()">Obtenir mon certificat →</button>`
@@ -664,6 +679,8 @@ function showCert() {
   document.getElementById('certId').textContent='Certificat n° '+state.certId;
   buildAttestation();
   goTo(4);
+  window.scrollTo(0,0);
+  setTimeout(function(){ window.scrollTo(0,0); }, 60);
 }
 
 function copyId(){navigator.clipboard.writeText(state.certId).then(()=>alert('ID copié : '+state.certId)).catch(()=>alert('ID : '+state.certId));}
