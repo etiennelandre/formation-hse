@@ -126,6 +126,7 @@
   .option.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); }
   .opt-radio { width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid var(--gray-300); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
   .q-img { max-width: 100%; max-height: 280px; display: block; margin: 12px auto; border-radius: 10px; border: 1px solid var(--gray-200); }
+  .mod-slide { max-width: 100%; display: block; margin: 0 auto; border-radius: 12px; border: 1px solid var(--gray-200); box-shadow: 0 8px 30px rgba(13,33,55,.08); }
   .q-hint { font-size: 12px; color: var(--gray-500); font-style: italic; margin-bottom: 10px; }
   .option.selected .opt-radio { border-color: var(--blue); background: var(--blue); }
   .option.correct .opt-radio { border-color: #1a7a5e; background: #1a7a5e; }
@@ -287,6 +288,16 @@
   </div>
 
   <!-- SCREEN 3 — RÉSULTATS -->
+  <div class="screen" id="screenM">
+    <div class="card" style="max-width:920px;margin:0 auto">
+      <div style="height:6px;background:var(--gray-100);border-radius:3px;margin-bottom:22px;overflow:hidden"><div id="modBar" style="height:100%;width:0;background:var(--green);transition:width .3s"></div></div>
+      <div id="modContent"></div>
+    </div>
+    <div class="btn-row" style="max-width:920px;margin:20px auto 0;justify-content:space-between">
+      <button class="btn btn-outline" id="modPrev" onclick="modGo(-1)">← Précédent</button>
+      <button class="btn btn-green" id="modNext" onclick="modGo(1)">Suivant →</button>
+    </div>
+  </div>
   <div class="screen" id="screen3">
     <div class="card">
       <div class="card-title">Résultats</div>
@@ -389,6 +400,7 @@ let QUESTIONS = [
 
 // ── Mélange aléatoire des questions ET des réponses à l'exécution (prepareQuiz) ──
 let QUIZ = [];
+let MODULE=null, MODSTEPS=[], MODIDX=0, MODQMAP={};
 function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
 function normCorrect(c){ return Array.isArray(c) ? c.slice() : [c]; }
 function setsEqual(a,b){ if(a.length!==b.length) return false; const st=new Set(a); return b.every(x=>st.has(x)); }
@@ -419,6 +431,7 @@ async function loadClientConfig() {
     if (Array.isArray(f.qcm) && f.qcm.length) {
       QUESTIONS = f.qcm;
       state.answers = new Array(QUESTIONS.length).fill(null);
+      MODULE = Array.isArray(f.module) ? f.module : null;
     }
     if (f.video_youtube_id) YOUTUBE_VIDEO_ID = f.video_youtube_id;
     if (typeof f.seuil_reussite === 'number') MIN_SCORE = f.seuil_reussite;
@@ -451,7 +464,7 @@ async function loginCollab() {
 
   if (IS_DEMO) {
     state.learner = { nom: 'Utilisateur Démo', email: 'demo@hseplatform.fr', accesId: null };
-    goTo(1); btn.disabled = false; btn.textContent = 'Accéder à ma formation →';
+    startFormation(); btn.disabled = false; btn.textContent = 'Accéder à ma formation →';
     return;
   }
 
@@ -471,7 +484,7 @@ async function loginCollab() {
     } else {
       state.learner = { nom: out.learner.nom, email: out.learner.email, accesId: out.learner.id };
       document.getElementById('loginErrMsg').style.display = 'none';
-      goTo(1);
+      startFormation();
     }
   } catch(e) {
     document.getElementById('loginErrMsg').style.display = 'flex';
@@ -614,6 +627,78 @@ function videoDone() {
 function goToQCM(){renderQCM();goTo(2);}
 
 // ── QCM ──
+function startFormation(){ if (MODULE && MODULE.length) startModule(); else goTo(1); }
+
+function startModule(){
+  MODSTEPS = MODULE.slice();
+  const qrefs = MODSTEPS.filter(st=>st.q!==undefined && st.q!==null).map(st=>st.q);
+  QUIZ = qrefs.map(qi=>{
+    const q = QUESTIONS[qi];
+    const corr = normCorrect(q.correct);
+    const opts = q.opts.map((text,idx)=>({text, ok:corr.includes(idx)}));
+    shuffle(opts);
+    const correct = opts.map((o,i)=>o.ok?i:-1).filter(i=>i>=0);
+    return { q:q.q, img:q.img||null, opts:opts.map(o=>o.text), correct };
+  });
+  state.answers = QUIZ.map(()=>[]);
+  MODQMAP = {}; let qc=0;
+  MODSTEPS.forEach((st,i)=>{ if(st.q!==undefined && st.q!==null) MODQMAP[i]=qc++; });
+  MODIDX = 0;
+  const sb=document.querySelector('.steps-bar'); if(sb) sb.style.display='none';
+  for(let i=0;i<=4;i++){const el=document.getElementById('screen'+i); if(el) el.classList.remove('active');}
+  document.getElementById('screenM').classList.add('active');
+  renderModStep(); window.scrollTo(0,0);
+}
+
+function renderModStep(){
+  const step = MODSTEPS[MODIDX], total = MODSTEPS.length;
+  document.getElementById('modBar').style.width = ((MODIDX+1)/total*100)+'%';
+  document.getElementById('modPrev').style.visibility = MODIDX>0?'visible':'hidden';
+  const content = document.getElementById('modContent'), nextBtn = document.getElementById('modNext');
+  const last = (MODIDX===total-1);
+  if (step.slide){
+    content.innerHTML = `<img src="${step.slide}" alt="Slide de formation" class="mod-slide">`;
+    nextBtn.disabled = false; nextBtn.textContent = last?'Terminer →':'Suivant →';
+  } else {
+    const qi = MODQMAP[MODIDX], q = QUIZ[qi];
+    content.innerHTML = `<div class="q-num">Question</div><div class="q-text">${q.q}</div>${q.img?`<img src="${q.img}" alt="" class="q-img">`:''}<div class="q-hint">Sélectionnez la ou les bonnes réponses.</div>${q.opts.map((o,j)=>`<div class="option${state.answers[qi].includes(j)?' selected':''}" id="mo${qi}_${j}" onclick="modToggle(${qi},${j})"><div class="opt-radio"><div class="opt-dot" id="mdot${qi}_${j}" style="display:${state.answers[qi].includes(j)?'block':'none'}"></div></div>${o}</div>`).join('')}`;
+    nextBtn.disabled = state.answers[qi].length===0; nextBtn.textContent = last?'Terminer →':'Valider →';
+  }
+}
+
+function modToggle(qi,oi){
+  const arr = state.answers[qi], pos = arr.indexOf(oi);
+  if (pos>=0) arr.splice(pos,1); else arr.push(oi);
+  const sel = arr.includes(oi);
+  document.getElementById(`mo${qi}_${oi}`).classList.toggle('selected', sel);
+  document.getElementById(`mdot${qi}_${oi}`).style.display = sel?'block':'none';
+  document.getElementById('modNext').disabled = arr.length===0;
+}
+
+function modGo(dir){
+  if (dir>0){
+    const step = MODSTEPS[MODIDX];
+    if (step.q!==undefined && step.q!==null && state.answers[MODQMAP[MODIDX]].length===0) return;
+    if (MODIDX===MODSTEPS.length-1){ finishModule(); return; }
+    MODIDX++;
+  } else if (MODIDX>0){ MODIDX--; }
+  renderModStep(); window.scrollTo(0,0);
+}
+
+function finishModule(){
+  let correct=0;
+  QUIZ.forEach((q,i)=>{ if(setsEqual(state.answers[i],q.correct)) correct++; });
+  state.correct=correct;
+  state.score=Math.round(correct/QUIZ.length*100);
+  state.attempts++;
+  const passed=state.score>=MIN_SCORE;
+  state.certId=passed?'HSE-'+new Date().getFullYear()+'-'+Math.random().toString(36).substr(2,8).toUpperCase():'';
+  saveResult(passed);
+  document.getElementById('screenM').classList.remove('active');
+  const sb=document.querySelector('.steps-bar'); if(sb) sb.style.display='';
+  showResults(correct,passed);
+}
+
 function renderQCM() {
   prepareQuiz();
   document.getElementById('qcmBody').innerHTML=QUIZ.map((q,i)=>`
@@ -669,7 +754,7 @@ function showResults(correct,passed) {
   goTo(3);
 }
 
-function retryQCM(){renderQCM();goTo(2);}
+function retryQCM(){ if(MODULE){startModule();} else {renderQCM();goTo(2);} }
 
 function showCert() {
   document.getElementById('certName').textContent=state.learner.nom;
