@@ -126,7 +126,16 @@
   .option.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); }
   .opt-radio { width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid var(--gray-300); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
   .q-img { max-width: 100%; max-height: 280px; display: block; margin: 12px auto; border-radius: 10px; border: 1px solid var(--gray-200); }
-  .mod-slide { max-width: 100%; display: block; margin: 0 auto; border-radius: 12px; border: 1px solid var(--gray-200); box-shadow: 0 8px 30px rgba(13,33,55,.08); }
+  .mod-slide-wrap { position: relative; }
+  .mod-slide { width: 100%; display: block; margin: 0 auto; border-radius: 12px; border: 1px solid var(--gray-200); box-shadow: 0 8px 30px rgba(13,33,55,.08); cursor: zoom-in; }
+  .mod-fs-btn { position: absolute; top: 12px; right: 12px; background: rgba(13,33,55,.82); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .mod-fs-btn:hover { background: rgba(13,33,55,.95); }
+  .mod-slide-hint { text-align: center; font-size: 12px; color: var(--gray-500); margin-top: 8px; }
+  .slide-lb { position: fixed; inset: 0; z-index: 99999; background: rgba(13,33,55,.93); display: none; align-items: center; justify-content: center; padding: 16px; cursor: zoom-out; }
+  .slide-lb.show { display: flex; }
+  .slide-lb img { max-width: 100%; max-height: 94vh; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,.55); }
+  .slide-lb-close { position: absolute; top: 16px; right: 20px; background: rgba(255,255,255,.16); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .slide-lb-close:hover { background: rgba(255,255,255,.3); }
   .q-hint { font-size: 12px; color: var(--gray-500); font-style: italic; margin-bottom: 10px; }
   .option.selected .opt-radio { border-color: var(--blue); background: var(--blue); }
   .option.correct .opt-radio { border-color: #1a7a5e; background: #1a7a5e; }
@@ -289,14 +298,18 @@
 
   <!-- SCREEN 3 — RÉSULTATS -->
   <div class="screen" id="screenM">
-    <div class="card" style="max-width:920px;margin:0 auto">
+    <div class="card" style="max-width:1160px;margin:0 auto">
       <div style="height:6px;background:var(--gray-100);border-radius:3px;margin-bottom:22px;overflow:hidden"><div id="modBar" style="height:100%;width:0;background:var(--green);transition:width .3s"></div></div>
       <div id="modContent"></div>
     </div>
-    <div class="btn-row" style="max-width:920px;margin:20px auto 0;justify-content:space-between">
+    <div class="btn-row" style="max-width:1160px;margin:20px auto 0;justify-content:space-between">
       <button class="btn btn-outline" id="modPrev" onclick="modGo(-1)">← Précédent</button>
       <button class="btn btn-green" id="modNext" onclick="modGo(1)">Suivant →</button>
     </div>
+  </div>
+  <div class="slide-lb" id="slideLightbox" onclick="closeLightbox()">
+    <img id="slideLbImg" src="" alt="Slide en plein écran">
+    <button type="button" class="slide-lb-close" onclick="closeLightbox(event)">✕ Fermer</button>
   </div>
   <div class="screen" id="screen3">
     <div class="card">
@@ -627,6 +640,10 @@ function videoDone() {
 function goToQCM(){renderQCM();goTo(2);}
 
 // ── QCM ──
+function openLightbox(src){ document.getElementById('slideLbImg').src = src; document.getElementById('slideLightbox').classList.add('show'); }
+function closeLightbox(e){ if(e&&e.stopPropagation) e.stopPropagation(); document.getElementById('slideLightbox').classList.remove('show'); }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
+
 function startFormation(){ if (MODULE && MODULE.length) startModule(); else goTo(1); }
 
 function startModule(){
@@ -657,7 +674,7 @@ function renderModStep(){
   const content = document.getElementById('modContent'), nextBtn = document.getElementById('modNext');
   const last = (MODIDX===total-1);
   if (step.slide){
-    content.innerHTML = `<img src="${step.slide}" alt="Slide de formation" class="mod-slide">`;
+    content.innerHTML = `<div class="mod-slide-wrap"><img src="${step.slide}" alt="Slide de formation" class="mod-slide" onclick="openLightbox('${step.slide}')"><button type="button" class="mod-fs-btn" onclick="openLightbox('${step.slide}')">⛶ Plein écran</button><div class="mod-slide-hint">Cliquez sur la slide pour l'agrandir</div></div>`;
     nextBtn.disabled = false; nextBtn.textContent = last?'Terminer →':'Suivant →';
   } else {
     const qi = MODQMAP[MODIDX], q = QUIZ[qi];
