@@ -193,6 +193,8 @@ footer{padding:40px 64px;background:var(--black);border-top:1px solid var(--line
 .ft-links a{font-size:12px;color:var(--on-ink-3);text-decoration:none;transition:color .2s}
 .ft-links a:hover{color:#fff}
 .ft-copy{font-size:12px;color:var(--on-ink-3)}
+.ft-copy a{color:var(--on-ink-2);text-decoration:none;transition:color .2s}
+.ft-copy a:hover{color:#fff}
 
 /* ── RESPONSIVE ── */
 @media (max-width:1000px){
