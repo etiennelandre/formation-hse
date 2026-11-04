@@ -68,7 +68,7 @@
   "provider": {
     "@type": "Person",
     "name": "Etienne LANDRE",
-    "email": "etiennelandre11@gmail.com",
+    "email": "contact@hseplatform.fr",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "7 boulevard de Balmont",
@@ -120,20 +120,7 @@ strong,b{font-weight:500}
 .lg{display:block;fill:currentColor}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
-/* ── CURSEUR ── */
-@media (hover:hover) and (pointer:fine){
-  html,body,*{cursor:none !important}
-  .cur-dot{width:6px;height:6px;background:var(--blue);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:background .2s,width .2s,height .2s}
-  .cur-ring{width:40px;height:40px;border:1.5px solid rgba(83,131,229,.45);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:border-color .3s,width .3s,height .3s}
-  .cur-dot.h{width:10px;height:10px;background:var(--blue-3)}
-  .cur-ring.h{width:54px;height:54px;border-color:rgba(47,95,192,.75)}
-  .cur-dot.d{background:var(--blue-2)}
-  .cur-ring.d{border-color:rgba(108,157,247,.5)}
-  .cur-dot.d.h{background:#fff}
-  .cur-ring.d.h{border-color:rgba(255,255,255,.7)}
-}
-@media not ((hover:hover) and (pointer:fine)){.cur-dot,.cur-ring{display:none}}
-.video-frame,.video-frame *{cursor:auto !important}
+button,select,label[for]{cursor:pointer}
 
 /* ── SCROLL PROGRESS ── */
 .sp{position:fixed;top:0;left:0;z-index:9997;height:2px;width:0;background:linear-gradient(90deg,var(--blue-deep),var(--blue-2));transition:width .1s linear}
@@ -417,6 +404,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--blue-2);outline-off
 .cf-s-title{font-family:var(--display-2);font-size:24px;color:#fff;margin-bottom:8px}
 .cf-s-sub{font-size:14px;color:var(--on-ink-2);line-height:1.6}
 .cf-err{margin-top:14px;padding:12px 16px;background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.3);border-radius:8px;font-size:13px;color:#f0a090;display:none}
+.cf-err a{color:inherit}
+.cf-legal{margin-top:16px;font-size:11.5px;color:var(--on-ink-3);line-height:1.6}
+.cf-legal a{color:var(--on-ink-2);text-decoration:underline;text-underline-offset:2px}
+.cf-legal a:hover{color:#fff}
 .cta-note{font-size:12px;color:var(--on-ink-3);margin-top:20px}
 
 /* ── MODALS ── */
@@ -440,10 +431,13 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--blue-2);outline-off
 footer{padding:40px 64px;background:var(--black);border-top:1px solid var(--line-dk);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;color:var(--on-ink-3)}
 .ft-logo{color:rgba(255,255,255,.55)}
 .ft-logo .lg{height:26px;width:auto}
-.ft-links{display:flex;gap:28px}
+.ft-links{display:flex;flex-wrap:wrap;gap:12px 28px}
 .ft-links a{font-size:12px;color:var(--on-ink-3);text-decoration:none;transition:color .2s}
 .ft-links a:hover{color:#fff}
 .ft-copy{font-size:12px;color:var(--on-ink-3)}
+.ft-copy a{color:var(--on-ink-2);text-decoration:none;transition:color .2s}
+.ft-copy a:hover{color:#fff}
+.modal-body a{color:var(--blue-3,#2f5fc0);text-decoration:underline;text-underline-offset:2px}
 
 /* ── POP-UP DÉMO ── */
 .demo-pop-ov{position:fixed;inset:0;z-index:9999;background:rgba(14,17,24,.6);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
@@ -675,8 +669,6 @@ svg.mk{fill:currentColor !important;stroke:none !important}
   </defs>
 </svg>
 
-<div class="cur-dot" id="cd"></div>
-<div class="cur-ring" id="cr"></div>
 <div class="sp" id="sp"></div>
 
 <!-- NAV -->
@@ -1034,7 +1026,8 @@ svg.mk{fill:currentColor !important;stroke:none !important}
           <button type="submit" class="cf-submit" id="cfBtn"><span id="cfTxt">Envoyer ma demande →</span></button>
           <div class="cf-note">Réponse sous 24h · Aucune carte bancaire requise</div>
         </div>
-        <div class="cf-err" id="cfErr">⚠ Une erreur est survenue. Écrivez directement à <strong>etiennelandre11@gmail.com</strong></div>
+        <div class="cf-err" id="cfErr">⚠ Une erreur est survenue. Écrivez directement à <strong><a href="mailto:contact@hseplatform.fr">contact@hseplatform.fr</a></strong></div>
+        <div class="cf-legal">Vos données servent uniquement à répondre à votre demande. <a href="#confidentialite" onclick="openModal('mRGPD');return false;">Politique de confidentialité</a></div>
       </form>
       <div class="cf-success" id="cfOk">
         <div class="cf-s-icon">✓</div>
@@ -1051,9 +1044,11 @@ svg.mk{fill:currentColor !important;stroke:none !important}
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-hd"><div class="modal-ttl">Mentions légales</div><button class="modal-cls" onclick="closeModal('mMentions')">✕</button></div>
     <div class="modal-body">
-      <h3>Éditeur du site</h3><p>Etienne LANDRE<br>7 boulevard de Balmont, 69009 Lyon<br>Email : etiennelandre11@gmail.com</p>
-      <h3>Hébergement</h3><p>GitHub Pages (GitHub, Inc.)<br>88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis</p>
-      <h3>Propriété intellectuelle</h3><p>L'ensemble des contenus sont la propriété exclusive d'Etienne LANDRE. Toute reproduction est interdite sans autorisation écrite préalable.</p>
+      <h3>Éditeur du site</h3><p>Etienne LANDRE, cofondateur de HSEPlatform<br>7 boulevard de Balmont, 69009 Lyon<br>E-mail : <a href="mailto:contact@hseplatform.fr">contact@hseplatform.fr</a></p>
+      <h3>Directeur de la publication</h3><p>Etienne LANDRE</p>
+      <h3>Hébergement</h3><p>GitHub Pages, service de GitHub, Inc.<br>88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis<br>pages.github.com</p>
+      <h3>Propriété intellectuelle</h3><p>L'ensemble des contenus du site (textes, visuels, vidéo, logo) sont la propriété exclusive d'Etienne LANDRE. Toute reproduction est interdite sans autorisation écrite préalable. Les marques et logos des entreprises citées restent la propriété de leurs titulaires respectifs.</p>
+      <h3>Données personnelles</h3><p>Le traitement de vos données est décrit dans la <a href="#confidentialite" onclick="closeModal('mMentions');openModal('mRGPD');return false;">politique de confidentialité</a>.</p>
       <h3>Droit applicable</h3><p>Droit français. Tribunaux français compétents en cas de litige.</p>
     </div>
   </div>
@@ -1064,13 +1059,12 @@ svg.mk{fill:currentColor !important;stroke:none !important}
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-hd"><div class="modal-ttl">Politique de confidentialité</div><button class="modal-cls" onclick="closeModal('mRGPD')">✕</button></div>
     <div class="modal-body">
-      <h3>Responsable du traitement</h3><p>Etienne LANDRE, etiennelandre11@gmail.com<br>7 boulevard de Balmont, 69009 Lyon</p>
-      <h3>Données collectées</h3><ul><li>Nom et prénom du collaborateur</li><li>Adresse email professionnelle</li><li>Poste et entreprise</li><li>Résultats de formation (score, date, certificat)</li></ul>
-      <h3>Finalité</h3><ul><li>Suivi des formations HSE obligatoires</li><li>Génération des attestations de formation</li><li>Justification de la conformité réglementaire</li></ul>
-      <h3>Base légale</h3><p>Art. R4511-1 du Code du travail et intérêt légitime de l'entreprise utilisatrice.</p>
-      <h3>Durée de conservation</h3><p>5 ans à compter de la date de formation.</p>
-      <h3>Droits</h3><p>Accès, rectification, effacement : etiennelandre11@gmail.com</p>
-      <h3>Hébergement</h3><p>Supabase, AWS Europe (Irlande), conforme RGPD.</p>
+      <h3>Responsable du traitement</h3><p>Etienne LANDRE, cofondateur de HSEPlatform<br>7 boulevard de Balmont, 69009 Lyon<br>E-mail : <a href="mailto:contact@hseplatform.fr">contact@hseplatform.fr</a></p>
+      <h3>Formulaire de contact</h3><ul><li>Données : nom et prénom, e-mail professionnel, entreprise, téléphone, message</li><li>Finalité : répondre à votre demande et organiser une démonstration</li><li>Base légale : mesures précontractuelles prises à votre demande</li><li>Conservation : 3 ans à compter de notre dernier échange</li><li>Prestataire : le formulaire est transmis par Formspree, Inc. (États-Unis), qui nous le fait suivre par e-mail. Vos données ne sont ni vendues ni cédées.</li></ul>
+      <h3>Données des collaborateurs formés sur la plateforme</h3><p>Lorsqu'une entreprise cliente utilise HSEPlatform, elle est responsable du traitement des données de ses collaborateurs, internes et externes. HSEPlatform agit pour son compte, en tant que sous-traitant, selon le contrat conclu avec elle.</p><ul><li>Données : nom et prénom, e-mail professionnel, poste et entreprise, résultats de formation (score, date, certificat)</li><li>Finalités : suivi des formations HSE obligatoires, génération des attestations, justification de la conformité réglementaire</li><li>Base légale : obligations de formation à la sécurité prévues par le Code du travail (art. L4141-2 et R4511-1 et suivants) et intérêt légitime de l'entreprise cliente</li><li>Conservation : 5 ans à compter de la date de formation</li><li>Hébergement : OVH Cloud, serveurs situés en France</li></ul>
+      <h3>Vos droits</h3><p>Vous disposez d'un droit d'accès, de rectification, d'effacement, d'opposition, de limitation et de portabilité de vos données. Écrivez à <a href="mailto:contact@hseplatform.fr">contact@hseplatform.fr</a>. Si vous avez été formé par une entreprise cliente, vous pouvez aussi vous adresser à elle. Vous pouvez enfin introduire une réclamation auprès de la CNIL (cnil.fr).</p>
+      <h3>Cookies et mesure d'audience</h3><p>Ce site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience ni de publicité. Il retient seulement, le temps de votre visite, que la fenêtre de démonstration vous a déjà été proposée, pour ne pas l'afficher deux fois.</p>
+      <h3>Hébergement du site et services tiers</h3><p>Le site est hébergé par GitHub Pages, qui enregistre l'adresse IP des visiteurs pour des raisons de sécurité. Les polices (Google Fonts) et la bibliothèque d'animation (cdnjs, Cloudflare) sont chargées depuis des serveurs tiers, qui reçoivent elles aussi votre adresse IP.</p>
       <h3>Vidéo de démonstration</h3><p>La vidéo de démonstration est hébergée sur ce site, avec les autres pages. Sa lecture ne fait appel à aucun service tiers et ne dépose aucun cookie.</p>
     </div>
   </div>
@@ -1080,12 +1074,12 @@ svg.mk{fill:currentColor !important;stroke:none !important}
 <footer>
   <div class="ft-logo"><svg class="lg" viewBox="0 0 519.50 91.50" aria-label="HSEPlatform"><use href="#lg-full"/></svg></div>
   <div class="ft-links">
-    <a href="#" onclick="openModal('mMentions');return false;">Mentions légales</a>
-    <a href="#" onclick="openModal('mRGPD');return false;">Politique de confidentialité</a>
+    <a href="#mentions-legales" onclick="openModal('mMentions');return false;">Mentions légales</a>
+    <a href="#confidentialite" onclick="openModal('mRGPD');return false;">Politique de confidentialité</a>
     <a href="blog/">Blog</a>
     <a href="#contact">Contact</a>
   </div>
-  <div class="ft-copy">© 2026 HSEPlatform · Tous droits réservés</div>
+  <div class="ft-copy"><a href="mailto:contact@hseplatform.fr">contact@hseplatform.fr</a> · © 2026 HSEPlatform · Tous droits réservés</div>
 </footer>
 
 <!-- POP-UP DÉMO -->
@@ -1101,25 +1095,6 @@ svg.mk{fill:currentColor !important;stroke:none !important}
 </div>
 
 <script>
-// ── CURSEUR (desktop uniquement) ──
-(function(){
-  if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
-  const cd=document.getElementById('cd'),cr=document.getElementById('cr');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cd.style.left=mx+'px'; cd.style.top=my+'px'; });
-  (function animR(){ rx+=(mx-rx)*.11; ry+=(my-ry)*.11; cr.style.left=rx+'px'; cr.style.top=ry+'px'; requestAnimationFrame(animR); })();
-  document.querySelectorAll('a,button,.feat-card,.prob-card,.testi-card,.proc-step,.cbl').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{cd.classList.add('h');cr.classList.add('h');});
-    el.addEventListener('mouseleave',()=>{cd.classList.remove('h');cr.classList.remove('h');});
-  });
-  document.querySelectorAll('.dk,footer').forEach(s=>{
-    new IntersectionObserver(entries=>entries.forEach(e=>{
-      if(e.isIntersecting){cd.classList.add('d');cr.classList.add('d');}
-      else{cd.classList.remove('d');cr.classList.remove('d');}
-    }),{threshold:.4}).observe(s);
-  });
-})();
-
 // ── SCROLL PROGRESS + NAV ──
 window.addEventListener('scroll',()=>{
   document.getElementById('sp').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
@@ -1155,8 +1130,12 @@ async function sendForm(e) {
 
 // ── MODALS ──
 function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
-function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-ov.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';});});
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';if(/^#(mentions-legales|confidentialite)$/.test(location.hash))history.replaceState(null,'',location.pathname+location.search);}
+// Liens directs (ex. depuis le blog) : /#mentions-legales et /#confidentialite
+function openLegalFromHash(){var m={'#mentions-legales':'mMentions','#confidentialite':'mRGPD'}[location.hash];if(m)openModal(m);}
+window.addEventListener('hashchange',openLegalFromHash);
+openLegalFromHash();
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-ov.open').forEach(m=>closeModal(m.id));});
 
 // ── SMOOTH SCROLL ──
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
