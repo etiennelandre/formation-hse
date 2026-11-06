@@ -80,6 +80,88 @@
 }
 </script>
 
+<!-- FAQ (données structurées) -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Combien de temps dure une formation d’accueil sécurité ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Environ 15 minutes pour un accueil sécurité type. La durée dépend des contenus que vous mettez en ligne : vidéos, documents et questionnaire."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Comment un collaborateur externe accède-t-il à sa formation ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Il reçoit un lien par e-mail avant sa venue, ou flashe un QR code à l’entrée du site, et suit la formation sur son téléphone. Les collaborateurs internes passent par le même parcours."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Comment le poste de garde vérifie-t-il qu’une personne est formée ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "L’agent recherche la personne dans la plateforme et voit en quelques secondes si son certificat est valide, pour quelle formation et jusqu’à quelle date."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Faut-il du matériel à l’entrée du site ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Non. Les collaborateurs utilisent leur téléphone. Si vous souhaitez un poste d’accueil, vous l’installez sur un ordinateur ou une tablette de votre site : HSEPlatform ne fournit pas de matériel."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Qui crée les contenus de formation ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Votre service HSE met en ligne ses vidéos, ses documents et ses questionnaires. Les documents sont lus page par page, avec un texte corrigeable et une lecture à voix haute. Formations et apprenants sont illimités."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Que se passe-t-il quand un certificat arrive à échéance ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "La plateforme relance automatiquement le collaborateur avant l’échéance pour qu’il renouvelle sa formation, sans action de votre part."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Où sont hébergées les données ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "En France, sur les serveurs d’OVH Cloud."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "HSEPlatform permet-il de déclarer les formations au Passeport de prévention ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "L’export vers le Passeport de prévention est en cours de développement. Aujourd’hui, les données de formation s’exportent en CSV pour vos audits et vos contrôles."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Combien coûte HSEPlatform ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Un abonnement annuel par site, selon le nombre de personnes accueillies, avec des frais de mise en service. Le tarif adapté à votre site vous est présenté après le diagnostic de 30 minutes."
+   }
+  }
+ ]
+}
+</script>
+
 <!-- Favicons (nouveau logo) -->
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -638,7 +720,14 @@ svg.mk{fill:currentColor !important;stroke:none !important}
 #blog .bl-t{font-family:var(--display-2);font-size:19px;line-height:1.25;color:var(--ink)}
 #blog .bl-d{font-size:14px;color:var(--text-2);line-height:1.65}
 #blog .bl-m{margin-top:auto;padding-top:6px;font-size:13px;color:var(--blue-3)}
-#blog  .bl-more{margin-top:26px;font-size:15px;color:var(--text-2)}
+#blog  .faq{max-width:860px;margin-top:36px;border-top:1px solid var(--line)}
+.faq-i{border-bottom:1px solid var(--line)}
+.faq-i summary{list-style:none;cursor:pointer;padding:22px 44px 22px 0;position:relative;font-family:var(--display-2);font-size:18px;color:var(--ink)}
+.faq-i summary::-webkit-details-marker{display:none}
+.faq-i summary::after{content:"+";position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:26px;color:var(--blue-3);transition:transform .2s}
+.faq-i[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq-i p{margin:0 0 22px;max-width:72ch;font-size:16px;line-height:1.7;color:var(--text-2)}
+.bl-more{margin-top:26px;font-size:15px;color:var(--text-2)}
 .bl-more a{color:var(--blue-3);text-decoration:underline;text-underline-offset:3px}
 .bl-all{margin-top:32px;text-align:center}
 #blog .btn-ghost svg{width:18px;height:18px}
@@ -1029,8 +1118,27 @@ svg.mk{fill:currentColor !important;stroke:none !important}
         <span class="bl-m">8 min de lecture · Lire →</span>
       </a>
     </div>
-    <p class="bl-more r">À lire aussi : <a href="blog/iso-45001-mase-2026.html">ISO 45001 et MASE, ce qui change en 2026</a> · <a href="blog/sites-seveso-bilan-inspection-2025.html">Sites Seveso, le bilan 2025 de l’inspection</a></p>
+    <p class="bl-more r">À lire aussi : <a href="blog/iso-45001-mase-2026.html">ISO 45001 et MASE, ce qui change en 2026</a> · <a href="blog/sites-seveso-bilan-inspection-2025.html">Sites Seveso, le bilan 2025 de l’inspection</a> · <a href="blog/glossaire-accueil-securite.html">Glossaire de l’accueil sécurité</a></p>
     <div class="bl-all r"><a class="btn-ghost" href="blog/">Tous les articles<svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="sw" id="faq">
+  <div class="si">
+    <div class="eyebrow r">Questions fréquentes</div>
+    <h2 class="sec-title r d1">Vos questions, <em>nos réponses.</em></h2>
+    <div class="faq r d2">
+      <details class="faq-i"><summary>Combien de temps dure une formation d’accueil sécurité ?</summary><p>Environ 15 minutes pour un accueil sécurité type. La durée dépend des contenus que vous mettez en ligne : vidéos, documents et questionnaire.</p></details>
+      <details class="faq-i"><summary>Comment un collaborateur externe accède-t-il à sa formation ?</summary><p>Il reçoit un lien par e-mail avant sa venue, ou flashe un QR code à l’entrée du site, et suit la formation sur son téléphone. Les collaborateurs internes passent par le même parcours.</p></details>
+      <details class="faq-i"><summary>Comment le poste de garde vérifie-t-il qu’une personne est formée ?</summary><p>L’agent recherche la personne dans la plateforme et voit en quelques secondes si son certificat est valide, pour quelle formation et jusqu’à quelle date.</p></details>
+      <details class="faq-i"><summary>Faut-il du matériel à l’entrée du site ?</summary><p>Non. Les collaborateurs utilisent leur téléphone. Si vous souhaitez un poste d’accueil, vous l’installez sur un ordinateur ou une tablette de votre site : HSEPlatform ne fournit pas de matériel.</p></details>
+      <details class="faq-i"><summary>Qui crée les contenus de formation ?</summary><p>Votre service HSE met en ligne ses vidéos, ses documents et ses questionnaires. Les documents sont lus page par page, avec un texte corrigeable et une lecture à voix haute. Formations et apprenants sont illimités.</p></details>
+      <details class="faq-i"><summary>Que se passe-t-il quand un certificat arrive à échéance ?</summary><p>La plateforme relance automatiquement le collaborateur avant l’échéance pour qu’il renouvelle sa formation, sans action de votre part.</p></details>
+      <details class="faq-i"><summary>Où sont hébergées les données ?</summary><p>En France, sur les serveurs d’OVH Cloud.</p></details>
+      <details class="faq-i"><summary>HSEPlatform permet-il de déclarer les formations au Passeport de prévention ?</summary><p>L’export vers le Passeport de prévention est en cours de développement. Aujourd’hui, les données de formation s’exportent en CSV pour vos audits et vos contrôles.</p></details>
+      <details class="faq-i"><summary>Combien coûte HSEPlatform ?</summary><p>Un abonnement annuel par site, selon le nombre de personnes accueillies, avec des frais de mise en service. Le tarif adapté à votre site vous est présenté après le diagnostic de 30 minutes.</p></details>
+    </div>
   </div>
 </div>
 
